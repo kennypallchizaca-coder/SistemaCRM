@@ -24,9 +24,9 @@ const Navbar: React.FC = () => {
         </div>
       </div>
 
-      <div className="relative w-full min-h-[5rem] md:min-h-[6rem] flex items-center">
-        {/* Logo / Brand - En plena esquina izquierda */}
-        <div className="absolute left-0 pl-4 sm:pl-6 lg:pl-8 flex items-center h-full z-10">
+      <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 min-h-[5rem] md:min-h-[6rem] flex items-center justify-between">
+        {/* Logo / Brand */}
+        <div className="flex items-center z-10 shrink">
           <button 
             type="button"
             onClick={() => {
@@ -37,22 +37,22 @@ const Navbar: React.FC = () => {
             <img
               src="/logoupscolor.svg"
               alt="Universidad Politécnica Salesiana"
-              className="h-12 sm:h-14 md:h-16 lg:h-20 w-auto max-w-[180px] sm:max-w-[220px] lg:max-w-[280px] object-contain"
+              className="h-10 sm:h-12 md:h-16 lg:h-20 w-auto max-w-[140px] sm:max-w-[200px] lg:max-w-[280px] object-contain"
               onError={(e) => {
                 (e.target as HTMLImageElement).src = "https://posgrados.ups.edu.ec/wp-content/uploads/2021/04/logo-ups.png";
               }}
             />
           </button>
-          <div className="ml-2 sm:ml-4 pl-2 sm:pl-4 border-l-2 border-gray-200 flex flex-col justify-center">
-            <h1 className="text-ups-blue font-bold uppercase tracking-wide leading-tight text-[10px] sm:text-xs lg:text-sm">
+          <div className="ml-2 sm:ml-4 pl-2 sm:pl-4 border-l-2 border-gray-200 flex flex-col justify-center shrink">
+            <h1 className="text-ups-blue font-bold uppercase tracking-wide leading-tight text-[10px] sm:text-xs lg:text-sm whitespace-nowrap">
               Carrera de Computación
             </h1>
-            <span className="text-gray-500 font-normal text-xs mt-0.5">Sede Cuenca</span>
+            <span className="text-gray-500 font-normal text-[9px] sm:text-xs mt-0.5 whitespace-nowrap">Sede Cuenca</span>
           </div>
         </div>
 
-        {/* Menú de rutas - Mantiene su posición original centrada con max-w-7xl */}
-        <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 flex justify-end z-0">
+        {/* Menú de rutas */}
+        <div className="flex items-center justify-end z-20 shrink-0 ml-2">
           {/* Desktop Menu */}
           <nav className="hidden xl:flex space-x-6 items-center">
             {NAV_ITEMS.map((item) => (
@@ -71,9 +71,9 @@ const Navbar: React.FC = () => {
           <div className="xl:hidden flex items-center">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="text-ups-blue hover:text-ups-yellow focus:outline-none"
+              className="text-ups-blue hover:text-ups-yellow focus:outline-none p-1 sm:p-2"
             >
-              {isOpen ? <X size={32} /> : <Menu size={32} />}
+              {isOpen ? <X size={28} /> : <Menu size={28} />}
             </button>
           </div>
         </div>

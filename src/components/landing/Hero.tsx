@@ -140,24 +140,24 @@ const Hero: React.FC = () => {
 
           {/* Indicators / Badges con SVGs inline */}
           <div className="grid grid-cols-3 gap-2 sm:gap-4 max-w-xl">
-            <div className="bg-white/90 backdrop-blur border-b-4 border-ups-yellow p-4 rounded-none flex flex-col items-center text-ups-blue text-center hover:-translate-y-1 transition-transform shadow-md">
-              <div className="mb-2 h-[30px] flex items-center justify-center">
+            <div className="bg-white/90 backdrop-blur border-b-4 border-ups-yellow p-2 sm:p-4 rounded-none flex flex-col items-center text-ups-blue text-center hover:-translate-y-1 transition-transform shadow-md">
+              <div className="mb-2 h-[24px] sm:h-[30px] flex items-center justify-center">
                 <img src="/ABET_logo.svg" alt="ABET Logo" className="h-full w-auto object-contain mix-blend-multiply" />
               </div>
-              <h3 className="font-bold text-sm md:text-base leading-none mb-1">__</h3>
-              <p className="text-xs text-gray-600">Acreditación</p>
+              <h3 className="font-bold text-xs sm:text-sm md:text-base leading-none mb-1">__</h3>
+              <p className="text-[9px] sm:text-xs text-gray-600">Acreditación</p>
             </div>
 
-            <div className="bg-white/90 backdrop-blur border-b-4 border-ups-yellow p-4 rounded-none flex flex-col items-center text-ups-blue text-center hover:-translate-y-1 transition-transform shadow-md">
-              <div className="mb-2"><LabsIcon /></div>
-              <h3 className="font-bold text-sm md:text-base leading-none mb-1">Labs</h3>
-              <p className="text-xs text-gray-600">Práctica</p>
+            <div className="bg-white/90 backdrop-blur border-b-4 border-ups-yellow p-2 sm:p-4 rounded-none flex flex-col items-center text-ups-blue text-center hover:-translate-y-1 transition-transform shadow-md">
+              <div className="mb-2 scale-75 sm:scale-100"><LabsIcon /></div>
+              <h3 className="font-bold text-xs sm:text-sm md:text-base leading-none mb-1">Labs</h3>
+              <p className="text-[9px] sm:text-xs text-gray-600">Práctica</p>
             </div>
 
-            <div className="bg-white/90 backdrop-blur border-b-4 border-ups-yellow p-4 rounded-none flex flex-col items-center text-ups-blue text-center hover:-translate-y-1 transition-transform shadow-md">
-              <div className="mb-2"><CampoLaboralIcon /></div>
-              <h3 className="font-bold text-sm md:text-base leading-none mb-1">TI</h3>
-              <p className="text-xs text-gray-600">Laboral</p>
+            <div className="bg-white/90 backdrop-blur border-b-4 border-ups-yellow p-2 sm:p-4 rounded-none flex flex-col items-center text-ups-blue text-center hover:-translate-y-1 transition-transform shadow-md">
+              <div className="mb-2 scale-75 sm:scale-100"><CampoLaboralIcon /></div>
+              <h3 className="font-bold text-xs sm:text-sm md:text-base leading-none mb-1">TI</h3>
+              <p className="text-[9px] sm:text-xs text-gray-600">Especialización</p>
             </div>
           </div>
         </div>
