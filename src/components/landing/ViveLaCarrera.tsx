@@ -66,8 +66,8 @@ const ViveLaCarrera: React.FC = () => {
         <div className="relative group">
           <button
             onClick={() => scroll('left')}
-            className="absolute left-2 lg:left-4 top-1/2 -translate-y-1/2 z-20 p-3 bg-white border border-gray-200 text-ups-blue hover:bg-ups-yellow hover:text-ups-dark transition-all shadow-xl rounded-full hidden md:flex"
-            title="Desplazar a la izquierda"
+            className="absolute left-2 lg:left-4 top-1/2 -translate-y-1/2 z-20 p-2 sm:p-3 bg-white border border-gray-200 text-ups-blue hover:bg-ups-yellow hover:text-ups-dark transition-all shadow-xl rounded-full flex"
+            title="Anterior"
           >
             <ChevronLeft size={24} />
           </button>
@@ -109,8 +109,8 @@ const ViveLaCarrera: React.FC = () => {
           </div>
           <button
             onClick={() => scroll('right')}
-            className="absolute right-2 lg:right-4 top-1/2 -translate-y-1/2 z-20 p-3 bg-white border border-gray-200 text-ups-blue hover:bg-ups-yellow hover:text-ups-dark transition-all shadow-xl rounded-full hidden md:flex"
-            title="Desplazar a la derecha"
+            className="absolute right-2 lg:right-4 top-1/2 -translate-y-1/2 z-20 p-2 sm:p-3 bg-white border border-gray-200 text-ups-blue hover:bg-ups-yellow hover:text-ups-dark transition-all shadow-xl rounded-full flex"
+            title="Siguiente"
           >
             <ChevronRight size={24} />
           </button>

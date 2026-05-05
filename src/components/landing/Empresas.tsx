@@ -65,7 +65,7 @@ const Empresas: React.FC = () => {
         <div className="relative group">
           <button
             onClick={() => scroll('left')}
-            className="absolute left-0 lg:-left-6 top-1/2 -translate-y-1/2 z-20 p-3 bg-white text-ups-blue hover:bg-ups-yellow hover:text-ups-dark transition-all shadow-xl rounded-full hidden md:flex border border-gray-200"
+            className="absolute left-0 lg:-left-6 top-1/2 -translate-y-1/2 z-20 p-2 sm:p-3 bg-white text-ups-blue hover:bg-ups-yellow hover:text-ups-dark transition-all shadow-xl rounded-full flex border border-gray-200"
             title="Desplazar a la izquierda"
           >
             <ChevronLeft size={24} />
@@ -96,7 +96,7 @@ const Empresas: React.FC = () => {
 
           <button
             onClick={() => scroll('right')}
-            className="absolute right-0 lg:-right-6 top-1/2 -translate-y-1/2 z-20 p-3 bg-white text-ups-blue hover:bg-ups-yellow hover:text-ups-dark transition-all shadow-xl rounded-full hidden md:flex border border-gray-200"
+            className="absolute right-0 lg:-right-6 top-1/2 -translate-y-1/2 z-20 p-2 sm:p-3 bg-white text-ups-blue hover:bg-ups-yellow hover:text-ups-dark transition-all shadow-xl rounded-full flex border border-gray-200"
             title="Desplazar a la derecha"
           >
             <ChevronRight size={24} />

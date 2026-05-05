@@ -43,8 +43,8 @@ const Navbar: React.FC = () => {
               }}
             />
           </button>
-          <div className="ml-4 pl-4 border-l-2 border-gray-200 hidden lg:flex flex-col justify-center">
-            <h1 className="text-ups-blue font-bold uppercase tracking-wide leading-tight text-xs lg:text-sm">
+          <div className="ml-2 sm:ml-4 pl-2 sm:pl-4 border-l-2 border-gray-200 flex flex-col justify-center">
+            <h1 className="text-ups-blue font-bold uppercase tracking-wide leading-tight text-[10px] sm:text-xs lg:text-sm">
               Carrera de Computación
             </h1>
             <span className="text-gray-500 font-normal text-xs mt-0.5">Sede Cuenca</span>
