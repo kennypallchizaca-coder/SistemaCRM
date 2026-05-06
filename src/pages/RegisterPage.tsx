@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { User, Phone, UserPlus, AlertTriangle, UserCircle } from 'lucide-react';
+import { UserPlus, AlertTriangle, UserCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Navbar, Footer } from '../components/layout';
 
