@@ -26,7 +26,7 @@ const Navbar: React.FC<NavbarProps> = ({ simplified = false }) => {
               <Globe size={14} />
               <span>Portal UPS</span>
             </a>
-            
+
             <a
               href={INSTITUTION.AVAC_URL}
               target="_blank"
@@ -110,9 +110,11 @@ const Navbar: React.FC<NavbarProps> = ({ simplified = false }) => {
         {simplified && (
           <Link
             to="/"
-            className="flex items-center gap-2 px-4 py-2 border-2 border-ups-blue text-ups-blue font-bold text-xs sm:text-sm uppercase rounded-full hover:bg-ups-blue hover:text-white transition-all duration-300 shadow-sm hover:shadow-md group"
+            className="flex items-center gap-3 text-ups-blue hover:text-ups-yellow transition-colors font-extrabold text-xs sm:text-sm uppercase tracking-tighter group"
           >
-            <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
+            <div className="w-8 h-8 sm:w-10 sm:h-10 bg-ups-blue text-white flex items-center justify-center rounded-full shadow-md group-hover:bg-ups-yellow group-hover:text-ups-blue group-hover:rotate-[-360deg] transition-all duration-500">
+              <ArrowLeft size={20} />
+            </div>
             <span>Volver al Inicio</span>
           </Link>
         )}
@@ -132,14 +134,7 @@ const Navbar: React.FC<NavbarProps> = ({ simplified = false }) => {
                 {item.label}
               </Link>
             ))}
-            <Link
-              to="/login"
-              onClick={() => setIsOpen(false)}
-              className="flex items-center gap-2 px-3 py-4 text-base font-bold text-ups-yellow bg-ups-blue rounded-xl mt-4 transition-all hover:bg-ups-blue-light"
-            >
-              <User size={20} />
-              <span>INICIAR SESIÓN</span>
-            </Link>
+
           </div>
         </div>
       )}

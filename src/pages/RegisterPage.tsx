@@ -8,8 +8,7 @@ const RegisterPage: React.FC = () => {
     name: '',
     email: '',
     phone: '',
-    password: '',
-    confirmPassword: ''
+    password: ''
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,7 +27,7 @@ const RegisterPage: React.FC = () => {
       {/* Main Content */}
       <main className="flex-grow flex items-center justify-center p-4 py-12">
         <div className="w-full max-w-[800px] bg-white shadow-md rounded-sm overflow-hidden flex flex-col items-center py-10 px-6 md:px-20 border-t-4 border-[#003B71]">
-          
+
           {/* User Icon - Registro */}
           <div className="mb-6">
             <div className="relative">
@@ -49,6 +48,7 @@ const RegisterPage: React.FC = () => {
                 type="text"
                 name="name"
                 required
+                autoFocus
                 value={formData.name}
                 onChange={handleChange}
                 className="w-full py-2 px-3 bg-[#E8F0FE] border-b border-gray-100 focus:outline-none focus:border-[#003B71] text-center text-gray-800"
@@ -81,30 +81,17 @@ const RegisterPage: React.FC = () => {
               />
             </div>
 
-            {/* Password Fields */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-              <div className="w-full">
-                <label className="block text-center text-[#666666] text-sm mb-1 underline decoration-gray-300 underline-offset-4">Contraseña:</label>
-                <input
-                  type="password"
-                  name="password"
-                  required
-                  value={formData.password}
-                  onChange={handleChange}
-                  className="w-full py-2 px-3 bg-[#E8F0FE] border-b border-gray-100 focus:outline-none focus:border-[#003B71] text-center text-gray-800"
-                />
-              </div>
-              <div className="w-full">
-                <label className="block text-center text-[#666666] text-sm mb-1 underline decoration-gray-300 underline-offset-4">Confirmar:</label>
-                <input
-                  type="password"
-                  name="confirmPassword"
-                  required
-                  value={formData.confirmPassword}
-                  onChange={handleChange}
-                  className="w-full py-2 px-3 bg-[#E8F0FE] border-b border-gray-100 focus:outline-none focus:border-[#003B71] text-center text-gray-800"
-                />
-              </div>
+            {/* Password Field */}
+            <div className="w-full">
+              <label className="block text-center text-[#666666] text-sm mb-1 underline decoration-gray-300 underline-offset-4">Contraseña:</label>
+              <input
+                type="password"
+                name="password"
+                required
+                value={formData.password}
+                onChange={handleChange}
+                className="w-full py-2 px-3 bg-[#E8F0FE] border-b border-gray-100 focus:outline-none focus:border-[#003B71] text-center text-gray-800"
+              />
             </div>
 
             {/* Submit Button */}

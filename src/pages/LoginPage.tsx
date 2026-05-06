@@ -39,6 +39,7 @@ const LoginPage: React.FC = () => {
               <input
                 type="email"
                 required
+                autoFocus
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full py-2 px-3 bg-[#E8F0FE] border-b border-gray-300 focus:outline-none focus:border-[#003B71] text-center text-gray-800"
