@@ -16,6 +16,7 @@ export const INSTITUTION = {
   FACEBOOK_URL: 'https://www.facebook.com/UPSalesianaEc/',
   INSTAGRAM_URL: 'https://www.instagram.com/upsalesianaec/',
   TIKTOK_URL: 'https://www.tiktok.com/@upsalesianaec',
+  X_URL: 'https://x.com/upsalesianaec',
 } as const;
 
 /** Parámetros del carrusel Hero */

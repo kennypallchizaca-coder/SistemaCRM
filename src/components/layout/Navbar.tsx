@@ -1,20 +1,51 @@
 import React, { useState } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, User, ArrowLeft, Globe, BookOpen } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { NAV_ITEMS } from '../../data/landing.data';
 import { INSTITUTION } from '../../config/constants';
 
-const Navbar: React.FC = () => {
+interface NavbarProps {
+  simplified?: boolean;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ simplified = false }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white shadow-md border-b-4 border-ups-yellow" style={{ WebkitTransform: 'translateZ(0)' }}>
       {/* Top small bar */}
-      <div className="bg-ups-blue h-8 w-full flex items-center justify-end px-4 sm:px-6 lg:px-8 text-xs text-white">
-        <div className="flex gap-4">
-          <a href={INSTITUTION.PORTAL_URL} target="_blank" rel="noopener noreferrer" className="hover:text-ups-yellow transition-colors">Portal UPS</a>
-          <a href={INSTITUTION.AVAC_URL} target="_blank" rel="noopener noreferrer" className="hover:text-ups-yellow transition-colors">AVAC</a>
-        </div>
+      <div className="bg-ups-blue h-10 w-full flex items-center justify-end px-4 sm:px-6 lg:px-8 text-white">
+        {!simplified && (
+          <div className="flex items-center gap-8">
+            <a
+              href={INSTITUTION.PORTAL_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 hover:text-ups-yellow transition-colors text-[11px] font-bold uppercase tracking-wider"
+            >
+              <Globe size={14} />
+              <span>Portal UPS</span>
+            </a>
+            
+            <a
+              href={INSTITUTION.AVAC_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 hover:text-ups-yellow transition-colors text-[11px] font-bold uppercase tracking-wider"
+            >
+              <BookOpen size={14} />
+              <span>AVAC</span>
+            </a>
+
+            <Link
+              to="/login"
+              className="flex items-center gap-2 bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-md transition-all group"
+            >
+              <User size={18} className="group-hover:text-ups-yellow transition-colors" />
+              <span className="text-[11px] font-bold uppercase tracking-widest">Login</span>
+            </Link>
+          </div>
+        )}
       </div>
 
       <div className="w-full px-4 sm:px-6 lg:px-10 min-h-[4.5rem] sm:min-h-[5rem] md:min-h-[6rem] flex items-center justify-between">
@@ -48,28 +79,43 @@ const Navbar: React.FC = () => {
         </div>
 
         {/* Desktop Nav — alineado a la derecha */}
-        <nav className="hidden xl:flex items-center gap-7 mr-100">
-          {NAV_ITEMS.map((item) => (
-            <Link
-              key={item.label}
-              to={item.href}
-              className="text-sm font-semibold text-ups-blue uppercase hover:text-ups-yellow transition-colors relative group"
-            >
-              {item.label}
-              <span className="absolute -bottom-1 left-0 w-0 h-[3px] bg-ups-yellow transition-all group-hover:w-full"></span>
-            </Link>
-          ))}
-        </nav>
+        {!simplified && (
+          <nav className="hidden xl:flex items-center gap-7 mr-100">
+            {NAV_ITEMS.map((item) => (
+              <Link
+                key={item.label}
+                to={item.href}
+                className="text-sm font-semibold text-ups-blue uppercase hover:text-ups-yellow transition-colors relative group"
+              >
+                {item.label}
+                <span className="absolute -bottom-1 left-0 w-0 h-[3px] bg-ups-yellow transition-all group-hover:w-full"></span>
+              </Link>
+            ))}
+          </nav>
+        )}
 
         {/* Mobile Menu Button — extremo derecho en móvil */}
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          aria-label={isOpen ? 'Cerrar menú' : 'Abrir menú'}
-          aria-expanded={isOpen}
-          className="xl:hidden text-ups-blue hover:text-ups-yellow focus:outline-none p-2 min-w-[44px] min-h-[44px] flex items-center justify-center"
-        >
-          {isOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        {!simplified && (
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            aria-label={isOpen ? 'Cerrar menú' : 'Abrir menú'}
+            aria-expanded={isOpen}
+            className="xl:hidden text-ups-blue hover:text-ups-yellow focus:outline-none p-2 min-w-[44px] min-h-[44px] flex items-center justify-center"
+          >
+            {isOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        )}
+
+        {/* Botón Volver al Inicio en modo simplificado */}
+        {simplified && (
+          <Link
+            to="/"
+            className="flex items-center gap-2 px-4 py-2 border-2 border-ups-blue text-ups-blue font-bold text-xs sm:text-sm uppercase rounded-full hover:bg-ups-blue hover:text-white transition-all duration-300 shadow-sm hover:shadow-md group"
+          >
+            <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
+            <span>Volver al Inicio</span>
+          </Link>
+        )}
       </div>
 
       {/* Mobile Menu */}
@@ -86,6 +132,14 @@ const Navbar: React.FC = () => {
                 {item.label}
               </Link>
             ))}
+            <Link
+              to="/login"
+              onClick={() => setIsOpen(false)}
+              className="flex items-center gap-2 px-3 py-4 text-base font-bold text-ups-yellow bg-ups-blue rounded-xl mt-4 transition-all hover:bg-ups-blue-light"
+            >
+              <User size={20} />
+              <span>INICIAR SESIÓN</span>
+            </Link>
           </div>
         </div>
       )}
