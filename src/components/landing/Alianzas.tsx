@@ -1,27 +1,5 @@
 import React from 'react';
-
-const ALIANZAS = [
-  {
-    id: 1,
-    name: 'Cisco Academy',
-    logo: 'https://upload.wikimedia.org/wikipedia/commons/0/08/Cisco_logo_blue_2016.svg'
-  },
-  {
-    id: 2,
-    name: 'Google',
-    logo: 'https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg'
-  },
-  {
-    id: 3,
-    name: 'IBM',
-    logo: 'https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg'
-  },
-  {
-    id: 4,
-    name: 'ABET',
-    logo: '/ABET_logo.svg'
-  },
-];
+import { ALIANZAS } from '../../data/landing.data';
 
 const Alianzas: React.FC = () => {
   return (

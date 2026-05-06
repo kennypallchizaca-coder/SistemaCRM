@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Navbar, Footer } from '../components/layout';
-import { Hero, ViveLaCarrera, InteresadosForm, Agrupaciones, Alianzas, Empresas, TrabajaConNosotros } from '../components/landing';
+import { Hero, ViveLaCarrera, Agrupaciones, GruposInvestigacion, Alianzas, Empresas, TrabajaConNosotros } from '../components/landing';
 
 const HomePage = () => {
   // Scroll al inicio al cargar y limpia hash para evitar scroll automático a secciones
@@ -31,7 +31,7 @@ const HomePage = () => {
       <main className="flex-grow">
         <Hero />
         <ViveLaCarrera />
-        <InteresadosForm />
+        <GruposInvestigacion />
         <Agrupaciones />
         <Alianzas />
         <Empresas />

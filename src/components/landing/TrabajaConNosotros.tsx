@@ -1,18 +1,27 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Send, Building } from 'lucide-react';
+import { useVinculacion } from '../../hooks';
+import type { EmpresaFormData } from '../../types';
 
 const TrabajaConNosotros: React.FC = () => {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+  const { state, submitForm, reset } = useVinculacion();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const isSubmitting = state.status === 'loading';
+  const submitted = state.status === 'success';
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    // TODO: Connect to Strapi API later
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setSubmitted(true);
-    }, 1500);
+    const formData = new FormData(e.currentTarget);
+    
+    const data: EmpresaFormData = {
+      empresa: formData.get('empresa') as string,
+      contacto: formData.get('contacto') as string,
+      correo: formData.get('correo') as string,
+      telefono: formData.get('telefono') as string,
+      mensaje: formData.get('mensaje') as string,
+    };
+
+    submitForm(data);
   };
 
   return (
@@ -29,19 +38,19 @@ const TrabajaConNosotros: React.FC = () => {
           </p>
         </div>
 
-        <div className="bg-white rounded-none shadow-md p-8 md:p-10">
+        <div className="bg-white rounded-none shadow-md p-5 sm:p-8 md:p-10">
           {submitted ? (
              <div className="text-center py-10">
                <h3 className="text-2xl font-bold text-ups-blue mb-2">¡Solicitud enviada exitosamente!</h3>
                <p className="text-gray-600">Nuestro equipo de vinculación revisará su propuesta y se pondrá en contacto a la brevedad.</p>
-               <button onClick={() => setSubmitted(false)} className="mt-6 text-ups-blue font-semibold hover:underline">
+               <button onClick={reset} className="mt-6 text-ups-blue font-semibold hover:underline">
                  Enviar nueva solicitud
                </button>
              </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-6">
               <p className="text-xs text-gray-500 text-right mb-2">* Campos obligatorios</p>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
                   <label htmlFor="empresa" className="block text-sm font-medium text-gray-700 mb-1">Empresa *</label>
                   <input id="empresa" name="empresa" required type="text" autoComplete="organization" placeholder="Nombre de la empresa" aria-required="true" className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-none focus:ring-2 focus:ring-ups-blue focus:bg-white outline-none transition-all" />
@@ -52,7 +61,7 @@ const TrabajaConNosotros: React.FC = () => {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
                   <label htmlFor="correo-empresa" className="block text-sm font-medium text-gray-700 mb-1">Correo electrónico *</label>
                   <input id="correo-empresa" name="correo" required type="email" autoComplete="email" placeholder="empresa@dominio.com" aria-required="true" className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-none focus:ring-2 focus:ring-ups-blue focus:bg-white outline-none transition-all" />
@@ -72,7 +81,7 @@ const TrabajaConNosotros: React.FC = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="inline-flex justify-center items-center gap-2 px-8 py-4 bg-ups-yellow text-ups-dark font-bold rounded-none hover:bg-yellow-400 transition-colors shadow-sm disabled:opacity-70 disabled:cursor-not-allowed"
+                  className="inline-flex justify-center items-center gap-2 px-8 py-4 bg-ups-yellow text-ups-dark font-bold rounded-none hover:bg-yellow-400 transition-colors shadow-sm disabled:opacity-70 disabled:cursor-not-allowed min-h-[44px] w-full sm:w-auto"
                 >
                   {isSubmitting ? 'Enviando...' : (
                     <>
