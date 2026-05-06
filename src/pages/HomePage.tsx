@@ -3,25 +3,29 @@ import { Navbar, Footer } from '../components/layout';
 import { Hero, ViveLaCarrera, Agrupaciones, GruposInvestigacion, Alianzas, Empresas, TrabajaConNosotros } from '../components/landing';
 
 const HomePage = () => {
-  // Scroll al inicio al cargar y limpia hash para evitar scroll automático a secciones
+  // Manejar scroll a secciones por hash
   useEffect(() => {
-    if (window.location.hash) {
-      history.replaceState(null, '', window.location.pathname);
-    }
-    window.scrollTo(0, 0);
-
-    const handleHashChange = () => {
+    const handleScrollToHash = () => {
       const { hash } = window.location;
       if (hash) {
-        const element = document.querySelector(hash);
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth' });
-        }
+        // Pequeño delay para asegurar que el DOM esté renderizado
+        setTimeout(() => {
+          const element = document.querySelector(hash);
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+          }
+        }, 100);
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     };
 
-    window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
+    // Ejecutar al montar
+    handleScrollToHash();
+
+    // Escuchar cambios en el hash
+    window.addEventListener('hashchange', handleScrollToHash);
+    return () => window.removeEventListener('hashchange', handleScrollToHash);
   }, []);
 
   return (

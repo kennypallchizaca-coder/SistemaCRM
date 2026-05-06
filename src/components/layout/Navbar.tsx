@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Menu, X } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { NAV_ITEMS } from '../../data/landing.data';
 import { INSTITUTION } from '../../config/constants';
 
@@ -19,10 +20,13 @@ const Navbar: React.FC = () => {
       <div className="w-full px-4 sm:px-6 lg:px-10 min-h-[4.5rem] sm:min-h-[5rem] md:min-h-[6rem] flex items-center justify-between">
         {/* Logo / Brand — fijo a la izquierda */}
         <div className="flex items-center flex-shrink-0">
-          <button
-            type="button"
-            onClick={() => {
-              window.scrollTo({ top: 0, behavior: 'smooth' });
+          <Link
+            to="/"
+            onClick={(e) => {
+              if (window.location.pathname === '/') {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }
             }}
             className="flex-shrink-0 cursor-pointer focus:outline-none"
           >
@@ -34,7 +38,7 @@ const Navbar: React.FC = () => {
                 (e.target as HTMLImageElement).src = "https://posgrados.ups.edu.ec/wp-content/uploads/2021/04/logo-ups.png";
               }}
             />
-          </button>
+          </Link>
           <div className="ml-2 pl-2 sm:ml-3 sm:pl-3 border-l-2 border-gray-200 flex flex-col justify-center">
             <h1 className="text-ups-blue font-bold uppercase tracking-wide leading-tight text-[9px] sm:text-xs lg:text-sm whitespace-nowrap">
               {INSTITUTION.CAREER}
@@ -46,14 +50,14 @@ const Navbar: React.FC = () => {
         {/* Desktop Nav — alineado a la derecha */}
         <nav className="hidden xl:flex items-center gap-7 mr-100">
           {NAV_ITEMS.map((item) => (
-            <a
+            <Link
               key={item.label}
-              href={item.href}
+              to={item.href}
               className="text-sm font-semibold text-ups-blue uppercase hover:text-ups-yellow transition-colors relative group"
             >
               {item.label}
               <span className="absolute -bottom-1 left-0 w-0 h-[3px] bg-ups-yellow transition-all group-hover:w-full"></span>
-            </a>
+            </Link>
           ))}
         </nav>
 
@@ -73,14 +77,14 @@ const Navbar: React.FC = () => {
         <div className="xl:hidden bg-white border-t border-gray-200 absolute w-full shadow-lg z-40">
           <div className="px-4 pt-2 pb-4 space-y-1">
             {NAV_ITEMS.map((item) => (
-              <a
+              <Link
                 key={item.label}
-                href={item.href}
+                to={item.href}
                 onClick={() => setIsOpen(false)}
                 className="block px-3 py-3.5 border-b border-gray-100 text-base font-semibold text-ups-blue uppercase hover:text-ups-yellow hover:bg-gray-50 transition-colors min-h-[44px] flex items-center"
               >
                 {item.label}
-              </a>
+              </Link>
             ))}
           </div>
         </div>
