@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Menu, X, User, ArrowLeft, Globe, BookOpen } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { NAV_ITEMS } from '../../data/landing.data';
 import { INSTITUTION } from '../../config/constants';
 
@@ -10,6 +10,35 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps> = ({ simplified = false }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    // Si es un link con hash (ej: /#noticias)
+    if (href.includes('#')) {
+      const [path, hash] = href.split('#');
+      
+      // Si ya estamos en la página del path (ej: /)
+      if (location.pathname === path || (location.pathname === '/' && path === '')) {
+        e.preventDefault();
+        const element = document.getElementById(hash);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+          setIsOpen(false);
+        }
+      } else {
+        // Si estamos en otra página (ej: /login), navegamos al path con el hash
+        // El ScrollToTop o un efecto en la Home debería manejar esto si es necesario,
+        // pero react-router normalmente no scrollea a hashes después de navegar solo.
+        // Forzamos la navegación
+        navigate(href);
+        setIsOpen(false);
+      }
+    } else {
+      // Navegación normal (ej: /interesados)
+      setIsOpen(false);
+    }
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white shadow-md border-b-4 border-ups-yellow" style={{ WebkitTransform: 'translateZ(0)' }}>
@@ -85,6 +114,7 @@ const Navbar: React.FC<NavbarProps> = ({ simplified = false }) => {
               <Link
                 key={item.label}
                 to={item.href}
+                onClick={(e) => handleNavClick(e, item.href)}
                 className="text-sm font-semibold text-ups-blue uppercase hover:text-ups-yellow transition-colors relative group"
               >
                 {item.label}
@@ -129,7 +159,7 @@ const Navbar: React.FC<NavbarProps> = ({ simplified = false }) => {
               <Link
                 key={item.label}
                 to={item.href}
-                onClick={() => setIsOpen(false)}
+                onClick={(e) => handleNavClick(e, item.href)}
                 className="block px-3 py-3.5 border-b border-gray-100 text-base font-semibold text-ups-blue uppercase hover:text-ups-yellow hover:bg-gray-50 transition-colors min-h-[44px] flex items-center"
               >
                 {item.label}
