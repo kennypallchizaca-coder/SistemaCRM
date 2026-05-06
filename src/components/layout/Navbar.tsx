@@ -110,12 +110,13 @@ const Navbar: React.FC<NavbarProps> = ({ simplified = false }) => {
         {simplified && (
           <Link
             to="/"
-            className="flex items-center gap-3 text-ups-blue hover:text-ups-yellow transition-colors font-extrabold text-xs sm:text-sm uppercase tracking-tighter group"
+            className="flex items-center gap-2 sm:gap-3 text-ups-blue hover:text-ups-yellow transition-colors font-extrabold text-xs sm:text-sm uppercase tracking-tighter group"
+            title="Volver al Inicio"
           >
-            <div className="w-8 h-8 sm:w-10 sm:h-10 bg-ups-blue text-white flex items-center justify-center rounded-full shadow-md group-hover:bg-ups-yellow group-hover:text-ups-blue group-hover:rotate-[-360deg] transition-all duration-500">
-              <ArrowLeft size={20} />
+            <div className="w-9 h-9 sm:w-10 sm:h-10 bg-ups-blue text-white flex items-center justify-center rounded-full shadow-md group-hover:bg-ups-yellow group-hover:text-ups-blue group-hover:rotate-[-360deg] transition-all duration-500">
+              <ArrowLeft size={18} />
             </div>
-            <span>Volver al Inicio</span>
+            <span className="hidden sm:inline">Volver al Inicio</span>
           </Link>
         )}
       </div>
