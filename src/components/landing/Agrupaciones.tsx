@@ -94,14 +94,14 @@ const Agrupaciones: React.FC = () => {
           {/* Botones flotantes solo en pantallas grandes */}
           <button
             onClick={() => scroll('left')}
-            className="hidden sm:flex absolute left-2 lg:left-4 top-1/2 -translate-y-1/2 z-20 p-2 sm:p-3 bg-white border border-gray-200 text-ups-blue hover:bg-ups-yellow hover:text-ups-dark transition-all shadow-xl rounded-full items-center justify-center"
+            className="hidden sm:flex absolute -left-4 lg:-left-12 top-1/2 -translate-y-1/2 z-20 p-2 sm:p-3 bg-white border border-gray-200 text-ups-blue hover:bg-ups-yellow hover:text-ups-dark transition-all shadow-xl rounded-full items-center justify-center"
             title="Desplazar a la izquierda"
           >
             <ChevronLeft size={24} />
           </button>
           <button
             onClick={() => scroll('right')}
-            className="hidden sm:flex absolute right-2 lg:right-4 top-1/2 -translate-y-1/2 z-20 p-2 sm:p-3 bg-white border border-gray-200 text-ups-blue hover:bg-ups-yellow hover:text-ups-dark transition-all shadow-xl rounded-full items-center justify-center"
+            className="hidden sm:flex absolute -right-4 lg:-right-12 top-1/2 -translate-y-1/2 z-20 p-2 sm:p-3 bg-white border border-gray-200 text-ups-blue hover:bg-ups-yellow hover:text-ups-dark transition-all shadow-xl rounded-full items-center justify-center"
             title="Desplazar a la derecha"
           >
             <ChevronRight size={24} />
