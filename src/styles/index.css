@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Source Sans 3", system-ui, -apple-system, sans-serif;
+  --font-sans: "Roboto", system-ui, -apple-system, sans-serif;
   --color-ups-blue: #003B71;
   --color-ups-blue-light: #005baa;
   --color-ups-yellow: #fdb913;
@@ -17,6 +17,7 @@
       opacity: 0;
       transform: translateY(30px);
     }
+
     100% {
       opacity: 1;
       transform: translateY(0);
@@ -25,6 +26,7 @@
 }
 
 @layer base {
+
   *,
   *::before,
   *::after {
