@@ -3,20 +3,23 @@
 import type { InteresadoFormData, Interesado } from '../types/admisiones.types';
 import { apiClient } from '@/lib/api';
 import { ENDPOINTS } from '@/lib/api/endpoints';
+import type { StrapiCreatePayload, StrapiEntityBase, StrapiSingleResponse } from '@/lib/api';
 
-interface StrapiSingleResponse<T> {
-  data: {
-    id: number;
-    createdAt: string;
-    updatedAt: string;
-  } & T;
-}
+type InteresadoPayload = {
+  nombre_completo: string;
+  telefono: string;
+  correo: string;
+  institucion_educativa: string;
+  evento: string;
+  interes_principal: string;
+  observaciones: string;
+};
 
 export async function registrarInteresado(
   data: InteresadoFormData
 ): Promise<Interesado> {
   // Los nombres enviados deben coincidir con el schema de la colección en Strapi.
-  const payload = {
+  const payload: StrapiCreatePayload<InteresadoPayload> = {
     data: {
       nombre_completo: data.nombre,
       telefono: data.telefono,
@@ -28,7 +31,7 @@ export async function registrarInteresado(
     },
   };
 
-  const response = await apiClient.post<StrapiSingleResponse<InteresadoFormData>>(
+  const response = await apiClient.post<StrapiSingleResponse<StrapiEntityBase & InteresadoPayload>>(
     ENDPOINTS.ADMISIONES.CREATE,
     payload
   );

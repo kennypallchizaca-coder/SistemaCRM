@@ -23,9 +23,6 @@ import { useFormState } from '@/lib/hooks';
 import { registerSchema } from '@/lib/validation';
 import { useNotify } from '@/lib/notifications';
 
-
-
-
 function passwordStrength(pwd: string): { label: string; color: string; width: string } {
   if (pwd.length === 0) return { label: '', color: '', width: '0%' };
   if (pwd.length < 6)   return { label: 'Muy débil', color: 'bg-red-500',    width: '25%' };
@@ -103,7 +100,6 @@ const RegisterPage: React.FC = () => {
   );
 
   const pwdStrength = passwordStrength(form.values.password);
-
 
   return (
     <div className="min-h-screen bg-[#F0F2F5] flex flex-col font-sans overflow-x-hidden">

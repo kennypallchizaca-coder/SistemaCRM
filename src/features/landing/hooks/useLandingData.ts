@@ -3,6 +3,9 @@
 import { useState, useEffect } from 'react';
 import { landingService } from '@/features/landing/services/landing.service';
 import { env } from '@/lib/config/env';
+import { strapiMediaUrl } from '@/lib/api';
+import type { StrapiCollectionResponse } from '@/lib/api';
+import type { LandingRemoteItem } from '@/features/landing/services/landing.service';
 import {
   HERO_SLIDES,
   GRUPOS_INVESTIGACION,
@@ -11,30 +14,14 @@ import {
   EMPRESAS,
 } from '@/features/landing/data/landing.data';
 
-interface RemoteLandingItem {
-  id?: number;
-  documentId?: string | number;
-  titulo?: string;
-  nombre?: string;
-  descripcion?: string;
-  imagen?: { url?: string };
-  logo?: { url?: string };
-}
-
-interface StrapiListResponse {
-  data?: RemoteLandingItem[];
-}
-
-function isStrapiListResponse(value: unknown): value is StrapiListResponse {
-  return typeof value === 'object' && value !== null && 'data' in value;
-}
-
-function settledData(result: PromiseSettledResult<unknown>): RemoteLandingItem[] {
-  if (result.status !== 'fulfilled' || !isStrapiListResponse(result.value)) {
+function settledData(
+  result: PromiseSettledResult<StrapiCollectionResponse<LandingRemoteItem>>
+): LandingRemoteItem[] {
+  if (result.status !== 'fulfilled') {
     return [];
   }
 
-  return Array.isArray(result.value.data) ? result.value.data : [];
+  return result.value.data;
 }
 
 export const useLandingData = () => {
@@ -51,7 +38,7 @@ export const useLandingData = () => {
 
   useEffect(() => {
     let isMounted = true;
-    const strapiUrl = env.API_BASE_URL.replace('/api', '');
+    const apiBaseUrl = env.API_BASE_URL;
 
     const fetchData = async () => {
       try {
@@ -80,43 +67,43 @@ export const useLandingData = () => {
           const companyData = settledData(companyRes);
 
           if (heroData.length > 0) {
-              newData.heroSlides = heroData.map((item) => ({
-                src: item.imagen?.url ? `${strapiUrl}${item.imagen.url}` : prev.data.heroSlides[0]?.src,
-                alt: item.titulo || 'UPS Hero Slide',
-              }));
+            newData.heroSlides = heroData.map((item) => ({
+              src: strapiMediaUrl(apiBaseUrl, item.imagen?.url) ?? prev.data.heroSlides[0]?.src,
+              alt: item.titulo || 'UPS Hero Slide',
+            }));
           }
 
           if (researchData.length > 0) {
-              newData.researchGroups = researchData.map((item) => ({
-                id: item.id ?? Number(item.documentId ?? 0),
-                title: item.nombre ?? '',
-                description: item.descripcion || '',
-                image: item.imagen?.url ? `${strapiUrl}${item.imagen.url}` : prev.data.researchGroups[0]?.image,
-              }));
+            newData.researchGroups = researchData.map((item) => ({
+              id: item.id ?? Number(item.documentId ?? 0),
+              title: item.nombre ?? '',
+              description: item.descripcion || '',
+              image: strapiMediaUrl(apiBaseUrl, item.imagen?.url) ?? prev.data.researchGroups[0]?.image,
+            }));
           }
 
           if (asuData.length > 0) {
-              newData.asuGroups = asuData.map((item) => ({
-                id: item.id ?? Number(item.documentId ?? 0),
-                title: item.nombre ?? '',
-                description: item.descripcion || '',
-                image: item.imagen?.url ? `${strapiUrl}${item.imagen.url}` : prev.data.asuGroups[0]?.image,
-              }));
+            newData.asuGroups = asuData.map((item) => ({
+              id: item.id ?? Number(item.documentId ?? 0),
+              title: item.nombre ?? '',
+              description: item.descripcion || '',
+              image: strapiMediaUrl(apiBaseUrl, item.imagen?.url) ?? prev.data.asuGroups[0]?.image,
+            }));
           }
 
           if (allianceData.length > 0) {
-              newData.alliances = allianceData.map((item) => ({
-                id: item.id ?? Number(item.documentId ?? 0),
-                name: item.nombre ?? '',
-                logo: item.logo?.url ? `${strapiUrl}${item.logo.url}` : prev.data.alliances[0]?.logo,
-              }));
+            newData.alliances = allianceData.map((item) => ({
+              id: item.id ?? Number(item.documentId ?? 0),
+              name: item.nombre ?? '',
+              logo: strapiMediaUrl(apiBaseUrl, item.logo?.url) ?? prev.data.alliances[0]?.logo,
+            }));
           }
 
           if (companyData.length > 0) {
-              newData.companies = companyData.map((item) => ({
-                name: item.nombre ?? '',
-                image: item.logo?.url ? `${strapiUrl}${item.logo.url}` : prev.data.companies[0]?.image,
-              }));
+            newData.companies = companyData.map((item) => ({
+              name: item.nombre ?? '',
+              image: strapiMediaUrl(apiBaseUrl, item.logo?.url) ?? prev.data.companies[0]?.image,
+            }));
           }
 
           return { data: newData, isLoading: false };

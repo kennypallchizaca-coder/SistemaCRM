@@ -36,11 +36,11 @@ export const ENDPOINTS = {
   },
 
   LANDING: {
-    CONTENT: '/landing-contents?populate=deep',
-    HERO_SLIDES: '/hero-slides?populate=*',
-    ASU_GROUPS: '/asu-groups?populate=*',
-    ALLIANCES: '/alliances?populate=*',
-    COMPANIES: '/companies?populate=*',
+    CONTENT: '/landing-contents',
+    HERO_SLIDES: '/hero-slides',
+    ASU_GROUPS: '/asu-groups',
+    ALLIANCES: '/alliances',
+    COMPANIES: '/companies',
   },
 } as const;
 

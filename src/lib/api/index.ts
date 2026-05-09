@@ -2,3 +2,15 @@
 
 export { apiClient, registerUnauthorizedHandler, clearUnauthorizedHandler } from './client';
 export { ENDPOINTS } from './endpoints';
+export {
+  strapiMediaUrl,
+  withPopulate,
+  withSort,
+} from './strapi';
+export type {
+  StrapiCollectionResponse,
+  StrapiCreatePayload,
+  StrapiEntityBase,
+  StrapiMedia,
+  StrapiSingleResponse,
+} from './strapi';
