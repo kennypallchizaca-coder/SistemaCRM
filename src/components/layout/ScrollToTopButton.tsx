@@ -1,10 +1,11 @@
+/** Muestra un botón flotante para volver al inicio de la página. */
+
 import React, { useState, useEffect } from 'react';
 import { ChevronUp } from 'lucide-react';
 
 const ScrollToTopButton: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
 
-  // Mostrar el botón cuando se hace scroll hacia abajo 300px
   const toggleVisibility = () => {
     if (window.pageYOffset > 300) {
       setIsVisible(true);
@@ -13,7 +14,6 @@ const ScrollToTopButton: React.FC = () => {
     }
   };
 
-  // Función para ir arriba
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,

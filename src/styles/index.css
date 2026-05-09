@@ -1,3 +1,5 @@
+/* Define los estilos globales, tokens visuales y utilidades base. */
+
 @import "tailwindcss";
 
 @theme {
@@ -36,7 +38,6 @@
   html {
     scroll-behavior: smooth;
     overflow-x: hidden;
-    /* Soporte para notch en iOS (iPhone X+) */
     padding-left: env(safe-area-inset-left);
     padding-right: env(safe-area-inset-right);
   }
@@ -50,17 +51,14 @@
     color: #333333;
     width: 100%;
     overflow-x: hidden;
-    /* Elimina el highlight azul al tocar en Android/iOS */
     -webkit-tap-highlight-color: transparent;
   }
 
-  /* Asegura que las imágenes no desborden */
   img {
     max-width: 100%;
     height: auto;
   }
 
-  /* Tamaño mínimo de área táctil para accesibilidad */
   button,
   a {
     touch-action: manipulation;

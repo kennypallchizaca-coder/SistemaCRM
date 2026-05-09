@@ -1,3 +1,5 @@
+/** Restablece el scroll al cambiar de ruta. */
+
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 

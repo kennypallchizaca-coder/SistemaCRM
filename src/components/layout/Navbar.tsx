@@ -1,8 +1,11 @@
+/** Renderiza la navegación principal y el menú móvil. */
+
 import React, { useState } from 'react';
-import { Menu, X, User, ArrowLeft, Globe, BookOpen } from 'lucide-react';
+import { Menu, X, User, ArrowLeft, Globe, BookOpen, LogOut } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { NAV_ITEMS } from '../../data/landing.data';
-import { INSTITUTION } from '../../config/constants';
+import { NAV_ITEMS } from '@/features/landing/data/landing.data';
+import { INSTITUTION } from '@/lib/config/constants';
+import { useAuth } from '@/features/auth';
 
 interface NavbarProps {
   simplified?: boolean;
@@ -12,13 +15,19 @@ const Navbar: React.FC<NavbarProps> = ({ simplified = false }) => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+  const { isAuthenticated, user, logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+    setIsOpen(false);
+  };
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    // Si es un link con hash (ej: /#noticias)
+    // Los hashes dentro del home usan scroll suave; desde otras rutas navegan primero.
     if (href.includes('#')) {
       const [path, hash] = href.split('#');
       
-      // Si ya estamos en la página del path (ej: /)
       if (location.pathname === path || (location.pathname === '/' && path === '')) {
         e.preventDefault();
         const element = document.getElementById(hash);
@@ -27,22 +36,16 @@ const Navbar: React.FC<NavbarProps> = ({ simplified = false }) => {
           setIsOpen(false);
         }
       } else {
-        // Si estamos en otra página (ej: /login), navegamos al path con el hash
-        // El ScrollToTop o un efecto en la Home debería manejar esto si es necesario,
-        // pero react-router normalmente no scrollea a hashes después de navegar solo.
-        // Forzamos la navegación
         navigate(href);
         setIsOpen(false);
       }
     } else {
-      // Navegación normal (ej: /interesados)
       setIsOpen(false);
     }
   };
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white shadow-md border-b-4 border-ups-yellow" style={{ WebkitTransform: 'translateZ(0)' }}>
-      {/* Top small bar */}
       <div className="bg-ups-blue h-10 w-full flex items-center justify-end px-4 sm:px-6 lg:px-8 text-white">
         {!simplified && (
           <div className="flex items-center gap-8">
@@ -50,7 +53,7 @@ const Navbar: React.FC<NavbarProps> = ({ simplified = false }) => {
               href={INSTITUTION.PORTAL_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 hover:text-ups-yellow transition-colors text-[11px] font-bold uppercase tracking-wider"
+              className="flex items-center gap-2 hover:text-ups-yellow transition-colors text-[11px] font-semibold uppercase tracking-wider"
             >
               <Globe size={14} />
               <span>Portal UPS</span>
@@ -60,25 +63,43 @@ const Navbar: React.FC<NavbarProps> = ({ simplified = false }) => {
               href={INSTITUTION.AVAC_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 hover:text-ups-yellow transition-colors text-[11px] font-bold uppercase tracking-wider"
+              className="flex items-center gap-2 hover:text-ups-yellow transition-colors text-[11px] font-semibold uppercase tracking-wider"
             >
               <BookOpen size={14} />
               <span>AVAC</span>
             </a>
 
-            <Link
-              to="/login"
-              className="flex items-center gap-2 bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-md transition-all group"
-            >
-              <User size={18} className="group-hover:text-ups-yellow transition-colors" />
-              <span className="text-[11px] font-bold uppercase tracking-widest">Login</span>
-            </Link>
+            {isAuthenticated && user ? (
+              <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 bg-white/10 px-3 py-1.5 rounded-md">
+                  <User size={16} className="text-ups-yellow" />
+                  <span className="text-[11px] font-semibold uppercase tracking-widest max-w-[120px] truncate">
+                    {user.username}
+                  </span>
+                </div>
+                <button
+                  onClick={handleLogout}
+                  title="Cerrar sesión"
+                  className="flex items-center gap-1.5 bg-white/10 hover:bg-red-500/80 px-3 py-1.5 rounded-md transition-all group"
+                >
+                  <LogOut size={15} className="group-hover:text-white transition-colors" />
+                  <span className="text-[11px] font-semibold uppercase tracking-widest">Salir</span>
+                </button>
+              </div>
+            ) : (
+              <Link
+                to="/login"
+                className="flex items-center gap-2 bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-md transition-all group"
+              >
+                <User size={18} className="group-hover:text-ups-yellow transition-colors" />
+                <span className="text-[11px] font-semibold uppercase tracking-widest">Login</span>
+              </Link>
+            )}
           </div>
         )}
       </div>
 
       <div className="w-full px-4 sm:px-6 lg:px-10 min-h-[4.5rem] sm:min-h-[5rem] md:min-h-[6rem] flex items-center justify-between">
-        {/* Logo / Brand — fijo a la izquierda */}
         <div className="flex items-center flex-shrink-0">
           <Link
             to="/"
@@ -99,15 +120,14 @@ const Navbar: React.FC<NavbarProps> = ({ simplified = false }) => {
               }}
             />
           </Link>
-          <div className="ml-2 pl-2 sm:ml-3 sm:pl-3 border-l-2 border-gray-200 flex flex-col justify-center">
-            <h1 className="text-ups-blue font-bold uppercase tracking-wide leading-tight text-[9px] sm:text-xs lg:text-sm whitespace-nowrap">
+          <div className="ml-2 pl-2 sm:ml-3 sm:pl-3 border-l-2 border-zinc-200 flex flex-col justify-center">
+            <h1 className="text-ups-blue font-semibold uppercase tracking-wide leading-tight text-[9px] sm:text-xs lg:text-sm whitespace-nowrap">
               {INSTITUTION.CAREER}
             </h1>
-            <span className="text-gray-500 font-normal text-[8px] sm:text-[10px] lg:text-xs mt-0.5 whitespace-nowrap">{INSTITUTION.SEDE}</span>
+            <span className="text-zinc-500 font-normal text-[8px] sm:text-[10px] lg:text-xs mt-0.5 whitespace-nowrap">{INSTITUTION.SEDE}</span>
           </div>
         </div>
 
-        {/* Desktop Nav — alineado a la derecha */}
         {!simplified && (
           <nav className="hidden xl:flex items-center gap-7 mr-100">
             {NAV_ITEMS.map((item) => (
@@ -124,7 +144,6 @@ const Navbar: React.FC<NavbarProps> = ({ simplified = false }) => {
           </nav>
         )}
 
-        {/* Mobile Menu Button — extremo derecho en móvil */}
         {!simplified && (
           <button
             onClick={() => setIsOpen(!isOpen)}
@@ -136,14 +155,13 @@ const Navbar: React.FC<NavbarProps> = ({ simplified = false }) => {
           </button>
         )}
 
-        {/* Botón Volver al Inicio en modo simplificado */}
         {simplified && (
           <Link
             to="/"
             className="flex items-center gap-2 sm:gap-3 text-ups-blue hover:text-ups-yellow transition-colors font-extrabold text-xs sm:text-sm uppercase tracking-tighter group"
             title="Volver al Inicio"
           >
-            <div className="w-9 h-9 sm:w-10 sm:h-10 bg-ups-blue text-white flex items-center justify-center rounded-full shadow-md group-hover:bg-ups-yellow group-hover:text-ups-blue group-hover:rotate-[-360deg] transition-all duration-500">
+            <div className="size-9 sm:size-10 bg-ups-blue text-white flex items-center justify-center rounded-full shadow-md group-hover:bg-ups-yellow group-hover:text-ups-blue group-hover:rotate-[-360deg] transition-all duration-500">
               <ArrowLeft size={18} />
             </div>
             <span className="hidden sm:inline">Volver al Inicio</span>
@@ -151,20 +169,38 @@ const Navbar: React.FC<NavbarProps> = ({ simplified = false }) => {
         )}
       </div>
 
-      {/* Mobile Menu */}
       {isOpen && (
-        <div className="xl:hidden bg-white border-t border-gray-200 absolute w-full shadow-lg z-40">
+        <div className="xl:hidden bg-white border-t border-zinc-200 absolute w-full shadow-lg z-40">
           <div className="px-4 pt-2 pb-4 space-y-1">
             {NAV_ITEMS.map((item) => (
               <Link
                 key={item.label}
                 to={item.href}
                 onClick={(e) => handleNavClick(e, item.href)}
-                className="block px-3 py-3.5 border-b border-gray-100 text-base font-semibold text-ups-blue uppercase hover:text-ups-yellow hover:bg-gray-50 transition-colors min-h-[44px] flex items-center"
+                className="block px-3 py-3.5 border-b border-zinc-100 text-base font-semibold text-ups-blue uppercase hover:text-ups-yellow hover:bg-zinc-50 transition-colors min-h-[44px] flex items-center"
               >
                 {item.label}
               </Link>
             ))}
+
+            {isAuthenticated && user ? (
+              <button
+                onClick={handleLogout}
+                className="w-full flex items-center gap-3 px-3 py-3.5 border-b border-zinc-100 text-base font-semibold text-red-600 uppercase hover:bg-red-50 transition-colors min-h-[44px]"
+              >
+                <LogOut size={18} />
+                Cerrar sesión ({user.username})
+              </button>
+            ) : (
+              <Link
+                to="/login"
+                onClick={() => setIsOpen(false)}
+                className="flex items-center gap-3 px-3 py-3.5 border-b border-zinc-100 text-base font-semibold text-ups-blue uppercase hover:text-ups-yellow hover:bg-zinc-50 transition-colors min-h-[44px]"
+              >
+                <User size={18} />
+                Iniciar sesión
+              </Link>
+            )}
 
           </div>
         </div>

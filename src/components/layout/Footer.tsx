@@ -1,6 +1,8 @@
+/** Renderiza el pie de página institucional. */
+
 import React from 'react';
 import { MapPin, Phone, Mail } from 'lucide-react';
-import { INSTITUTION } from '../../config/constants';
+import { INSTITUTION } from '@/lib/config/constants';
 
 const Footer: React.FC = () => {
   return (
@@ -8,14 +10,12 @@ const Footer: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
 
-          {/* Col 1 */}
           <div className="md:col-span-1">
-            <h3 className="text-xl font-bold text-white mb-4">{INSTITUTION.NAME}</h3>
+            <h3 className="text-xl font-semibold text-white mb-4">{INSTITUTION.NAME}</h3>
             <p className="text-sm mb-2">{INSTITUTION.SEDE}</p>
             <p className="text-sm font-semibold text-white">{INSTITUTION.CAREER}</p>
           </div>
 
-          {/* Col 2 */}
           <div className="md:col-span-1">
             <h4 className="text-lg font-semibold text-white mb-4">Enlaces rápidos</h4>
             <ul className="space-y-2 text-sm">
@@ -26,7 +26,6 @@ const Footer: React.FC = () => {
             </ul>
           </div>
 
-          {/* Col 3 */}
           <div className="md:col-span-1">
             <h4 className="text-lg font-semibold text-white mb-4">Contacto</h4>
             <ul className="space-y-3 text-sm">
@@ -45,10 +44,9 @@ const Footer: React.FC = () => {
             </ul>
           </div>
 
-          {/* Col 4 */}
           <div className="md:col-span-1">
             <h4 className="text-lg font-semibold text-white mb-4">Síguenos</h4>
-            <div className="flex space-x-4">
+            <div className="flex gap-x-4">
               <a href={INSTITUTION.FACEBOOK_URL} target="_blank" rel="noopener noreferrer" className="bg-white/10 p-2.5 rounded-full hover:bg-ups-yellow hover:text-ups-dark transition-all flex items-center justify-center">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.07c0-6.63-5.37-12-12-12s-12 5.37-12 12c0 5.99 4.39 10.95 10.13 11.85v-8.39H7.08v-3.47h3.05V9.43c0-3.01 1.79-4.67 4.53-4.67 1.31 0 2.69.24 2.69.24v2.95H15.83c-1.49 0-1.96.93-1.96 1.87v2.25h3.33l-.53 3.47h-2.8v8.39C19.61 23.03 24 18.06 24 12.07z" /></svg>
               </a>
