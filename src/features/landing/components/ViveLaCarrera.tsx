@@ -35,7 +35,9 @@ const ViveLaCarrera: React.FC = () => {
           </h2>
           <div className="w-24 h-1 bg-ups-yellow mt-4"></div>
           {sectionContent.description && (
-            <div className="mt-4 max-w-2xl text-center text-zinc-600 text-sm sm:text-base" dangerouslySetInnerHTML={{ __html: sectionContent.description }} />
+            <p className="mt-4 max-w-2xl text-center text-zinc-600 text-sm sm:text-base whitespace-pre-line">
+              {sectionContent.description}
+            </p>
           )}
         </div>
 
@@ -55,7 +57,7 @@ const ViveLaCarrera: React.FC = () => {
                 </div>
 
                 <div className="p-6 flex flex-col flex-grow">
-                  <h3 className="font-bold text-lg sm:text-xl text-ups-blue mb-3 leading-tight group-hover:text-ups-yellow transition-colors line-clamp-2 min-h-[3.5rem]">
+                  <h3 className="font-semibold text-lg sm:text-xl text-ups-blue mb-3 leading-tight group-hover:text-ups-yellow transition-colors line-clamp-2 min-h-[3.5rem]">
                     {pub.title}
                   </h3>
                   <p className="text-zinc-600 text-sm mb-6 line-clamp-3">

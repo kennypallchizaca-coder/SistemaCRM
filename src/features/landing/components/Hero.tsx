@@ -75,17 +75,17 @@ const Hero: React.FC = () => {
           </div>
 
           {/* Título con Efecto de Escritura (Typing) */}
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white mb-4 leading-[1.1] uppercase drop-shadow-lg select-none">
-            <span className="block mb-1 overflow-hidden whitespace-nowrap border-r-4 border-white animate-typing-1">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-white mb-4 leading-[1.1] uppercase drop-shadow-lg select-none">
+            <span className="typing-caret block mb-1 overflow-hidden whitespace-nowrap animate-typing-1">
               Carrera de
             </span>
-            <span className="text-ups-yellow block overflow-hidden whitespace-nowrap border-r-4 border-ups-yellow animate-typing-2">
+            <span className="typing-caret text-ups-yellow block overflow-hidden whitespace-nowrap animate-typing-2">
               Computación
             </span>
           </h1>
 
           {/* Caja de Información Glassmorphism */}
-          <div className="bg-ups-blue/70 backdrop-blur-sm border-l-4 border-ups-yellow p-4 sm:p-6 mb-6 sm:mb-8 animate-fade-up">
+          <div className="bg-ups-blue/70 backdrop-blur-sm p-4 sm:p-6 mb-6 sm:mb-8 animate-fade-up shadow-[inset_4px_0_0_var(--color-ups-yellow)]">
             <p className="text-base sm:text-lg text-white/95 leading-relaxed">
               Formamos líderes tecnológicos capaces de <span className="text-ups-yellow font-semibold">innovar</span> y gestionar soluciones digitales para los retos del futuro.
             </p>
@@ -111,19 +111,19 @@ const Hero: React.FC = () => {
           <div className="grid grid-cols-3 gap-2 max-w-sm animate-fade-up">
             <div className="bg-white/10 backdrop-blur border border-white/5 p-2 flex flex-col items-center text-center hover:bg-white/20 transition-all shadow-sm group">
               <ShieldCheck size={20} className="text-ups-yellow mb-1 group-hover:scale-110 transition-transform" />
-              <h3 className="font-bold text-white text-[9px] uppercase tracking-tighter">ABET</h3>
+              <h3 className="font-semibold text-white text-[9px] uppercase tracking-tighter">ABET</h3>
               <p className="text-[8px] text-zinc-300 font-semibold uppercase">Calidad</p>
             </div>
 
             <div className="bg-white/10 backdrop-blur border border-white/5 p-2 flex flex-col items-center text-center hover:bg-white/20 transition-all shadow-sm group">
               <Microscope size={20} className="text-ups-yellow mb-1 group-hover:scale-110 transition-transform" />
-              <h3 className="font-bold text-white text-[9px] uppercase tracking-tighter">Labs</h3>
+              <h3 className="font-semibold text-white text-[9px] uppercase tracking-tighter">Labs</h3>
               <p className="text-[8px] text-zinc-300 font-semibold uppercase">Práctica</p>
             </div>
 
             <div className="bg-white/10 backdrop-blur border border-white/5 p-2 flex flex-col items-center text-center hover:bg-white/20 transition-all shadow-sm group">
               <Cpu size={20} className="text-ups-yellow mb-1 group-hover:scale-110 transition-transform" />
-              <h3 className="font-bold text-white text-[9px] uppercase tracking-tighter">TIC</h3>
+              <h3 className="font-semibold text-white text-[9px] uppercase tracking-tighter">TIC</h3>
               <p className="text-[8px] text-zinc-300 font-semibold uppercase">Innovación</p>
             </div>
           </div>
@@ -135,21 +135,27 @@ const Hero: React.FC = () => {
           from { width: 0 }
           to { width: 100% }
         }
-        @keyframes blink-caret {
-          from, to { border-color: transparent }
-          50% { border-color: currentColor; }
+        @keyframes caret {
+          from, to { opacity: 0; }
+          50% { opacity: 1; }
+        }
+        .typing-caret::after {
+          content: '';
+          display: inline-block;
+          width: 2px;
+          height: 0.85em;
+          margin-left: 0.25rem;
+          vertical-align: -0.08em;
+          background: currentColor;
+          animation: caret .75s step-end infinite;
         }
         .animate-typing-1 {
           width: 0;
-          animation: 
-            typing 1s steps(20, end) forwards,
-            blink-caret .75s step-end 2;
+          animation: typing 1s steps(20, end) forwards;
         }
         .animate-typing-2 {
           width: 0;
-          animation: 
-            typing 1s steps(20, end) 1.2s forwards,
-            blink-caret .75s step-end infinite;
+          animation: typing 1s steps(20, end) 1.2s forwards;
         }
         @keyframes fadeInRight {
           0% { opacity: 0; transform: translateX(-15px); }

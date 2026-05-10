@@ -93,8 +93,10 @@ function plainText(value: unknown): string {
 
   if (Array.isArray(value)) {
     return value
-      .map((item) => plainText(item))
-      .filter(Boolean)
+      .flatMap((item) => {
+        const text = plainText(item);
+        return text ? [text] : [];
+      })
       .join('\n')
       .trim();
   }
@@ -272,7 +274,7 @@ export const useLandingData = () => {
           
           const mapSection = (section: RawSection | undefined, defaultTitle: string) => ({
             title: section?.titulo || defaultTitle,
-            description: section?.descripcion || '',
+            description: plainText(section?.descripcion),
           });
 
           return {

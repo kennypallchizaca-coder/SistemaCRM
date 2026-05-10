@@ -40,6 +40,20 @@ const getIcon = (iconName?: string, size = 48) => {
   return Icon ? <Icon size={size} /> : <Microscope size={size} />;
 };
 
+const HighlightedTitle = ({ title }: { title: string }) => {
+  const words = title.trim().split(/\s+/);
+  const lastWord = words.pop();
+  if (!lastWord) return title;
+
+  const prefix = words.join(' ');
+  return (
+    <>
+      {prefix ? `${prefix} ` : ''}
+      <span className="text-ups-yellow">{lastWord}</span>
+    </>
+  );
+};
+
 const GruposInvestigacion: React.FC = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const { data } = useLandingData();
@@ -62,19 +76,13 @@ const GruposInvestigacion: React.FC = () => {
 
         <div className="flex flex-col items-center mb-12">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-ups-blue uppercase tracking-wide text-center">
-            {sectionContent.title.split(' ').map((word: string, i: number, arr: string[]) => (
-              <React.Fragment key={i}>
-                {i === arr.length - 1 ? <span className="text-ups-yellow">{word}</span> : word}
-                {i < arr.length - 1 ? ' ' : ''}
-              </React.Fragment>
-            ))}
+            <HighlightedTitle title={sectionContent.title} />
           </h2>
           <div className="w-24 h-1 bg-ups-yellow mt-4"></div>
           {sectionContent.description && (
-            <div
-              className="mt-4 max-w-2xl text-center text-zinc-600 text-sm sm:text-base"
-              dangerouslySetInnerHTML={{ __html: sectionContent.description }}
-            />
+            <p className="mt-4 max-w-2xl text-center text-zinc-600 text-sm sm:text-base whitespace-pre-line">
+              {sectionContent.description}
+            </p>
           )}
         </div>
 
@@ -108,7 +116,7 @@ const GruposInvestigacion: React.FC = () => {
                 </div>
 
                 <div className="p-6 flex flex-col flex-grow">
-                  <h3 className="font-bold text-lg sm:text-xl text-ups-blue mb-3 leading-tight group-hover:text-ups-yellow transition-colors line-clamp-2 min-h-[3.5rem]">
+                  <h3 className="font-semibold text-lg sm:text-xl text-ups-blue mb-3 leading-tight group-hover:text-ups-yellow transition-colors line-clamp-2 min-h-[3.5rem]">
                     {grupo.title}
                   </h3>
                   {grupo.description && (

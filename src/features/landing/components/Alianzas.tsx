@@ -17,7 +17,9 @@ const Alianzas: React.FC = () => {
           </h2>
           <div className="w-24 h-1 bg-ups-yellow mt-4"></div>
           {sectionContent.description && (
-            <div className="mt-4 max-w-2xl text-center text-zinc-600 text-sm sm:text-base" dangerouslySetInnerHTML={{ __html: sectionContent.description }} />
+            <p className="mt-4 max-w-2xl text-center text-zinc-600 text-sm sm:text-base whitespace-pre-line">
+              {sectionContent.description}
+            </p>
           )}
         </div>
 

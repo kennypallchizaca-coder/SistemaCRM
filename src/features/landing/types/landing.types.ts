@@ -1,13 +1,8 @@
 /** Define los tipos de contenido usados por la landing sincronizados con el Backend. */
 
-export interface HeroSlide {
+interface HeroSlide {
   src: string;
   alt: string;
-}
-
-export interface NavItem {
-  label: string;
-  href: string;
 }
 
 export interface Publication {
@@ -20,7 +15,7 @@ export interface Publication {
   url: string;
 }
 
-export interface Agrupacion {
+interface Agrupacion {
   id: number | string;
   title: string;
   category?: string;
@@ -39,7 +34,7 @@ export interface Agrupacion {
   };
 }
 
-export interface GrupoInvestigacion {
+interface GrupoInvestigacion {
   id: number | string;
   title: string;
   category?: string;
@@ -58,7 +53,7 @@ export interface GrupoInvestigacion {
   };
 }
 
-export interface Alianza {
+interface Alianza {
   id: number | string;
   name: string;
   logo: string;
@@ -66,7 +61,7 @@ export interface Alianza {
   buttonLink?: string;
 }
 
-export interface Empresa {
+interface Empresa {
   name: string;
   image: string;
   icon?: string;
@@ -74,12 +69,12 @@ export interface Empresa {
   buttonLink?: string;
 }
 
-export interface SectionContent {
+interface SectionContent {
   title: string;
   description?: string;
 }
 
-export interface LandingContent {
+interface LandingContent {
   career: string;
   sede: string;
   social: {
