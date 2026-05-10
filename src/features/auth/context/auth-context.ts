@@ -2,11 +2,6 @@
 
 import { createContext } from 'react';
 
-export const STORAGE_KEYS = {
-  TOKEN: 'jwt:v1',
-  USER: 'user:v1',
-} as const;
-
 export interface AuthUser {
   id: number;
   username: string;

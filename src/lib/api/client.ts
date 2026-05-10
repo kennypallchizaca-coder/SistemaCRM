@@ -5,10 +5,13 @@ import type { ApiError } from '@/lib/types/api.types';
 
 const BASE_URL = env.API_BASE_URL;
 const DEFAULT_TIMEOUT_MS = 10_000;
-const TOKEN_STORAGE_KEY = 'jwt:v1';
-const LEGACY_TOKEN_STORAGE_KEY = 'jwt';
 
 let onUnauthorized: (() => void) | null = null;
+let authToken: string | null = null;
+
+export function setAuthToken(token: string | null) {
+  authToken = token;
+}
 
 export function registerUnauthorizedHandler(handler: () => void) {
   onUnauthorized = handler;
@@ -38,11 +41,7 @@ class HttpApiError extends Error implements ApiError {
 }
 
 function getStoredToken(): string | null {
-  try {
-    return localStorage.getItem(TOKEN_STORAGE_KEY) ?? localStorage.getItem(LEGACY_TOKEN_STORAGE_KEY);
-  } catch {
-    return null;
-  }
+  return authToken;
 }
 
 function buildUrl(endpoint: string): string {
@@ -89,7 +88,7 @@ async function request<T>(
     const response = await fetch(buildUrl(endpoint), {
       ...fetchOptions,
       headers,
-      credentials: 'omit',
+      credentials: 'include',
       referrerPolicy: 'strict-origin-when-cross-origin',
       signal: controller.signal,
     });

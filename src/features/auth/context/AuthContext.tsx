@@ -3,44 +3,25 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { authService } from '../services/auth.service';
 import type { AuthResponse } from '../services/auth.service';
-import { registerUnauthorizedHandler, clearUnauthorizedHandler } from '@/lib/api';
-import { AuthContext, STORAGE_KEYS } from './auth-context';
-import type { AuthState, AuthUser } from './auth-context';
+import { registerUnauthorizedHandler, clearUnauthorizedHandler, setAuthToken } from '@/lib/api';
+import { AuthContext } from './auth-context';
+import type { AuthState } from './auth-context';
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [state, setState] = useState<AuthState>(() => {
-    try {
-      const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
-      const rawUser = localStorage.getItem(STORAGE_KEYS.USER);
-
-      if (token && rawUser) {
-        const user: AuthUser = JSON.parse(rawUser);
-        return {
-          user,
-          token,
-          sessionStatus: 'authenticated',
-          isAuthenticated: true,
-          isLoading: false,
-        };
-      }
-    } catch {
-      localStorage.removeItem(STORAGE_KEYS.TOKEN);
-      localStorage.removeItem(STORAGE_KEYS.USER);
-    }
-
-    return {
-      user: null,
-      token: null,
-      sessionStatus: 'guest',
-      isAuthenticated: false,
-      isLoading: false,
-    };
+  const [state, setState] = useState<AuthState>({
+    user: null,
+    token: null,
+    sessionStatus: 'unknown',
+    isAuthenticated: false,
+    isLoading: true,
   });
   const [error, setError] = useState<string | null>(null);
 
-  const logout = useCallback(() => {
-    localStorage.removeItem(STORAGE_KEYS.TOKEN);
-    localStorage.removeItem(STORAGE_KEYS.USER);
+  const clearSession = useCallback(() => {
+    setAuthToken(null);
+    localStorage.removeItem('jwt:v1');
+    localStorage.removeItem('jwt');
+    localStorage.removeItem('user:v1');
     setState({
       user: null,
       token: null,
@@ -51,11 +32,65 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setError(null);
   }, []);
 
+  const logout = useCallback(async () => {
+    try {
+      if (state.token) {
+        await authService.logout();
+      }
+    } catch {
+      // Aunque el backend no responda, la sesión local debe cerrarse.
+    } finally {
+      clearSession();
+    }
+  }, [clearSession, state.token]);
+
   useEffect(() => {
     // Permite que cualquier 401 de la API cierre la sesión desde un único punto.
-    registerUnauthorizedHandler(logout);
+    registerUnauthorizedHandler(clearSession);
     return () => clearUnauthorizedHandler();
-  }, [logout]);
+  }, [clearSession]);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    async function restoreSession() {
+      try {
+        const refreshed = await authService.refresh();
+        setAuthToken(refreshed.jwt);
+        const user = await authService.me();
+
+        if (!isMounted) return;
+
+        setState({
+          user,
+          token: refreshed.jwt,
+          sessionStatus: 'authenticated',
+          isAuthenticated: true,
+          isLoading: false,
+        });
+      } catch {
+        setAuthToken(null);
+        localStorage.removeItem('jwt:v1');
+        localStorage.removeItem('jwt');
+        localStorage.removeItem('user:v1');
+        if (!isMounted) return;
+
+        setState({
+          user: null,
+          token: null,
+          sessionStatus: 'guest',
+          isAuthenticated: false,
+          isLoading: false,
+        });
+      }
+    }
+
+    restoreSession();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const login = useCallback(async (identifier: string, password: string) => {
     setError(null);
@@ -63,8 +98,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       const response: AuthResponse = await authService.login(identifier, password);
 
-      localStorage.setItem(STORAGE_KEYS.TOKEN, response.jwt);
-      localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(response.user));
+      setAuthToken(response.jwt);
 
       setState({
         user: response.user,
