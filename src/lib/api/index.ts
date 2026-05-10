@@ -4,6 +4,8 @@ export { apiClient, registerUnauthorizedHandler, clearUnauthorizedHandler } from
 export { ENDPOINTS } from './endpoints';
 export {
   strapiMediaUrl,
+  strapiData,
+  strapiMediaPath,
   withPopulate,
   withSort,
 } from './strapi';

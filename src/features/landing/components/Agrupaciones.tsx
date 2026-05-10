@@ -1,108 +1,149 @@
-/** Renderiza el carrusel de agrupaciones estudiantiles. */
+/** Renderiza la sección de Agrupaciones ASU sincronizada 100% con el Backend. */
 
 import React, { useRef } from 'react';
-import { ChevronRight, ChevronLeft, Users, FlaskConical, Terminal } from 'lucide-react';
+import {
+  Users,
+  ChevronRight,
+  ChevronLeft,
+  Music,
+  Heart,
+  Palette,
+  Trophy,
+  Coffee,
+  Mic,
+  Star,
+  Terminal,
+  Code,
+  Book,
+  Cpu,
+  Briefcase
+} from 'lucide-react';
 import { useLandingData } from '@/features/landing';
-import { CAROUSEL_CONFIG, INSTITUTION } from '@/lib/config/constants';
+import { CAROUSEL_CONFIG } from '@/lib/config/constants';
+import { SocialLinks } from './SocialLinks';
 
-const getIconForAgrupacion = (id: number) => {
-  switch (id) {
-    case 1: return <Terminal size={24} className="text-ups-blue" />;
-    case 2: return <FlaskConical size={24} className="text-ups-blue" />;
-    case 3: return <Users size={24} className="text-ups-blue" />;
-    default: return <Users size={24} className="text-ups-blue" />;
-  }
+// Mapeo exacto basado en el Enum del Backend (asu-group schema)
+const IconMap: Record<string, React.ElementType<{ size?: number }>> = {
+  users: Users,
+  music: Music,
+  heart: Heart,
+  palette: Palette,
+  trophy: Trophy,
+  coffee: Coffee,
+  mic: Mic,
+  star: Star,
+  terminal: Terminal,
+  code: Code,
+  book: Book,
+  cpu: Cpu,
+  briefcase: Briefcase,
+};
+
+const getIcon = (iconName?: string, size = 48) => {
+  const Icon = iconName ? IconMap[iconName.toLowerCase()] : undefined;
+  return Icon ? <Icon size={size} /> : <Users size={size} />;
 };
 
 const Agrupaciones: React.FC = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const { data } = useLandingData();
   const asuGroups = data.asuGroups;
+  const sectionContent = data.content.gruposAsu;
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
       const { current } = scrollRef;
-      const scrollAmount = direction === 'left' 
-        ? -CAROUSEL_CONFIG.SCROLL_AMOUNT_PX 
+      const scrollAmount = direction === 'left'
+        ? -CAROUSEL_CONFIG.SCROLL_AMOUNT_PX
         : CAROUSEL_CONFIG.SCROLL_AMOUNT_PX;
       current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
     }
   };
 
   return (
-    <section id="agrupaciones" className="py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col items-center mb-10 sm:mb-16">
+    <section id="grupos-asu" className="py-20 bg-white">
+      <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-12">
+
+        <div className="flex flex-col items-center mb-12">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-ups-blue uppercase tracking-wide text-center">
-            GRUPOS ASU
+            {sectionContent.title.split(' ').map((word: string, i: number, arr: string[]) => (
+              <React.Fragment key={i}>
+                {i === arr.length - 1 ? <span className="text-ups-yellow">{word}</span> : word}
+                {i < arr.length - 1 ? ' ' : ''}
+              </React.Fragment>
+            ))}
           </h2>
-          <p className="mt-4 text-zinc-600 text-center max-w-2xl text-sm sm:text-base">
-            Conoce los espacios extracurriculares donde nuestros estudiantes desarrollan sus habilidades.
-          </p>
+          <div className="w-24 h-1 bg-ups-yellow mt-4"></div>
+          {sectionContent.description && (
+            <div
+              className="mt-4 max-w-2xl text-center text-zinc-600 text-sm sm:text-base"
+              dangerouslySetInnerHTML={{ __html: sectionContent.description }}
+            />
+          )}
         </div>
 
-        <div className="relative">
-          <div ref={scrollRef} className="flex overflow-x-auto snap-x snap-mandatory gap-6 sm:gap-8 pb-4 pt-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-            {asuGroups.map((item) => (
-              <div key={item.id} className="snap-start shrink-0 w-[88vw] sm:w-[320px] lg:w-[380px] bg-white rounded-none shadow-md overflow-hidden hover:shadow-lg transition-shadow flex flex-col group">
-                <div className="h-48 sm:h-56 overflow-hidden relative">
-                  <img src={item.image} alt={item.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                  <div className="absolute inset-0 bg-ups-blue/10 group-hover:bg-transparent transition-colors"></div>
-                  <div className="absolute top-4 right-4 bg-ups-yellow size-10 sm:size-12 flex items-center justify-center shadow-md">
-                    {getIconForAgrupacion(item.id)}
+        <div className="relative px-2">
+          <div ref={scrollRef} className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 pt-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+            {asuGroups.map((grupo) => (
+              <div key={grupo.title} className="snap-start shrink-0 w-[78vw] sm:w-[310px] lg:w-[350px] bg-white rounded-none border border-black shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col">
+                <div className="relative h-60 sm:h-72 overflow-hidden bg-ups-blue/5 flex items-center justify-center">
+                  {/* Imagen real de Strapi o Icono si no hay imagen */}
+                  {grupo.image && !grupo.image.includes('undefined') ? (
+                    <img
+                      src={grupo.image}
+                      alt={grupo.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    />
+                  ) : (
+                    <div className="text-ups-yellow group-hover:scale-110 transition-transform duration-500">
+                      {getIcon(grupo.icon)}
+                    </div>
+                  )}
+
+                  <div className="absolute top-3 left-3 bg-ups-yellow text-ups-blue size-11 flex items-center justify-center shadow-sm" title={grupo.icon || 'ASU'}>
+                    {getIcon(grupo.icon, 22)}
                   </div>
                 </div>
-                <div className="p-5 sm:p-8 flex flex-col flex-grow bg-white border-t-4 border-ups-yellow">
-                  <h3 className="text-lg sm:text-xl font-semibold text-ups-blue mb-2 sm:mb-3 uppercase">{item.title}</h3>
-                  <p className="text-zinc-600 text-sm sm:text-base mb-6 sm:mb-8 flex-grow">{item.description}</p>
-                  <div className="mt-auto pt-4 sm:pt-6 border-t border-zinc-100 flex items-center justify-between">
-                    <button type="button" className="inline-flex items-center text-ups-blue font-semibold text-sm uppercase group-hover:text-ups-yellow transition-colors min-h-[44px]">
-                      Conocer más
-                      <ChevronRight size={16} className="ml-1" />
-                    </button>
-                    <div className="flex items-center gap-3 text-zinc-400">
-                      <a href={INSTITUTION.FACEBOOK_URL} target="_blank" rel="noopener noreferrer" className="hover:text-blue-600 transition-colors p-1" title="Facebook">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.07c0-6.63-5.37-12-12-12s-12 5.37-12 12c0 5.99 4.39 10.95 10.13 11.85v-8.39H7.08v-3.47h3.05V9.43c0-3.01 1.79-4.67 4.53-4.67 1.31 0 2.69.24 2.69.24v2.95H15.83c-1.49 0-1.96.93-1.96 1.87v2.25h3.33l-.53 3.47h-2.8v8.39C19.61 23.03 24 18.06 24 12.07z" /></svg>
+
+                <div className="p-6 flex flex-col flex-grow text-left">
+                  <h3 className="font-bold text-lg sm:text-xl text-ups-blue mb-3 leading-tight group-hover:text-ups-yellow transition-colors line-clamp-2 min-h-[3.5rem]">
+                    {grupo.title}
+                  </h3>
+                  {grupo.description && (
+                    <p className="text-left text-zinc-600 text-sm mb-6 line-clamp-3 whitespace-pre-line">
+                      {grupo.description}
+                    </p>
+                  )}
+
+                  <div className="mt-auto pt-4 border-t border-zinc-100 flex items-center justify-between gap-4">
+                    <SocialLinks links={grupo.socialLinks} />
+                    {grupo.buttonLink && (
+                      <a
+                        href={grupo.buttonLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="ml-auto inline-flex w-fit items-center justify-center gap-2 px-4 py-2 bg-ups-blue text-white font-bold text-[11px] uppercase hover:bg-ups-yellow hover:text-ups-blue transition-all shadow-sm"
+                      >
+                        {grupo.buttonText || 'Más info'} <ChevronRight size={14} />
                       </a>
-                      <a href={INSTITUTION.INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" className="hover:text-pink-600 transition-colors p-1" title="Instagram">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 3.25.15 4.77 1.69 4.92 4.92.06 1.27.07 1.65.07 4.85 0 3.21-.01 3.58-.07 4.85-.15 3.23-1.66 4.77-4.92 4.92-1.27.06-1.64.07-4.85.07-3.2 0-3.58-.01-4.85-.07-3.26-.15-4.77-1.7-4.92-4.92-.06-1.27-.07-1.64-.07-4.85 0-3.2.01-3.58.07-4.85.15-3.23 1.66-4.77 4.92-4.92 1.27-.06 1.65-.07 4.85-.07zM12 0C8.74 0 8.33.01 7.05.07 2.7.27.27 2.69.07 7.05.01 8.33 0 8.74 0 12c0 3.26.01 3.67.07 4.95.2 4.36 2.62 6.78 6.98 6.98C8.33 23.99 8.74 24 12 24c3.26 0 3.67-.01 4.95-.07 4.35-.2 6.78-2.62 6.98-6.98.06-1.28.07-1.69.07-4.95 0-3.26-.01-3.67-.07-4.95-.2-4.35-2.62-6.78-6.98-6.98C15.67.01 15.26 0 12 0zm0 5.84a6.16 6.16 0 100 12.32 6.16 6.16 0 000-12.32zM12 16a4 4 0 110-8 4 4 0 010 8zm6.41-11.85a1.44 1.44 0 100 2.88 1.44 1.44 0 000-2.88z" /></svg>
-                      </a>
-                      <a href={INSTITUTION.TIKTOK_URL} target="_blank" rel="noopener noreferrer" className="hover:text-black transition-colors p-1" title="TikTok">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.53.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 2.22-1.15 4.35-2.86 5.68-1.72 1.35-4.04 1.83-6.14 1.34-2.11-.49-3.95-1.93-4.88-3.86-.94-1.92-1.02-4.28-.19-6.25.82-1.96 2.5-3.5 4.47-4.14 1.98-.65 4.2-.5 6.06.39v4.11c-1.09-.59-2.42-.76-3.62-.43-1.2.33-2.18 1.25-2.6 2.4-.41 1.16-.27 2.49.38 3.53.64 1.05 1.86 1.72 3.08 1.82 1.23.09 2.49-.24 3.39-1.05.91-.82 1.4-2.04 1.42-3.29.02-4.85.01-9.7.02-14.55z" /></svg>
-                      </a>
-                    </div>
+                    )}
                   </div>
                 </div>
               </div>
             ))}
           </div>
-          <div className="flex justify-center gap-4 mt-4 sm:hidden">
-            <button
-              onClick={() => scroll('left')}
-              className="p-3 bg-white border border-zinc-200 text-ups-blue hover:bg-ups-yellow hover:text-ups-dark transition-all shadow-md rounded-full min-w-[44px] min-h-[44px] flex items-center justify-center"
-              title="Anterior"
-            >
-              <ChevronLeft size={20} />
-            </button>
-            <button
-              onClick={() => scroll('right')}
-              className="p-3 bg-white border border-zinc-200 text-ups-blue hover:bg-ups-yellow hover:text-ups-dark transition-all shadow-md rounded-full min-w-[44px] min-h-[44px] flex items-center justify-center"
-              title="Siguiente"
-            >
-              <ChevronRight size={20} />
-            </button>
-          </div>
+
           <button
             onClick={() => scroll('left')}
-            className="hidden sm:flex absolute -left-4 lg:-left-12 top-1/2 -translate-y-1/2 z-20 p-2 sm:p-3 bg-white border border-zinc-200 text-ups-blue hover:bg-ups-yellow hover:text-ups-dark transition-all shadow-xl rounded-full items-center justify-center"
-            title="Desplazar a la izquierda"
+            className="hidden xl:flex absolute -left-6 top-[40%] -translate-y-1/2 z-20 p-3 bg-white border border-zinc-200 text-ups-blue hover:bg-ups-yellow hover:text-ups-dark transition-all shadow-xl rounded-full items-center justify-center"
+            title="Anterior"
           >
             <ChevronLeft size={24} />
           </button>
           <button
             onClick={() => scroll('right')}
-            className="hidden sm:flex absolute -right-4 lg:-right-12 top-1/2 -translate-y-1/2 z-20 p-2 sm:p-3 bg-white border border-zinc-200 text-ups-blue hover:bg-ups-yellow hover:text-ups-dark transition-all shadow-xl rounded-full items-center justify-center"
-            title="Desplazar a la derecha"
+            className="hidden xl:flex absolute -right-6 top-[40%] -translate-y-1/2 z-20 p-3 bg-white border border-zinc-200 text-ups-blue hover:bg-ups-yellow hover:text-ups-dark transition-all shadow-xl rounded-full items-center justify-center"
+            title="Siguiente"
           >
             <ChevronRight size={24} />
           </button>

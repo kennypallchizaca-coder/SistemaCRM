@@ -36,7 +36,7 @@ export const ENDPOINTS = {
   },
 
   LANDING: {
-    CONTENT: '/landing-contents',
+    CONTENT: '/landing-content',
     HERO_SLIDES: '/hero-slides',
     ASU_GROUPS: '/asu-groups',
     ALLIANCES: '/alliances',

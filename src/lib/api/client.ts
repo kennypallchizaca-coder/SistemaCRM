@@ -19,8 +19,22 @@ export function clearUnauthorizedHandler() {
 }
 
 interface RequestOptions extends RequestInit {
+  auth?: boolean;
   token?: string;
   timeoutMs?: number;
+}
+
+class HttpApiError extends Error implements ApiError {
+  status: number;
+  name: string;
+  details?: Record<string, unknown>;
+
+  constructor(error: ApiError) {
+    super(error.message);
+    this.status = error.status;
+    this.name = error.name;
+    this.details = error.details;
+  }
 }
 
 function getStoredToken(): string | null {
@@ -31,13 +45,33 @@ function getStoredToken(): string | null {
   }
 }
 
+function buildUrl(endpoint: string): string {
+  if (/^https?:\/\//i.test(endpoint)) return endpoint;
+
+  const normalizedEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+  return `${BASE_URL}${normalizedEndpoint}`;
+}
+
+async function readResponseBody(response: Response): Promise<unknown> {
+  if (response.status === 204) return undefined;
+
+  const contentType = response.headers.get('content-type') ?? '';
+  if (contentType.includes('application/json')) {
+    return response.json();
+  }
+
+  return response.text();
+}
+
 async function request<T>(
   endpoint: string,
   options: RequestOptions = {}
 ): Promise<T> {
-  const { token, timeoutMs = DEFAULT_TIMEOUT_MS, ...fetchOptions } = options;
+  const { auth = true, token, timeoutMs = DEFAULT_TIMEOUT_MS, ...fetchOptions } = options;
 
-  const resolvedToken = token !== undefined ? token : (getStoredToken() ?? undefined);
+  const resolvedToken = auth
+    ? (token !== undefined ? token : (getStoredToken() ?? undefined))
+    : undefined;
 
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
@@ -52,9 +86,11 @@ async function request<T>(
   const timer = setTimeout(() => controller.abort(), timeoutMs);
 
   try {
-    const response = await fetch(`${BASE_URL}${endpoint}`, {
+    const response = await fetch(buildUrl(endpoint), {
       ...fetchOptions,
       headers,
+      credentials: 'omit',
+      referrerPolicy: 'strict-origin-when-cross-origin',
       signal: controller.signal,
     });
 
@@ -66,31 +102,34 @@ async function request<T>(
         onUnauthorized();
       }
 
-      const errorBody = await response.json().catch(() => ({}));
+      const errorBody = await readResponseBody(response).catch(() => ({}));
+      const strapiError = typeof errorBody === 'object' && errorBody !== null && 'error' in errorBody
+        ? (errorBody as { error?: { name?: string; message?: string; details?: Record<string, unknown> } }).error
+        : undefined;
       const apiError: ApiError = {
         status: response.status,
-        name: errorBody?.error?.name ?? 'ApiError',
-        message: errorBody?.error?.message ?? response.statusText,
-        details: errorBody?.error?.details,
+        name: strapiError?.name ?? 'ApiError',
+        message: strapiError?.message ?? response.statusText,
+        details: strapiError?.details,
       };
-      throw apiError;
+      throw new HttpApiError(apiError);
     }
 
     if (response.status === 204) {
       return undefined as T;
     }
 
-    return response.json() as Promise<T>;
+    return readResponseBody(response) as Promise<T>;
   } catch (err) {
     clearTimeout(timer);
 
     if ((err as ApiError).status !== undefined) throw err;
 
-    throw {
+    throw new HttpApiError({
       status: 0,
       name: 'NetworkError',
       message: (err as Error).message ?? 'Error de conexión con el servidor',
-    } satisfies ApiError;
+    });
   }
 }
 

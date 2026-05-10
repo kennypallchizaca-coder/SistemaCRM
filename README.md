@@ -1,114 +1,54 @@
-# ComputacionCRM
+# ComputacionCRM Frontend
 
-Sistema de Gestión de Relaciones con Clientes (CRM) desarrollado con **React + TypeScript + Vite**.
+Frontend publico y formularios de la Carrera de Computacion UPS, construido con React, TypeScript, Vite y Tailwind CSS.
 
----
-
-## 🚀 Tecnologías
-
-| Tecnología | Versión |
-|-----------|---------|
-| React | ^19 |
-| TypeScript | ~6 |
-| Vite | ^8 |
-| ESLint | ^10 |
-
----
-
-## 📁 Estructura del Proyecto
-
-```
-ComputacionCRM/
-├── public/                     # Archivos estáticos públicos
-│   ├── favicon.svg
-│   └── icons.svg
-│
-├── src/
-│   ├── assets/                 # Recursos multimedia
-│   │   ├── images/             # Imágenes (PNG, JPG, WebP)
-│   │   └── icons/              # Iconos SVG
-│   │
-│   ├── components/             # Componentes React reutilizables
-│   │   ├── ui/                 # Componentes UI atómicos (Button, Input, Modal…)
-│   │   ├── layout/             # Componentes de estructura (Navbar, Sidebar…)
-│   │   ├── forms/              # Formularios del sistema
-│   │   └── charts/             # Gráficos y visualizaciones
-│   │
-│   ├── pages/                  # Páginas / vistas de la aplicación
-│   │   ├── dashboard/          # Panel principal con KPIs
-│   │   ├── clientes/           # Gestión de clientes
-│   │   ├── ventas/             # Pipeline de ventas
-│   │   ├── reportes/           # Reportes y estadísticas
-│   │   └── configuracion/      # Ajustes del sistema
-│   │
-│   ├── hooks/                  # Custom Hooks de React (useClientes, useVentas…)
-│   ├── services/               # Servicios de API (fetch calls por entidad)
-│   ├── store/                  # Estado global (Zustand / Context)
-│   ├── context/                # Contextos de React (AuthContext, ThemeContext…)
-│   ├── types/                  # Interfaces y tipos TypeScript
-│   ├── constants/              # Constantes globales (rutas, enums, config)
-│   ├── utils/                  # Funciones utilitarias puras
-│   ├── styles/                 # Estilos globales (index.css, App.css)
-│   │
-│   ├── App.tsx                 # Componente raíz con router
-│   └── main.tsx                # Punto de entrada de la aplicación
-│
-├── .env.example                # Variables de entorno de referencia
-├── .gitignore
-├── index.html                  # HTML base
-├── package.json
-├── tsconfig.json
-├── tsconfig.app.json
-├── tsconfig.node.json
-├── vite.config.ts
-└── eslint.config.js
-```
-
----
-
-## ⚙️ Instalación y Desarrollo
+## Scripts
 
 ```bash
-# 1. Instalar dependencias
 npm install
-
-# 2. Copiar variables de entorno
-cp .env.example .env
-
-# 3. Iniciar servidor de desarrollo
 npm run dev
-
-# 4. Compilar para producción
+npm run lint
+npm run type-check
 npm run build
-
-# 5. Previsualizar producción
 npm run preview
 ```
 
----
+## Variables de entorno
 
-## 🗂️ Convenciones del Proyecto
+Copia `.env.example` como `.env.local`.
 
-| Concepto | Convención |
-|---------|-----------|
-| Componentes | `PascalCase` (ej. `ClienteCard.tsx`) |
-| Hooks | `camelCase` con prefijo `use` (ej. `useClientes.ts`) |
-| Servicios | `camelCase` con sufijo `Service` (ej. `clientesService.ts`) |
-| Constantes | `UPPER_SNAKE_CASE` |
-| Tipos/Interfaces | `PascalCase` (ej. `Cliente`, `Venta`) |
-| Páginas | Sufijo `Page` (ej. `ClientesPage.tsx`) |
+| Variable | Descripcion | Ejemplo |
+| --- | --- | --- |
+| `VITE_API_BASE_URL` | URL base del backend Strapi. Puede incluir o no `/api`. | `http://localhost:1337/api` |
+| `VITE_APP_ENV` | Entorno de ejecucion. | `development` |
+| `VITE_APP_NAME` | Nombre visible de la aplicacion. | `Carrera de Computacion UPS` |
 
----
+## Estructura principal
 
-## 📝 Variables de Entorno
+```text
+src/
+  app/                 Aplicacion, rutas y paginas base
+  components/          Componentes comunes y layout
+  features/            Modulos por dominio: landing, auth, admisiones, vinculacion
+  lib/                 API, config, hooks, seguridad, validacion y notificaciones
+  styles/              Estilos globales
+public/                Assets publicos
+```
 
-| Variable | Descripción | Valor por defecto |
-|---------|-------------|------------------|
-| `VITE_API_URL` | URL base del backend API | `/api` |
+## Produccion
 
----
+Antes de desplegar:
 
-## 👥 Equipo
+1. Configura `VITE_API_BASE_URL` con la URL publica del backend.
+2. Ejecuta `npm run lint`.
+3. Ejecuta `npm run build`.
+4. Revisa que `vercel.json` mantenga los headers de seguridad esperados para el dominio final.
 
-Proyecto académico — Computación CRM · SISTEMA-U
-# SistemaCRM
+## Seguridad
+
+El frontend incluye:
+
+- Headers de seguridad para Vercel.
+- Sanitizacion basica antes de enviar formularios.
+- Peticiones publicas sin credenciales de navegador.
+- Cierre de sesion centralizado ante respuestas `401`.

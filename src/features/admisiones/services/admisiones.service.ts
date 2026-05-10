@@ -4,6 +4,7 @@ import type { InteresadoFormData, Interesado } from '../types/admisiones.types';
 import { apiClient } from '@/lib/api';
 import { ENDPOINTS } from '@/lib/api/endpoints';
 import type { StrapiCreatePayload, StrapiEntityBase, StrapiSingleResponse } from '@/lib/api';
+import { sanitizeEmail, sanitizePhone, sanitizeText } from '@/lib/security/sanitize';
 
 type InteresadoPayload = {
   nombre_completo: string;
@@ -21,13 +22,13 @@ export async function registrarInteresado(
   // Los nombres enviados deben coincidir con el schema de la colección en Strapi.
   const payload: StrapiCreatePayload<InteresadoPayload> = {
     data: {
-      nombre_completo: data.nombre,
-      telefono: data.telefono,
-      correo: data.correo,
-      institucion_educativa: data.institucion ?? '',
+      nombre_completo: sanitizeText(data.nombre, 120),
+      telefono: sanitizePhone(data.telefono),
+      correo: sanitizeEmail(data.correo),
+      institucion_educativa: sanitizeText(data.institucion, 160),
       evento: data.evento,
       interes_principal: data.interes,
-      observaciones: data.observaciones ?? '',
+      observaciones: sanitizeText(data.observaciones, 1000),
     },
   };
 
@@ -38,13 +39,13 @@ export async function registrarInteresado(
 
   return {
     id: response.data.id,
-    nombre: data.nombre,
-    telefono: data.telefono,
-    correo: data.correo,
-    institucion: data.institucion,
+    nombre: payload.data.nombre_completo,
+    telefono: payload.data.telefono,
+    correo: payload.data.correo,
+    institucion: payload.data.institucion_educativa,
     evento: data.evento,
     interes: data.interes,
-    observaciones: data.observaciones,
+    observaciones: payload.data.observaciones,
     createdAt: response.data.createdAt,
     updatedAt: response.data.updatedAt,
   };

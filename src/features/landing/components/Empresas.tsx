@@ -1,14 +1,48 @@
 /** Renderiza el carrusel de empresas vinculadas. */
 
 import React, { useRef } from 'react';
-import { Building2, Briefcase, ChevronLeft, ChevronRight } from 'lucide-react';
+import { 
+  Building2, 
+  Briefcase, 
+  ChevronLeft, 
+  ChevronRight,
+  Factory,
+  Globe,
+  Landmark,
+  Monitor,
+  Truck,
+  ShoppingCart,
+  Hospital,
+  GraduationCap
+} from 'lucide-react';
 import { useLandingData } from '@/features/landing';
 import { CAROUSEL_CONFIG } from '@/lib/config/constants';
+
+const IconMap: Record<string, React.ReactNode> = {
+  building: <Building2 size={36} />,
+  briefcase: <Briefcase size={36} />,
+  factory: <Factory size={36} />,
+  globe: <Globe size={36} />,
+  landmark: <Landmark size={36} />,
+  monitor: <Monitor size={36} />,
+  truck: <Truck size={36} />,
+  'shopping-cart': <ShoppingCart size={36} />,
+  hospital: <Hospital size={36} />,
+  'graduation-cap': <GraduationCap size={36} />,
+};
+
+const getIconForCompany = (iconName?: string) => {
+  if (iconName && IconMap[iconName.toLowerCase()]) {
+    return IconMap[iconName.toLowerCase()];
+  }
+  return <Building2 size={36} />;
+};
 
 const Empresas: React.FC = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const { data } = useLandingData();
   const companies = data.companies;
+  const sectionContent = data.content.empresas;
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
@@ -36,41 +70,56 @@ const Empresas: React.FC = () => {
         <div className="flex flex-col items-start gap-6 mb-12 sm:mb-16">
           <div className="max-w-2xl">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-ups-yellow mb-4 uppercase tracking-wide">
-              Empresas y vinculación
+              {sectionContent.title}
             </h2>
             <div className="w-24 h-1 bg-ups-yellow mb-4 sm:mb-6"></div>
-            <p className="text-white/90 text-base sm:text-lg leading-relaxed">
-              Conoce las organizaciones e instituciones con las que nuestros estudiantes han desarrollado prácticas profesionales, pasantías y proyectos conjuntos.
-            </p>
+            {sectionContent.description && (
+              <p className="text-white/90 text-base sm:text-lg leading-relaxed">
+                {sectionContent.description}
+              </p>
+            )}
           </div>
-          <a 
-            href="#vinculacion" 
-            className="inline-flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-white text-ups-blue font-semibold rounded-none hover:bg-ups-yellow hover:text-ups-dark transition-colors shadow-lg uppercase text-sm w-full sm:w-auto justify-center min-h-[44px]"
-          >
-            <Briefcase size={18} />
-            Trabaja con nosotros
-          </a>
         </div>
 
         <div className="relative">
           <div ref={scrollRef} className="flex overflow-x-auto snap-x snap-mandatory gap-4 sm:gap-6 pb-4 pt-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-            {companies.map((empresa) => (
-              <div key={empresa.name} className="relative snap-start shrink-0 w-[72vw] sm:w-[240px] lg:w-[260px] h-[220px] sm:h-[240px] lg:h-[260px] rounded-none overflow-hidden group/card shadow-md">
-                <img src={empresa.image} alt={empresa.name} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-110" />
-                <div className="absolute inset-0 bg-ups-blue/80 group-hover/card:bg-ups-blue/60 transition-colors duration-300 mix-blend-multiply"></div>
-                <div className="absolute inset-0 bg-gradient-to-t from-ups-dark/90 via-transparent to-transparent opacity-80"></div>
-                
-                <div className="absolute inset-0 p-6 sm:p-8 flex flex-col items-center justify-center text-center">
-                  <Building2 size={36} className="text-ups-yellow mb-3 sm:mb-4 opacity-90 group-hover/card:-translate-y-2 transition-transform duration-300" />
-                  <span className="font-semibold text-base sm:text-lg tracking-wide text-white group-hover/card:-translate-y-1 transition-transform duration-300">{empresa.name}</span>
+            {companies.map((empresa) => {
+              const CardContent = (
+                <div className="relative w-full h-full rounded-none overflow-hidden group/card shadow-md">
+                  {empresa.image ? (
+                    <img src={empresa.image} alt={empresa.name} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-110" />
+                  ) : (
+                    <div className="absolute inset-0 bg-white/10" />
+                  )}
+                  <div className="absolute inset-0 bg-ups-blue/80 group-hover/card:bg-ups-blue/60 transition-colors duration-300 mix-blend-multiply"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-ups-dark/90 via-transparent to-transparent opacity-80"></div>
+                  
+                  <div className="absolute inset-0 p-6 sm:p-8 flex flex-col items-center justify-center text-center">
+                    <div className="text-ups-yellow mb-3 sm:mb-4 opacity-90 group-hover/card:-translate-y-2 transition-transform duration-300">
+                      {getIconForCompany(empresa.icon)}
+                    </div>
+                    <span className="font-semibold text-base sm:text-lg tracking-wide text-white group-hover/card:-translate-y-1 transition-transform duration-300">{empresa.name}</span>
+                  </div>
                 </div>
-              </div>
-            ))}
-            
-            <a href="#vinculacion" className="snap-start shrink-0 w-[72vw] sm:w-[240px] lg:w-[260px] bg-ups-yellow/10 backdrop-blur-md border-2 border-dashed border-ups-yellow/50 p-6 sm:p-8 rounded-none flex flex-col items-center justify-center text-center hover:bg-ups-yellow/20 hover:-translate-y-2 transition-all duration-300 group/card aspect-square min-h-[220px] sm:min-h-0">
-              <span className="font-semibold text-xl tracking-wide text-ups-yellow mb-2">Únete</span>
-              <span className="text-sm text-white/80">Sé parte de nuestros aliados</span>
-            </a>
+              );
+
+              return empresa.buttonLink ? (
+                <a 
+                  key={empresa.name} 
+                  href={empresa.buttonLink} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="relative snap-start shrink-0 w-[72vw] sm:w-[240px] lg:w-[260px] h-[220px] sm:h-[240px] lg:h-[260px] block border border-black"
+                  title={empresa.buttonText || empresa.name}
+                >
+                  {CardContent}
+                </a>
+              ) : (
+                <div key={empresa.name} className="relative snap-start shrink-0 w-[72vw] sm:w-[240px] lg:w-[260px] h-[220px] sm:h-[240px] lg:h-[260px] border border-black">
+                  {CardContent}
+                </div>
+              );
+            })}
           </div>
 
           <div className="flex justify-center gap-4 mt-4 sm:hidden">

@@ -36,19 +36,36 @@ export type StrapiCreatePayload<T> = {
   data: T;
 };
 
-function withQuery(endpoint: string, params: Record<string, string | number | boolean>): string {
-  const query = new URLSearchParams(
-    Object.entries(params).map(([key, value]) => [key, String(value)])
-  );
+type StrapiAttributes<T> = T & {
+  attributes?: T;
+  data?: unknown;
+};
+
+type StrapiMediaLike = {
+  url?: string;
+  attributes?: StrapiMediaLike;
+  data?: StrapiMediaLike | StrapiMediaLike[] | null;
+};
+
+function withQuery(endpoint: string, params: Record<string, string | number | boolean | string[]>): string {
+  const query = new URLSearchParams();
+
+  Object.entries(params).forEach(([key, value]) => {
+    if (Array.isArray(value)) {
+      value.forEach(v => query.append(`${key}`, String(v)));
+    } else {
+      query.set(key, String(value));
+    }
+  });
 
   return `${endpoint}?${query.toString()}`;
 }
 
-export function withPopulate(endpoint: string, populate: string): string {
+export function withPopulate(endpoint: string, populate: string | string[]): string {
   return withQuery(endpoint, { populate });
 }
 
-export function withSort(endpoint: string, sort: string, extraParams: Record<string, string | number | boolean> = {}): string {
+export function withSort(endpoint: string, sort: string, extraParams: Record<string, string | number | boolean | string[]> = {}): string {
   return withQuery(endpoint, { ...extraParams, sort });
 }
 
@@ -61,4 +78,22 @@ export function strapiMediaUrl(apiBaseUrl: string, url?: string): string | undef
   if (/^https?:\/\//i.test(url)) return url;
 
   return `${strapiUrl(apiBaseUrl)}${url}`;
+}
+
+export function strapiData<T>(item: StrapiAttributes<T> | null | undefined): T {
+  if (!item) return {} as T;
+  return (item.attributes ?? item) as T;
+}
+
+export function strapiMediaPath(media: StrapiMediaLike | null | undefined): string | undefined {
+  if (!media) return undefined;
+
+  if (typeof media.url === 'string') return media.url;
+  if (media.attributes) return strapiMediaPath(media.attributes);
+
+  if (Array.isArray(media.data)) {
+    return strapiMediaPath(media.data[0]);
+  }
+
+  return strapiMediaPath(media.data as StrapiMediaLike | null | undefined);
 }

@@ -3,9 +3,10 @@
 import React, { useState } from 'react';
 import { Menu, X, User, ArrowLeft, Globe, BookOpen, LogOut } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { NAV_ITEMS } from '@/features/landing/data/landing.data';
-import { INSTITUTION } from '@/lib/config/constants';
+
+import { INSTITUTION, NAV_ITEMS } from '@/lib/config/constants';
 import { useAuth } from '@/features/auth';
+import { useLandingData } from '@/features/landing';
 
 interface NavbarProps {
   simplified?: boolean;
@@ -16,6 +17,8 @@ const Navbar: React.FC<NavbarProps> = ({ simplified = false }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const { isAuthenticated, user, logout } = useAuth();
+  const { data } = useLandingData();
+  const content = data.content;
 
   const handleLogout = () => {
     logout();
@@ -46,11 +49,11 @@ const Navbar: React.FC<NavbarProps> = ({ simplified = false }) => {
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white shadow-md border-b-4 border-ups-yellow" style={{ WebkitTransform: 'translateZ(0)' }}>
-      <div className="bg-ups-blue h-10 w-full flex items-center justify-end px-4 sm:px-6 lg:px-8 text-white">
+      <div className="bg-ups-blue h-10 w-full flex items-center justify-start px-4 sm:px-6 lg:px-8 text-white">
         {!simplified && (
           <div className="flex items-center gap-8">
             <a
-              href={INSTITUTION.PORTAL_URL}
+              href={content.links.portal}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 hover:text-ups-yellow transition-colors text-[11px] font-semibold uppercase tracking-wider"
@@ -60,7 +63,7 @@ const Navbar: React.FC<NavbarProps> = ({ simplified = false }) => {
             </a>
 
             <a
-              href={INSTITUTION.AVAC_URL}
+              href={content.links.avac}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 hover:text-ups-yellow transition-colors text-[11px] font-semibold uppercase tracking-wider"
@@ -122,9 +125,9 @@ const Navbar: React.FC<NavbarProps> = ({ simplified = false }) => {
           </Link>
           <div className="ml-2 pl-2 sm:ml-3 sm:pl-3 border-l-2 border-zinc-200 flex flex-col justify-center">
             <h1 className="text-ups-blue font-semibold uppercase tracking-wide leading-tight text-[9px] sm:text-xs lg:text-sm whitespace-nowrap">
-              {INSTITUTION.CAREER}
+              {content.career}
             </h1>
-            <span className="text-zinc-500 font-normal text-[8px] sm:text-[10px] lg:text-xs mt-0.5 whitespace-nowrap">{INSTITUTION.SEDE}</span>
+            <span className="text-zinc-500 font-normal text-[8px] sm:text-[10px] lg:text-xs mt-0.5 whitespace-nowrap">{content.sede}</span>
           </div>
         </div>
 

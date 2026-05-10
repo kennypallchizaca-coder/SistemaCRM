@@ -1,4 +1,4 @@
-/** Define los tipos de contenido usados por la landing. */
+/** Define los tipos de contenido usados por la landing sincronizados con el Backend. */
 
 export interface HeroSlide {
   src: string;
@@ -11,35 +11,110 @@ export interface NavItem {
 }
 
 export interface Publication {
-  id: number;
+  id: number | string;
   title: string;
   category: string;
   date: string;
   description: string;
-  imageUrl: string;
+  image: string;
+  url: string;
 }
 
 export interface Agrupacion {
-  id: number;
+  id: number | string;
   title: string;
+  category?: string;
   description: string;
-  image: string;
+  image?: string;
+  icon?: string;
+  buttonText?: string;
+  buttonLink?: string;
+  socialLinks?: {
+    facebook?: string;
+    instagram?: string;
+    tiktok?: string;
+    x?: string;
+    youtube?: string;
+    web?: string;
+  };
 }
 
 export interface GrupoInvestigacion {
-  id: number;
+  id: number | string;
   title: string;
+  category?: string;
   description: string;
-  image: string;
+  image?: string;
+  icon?: string;
+  buttonText?: string;
+  buttonLink?: string;
+  socialLinks?: {
+    facebook?: string;
+    instagram?: string;
+    tiktok?: string;
+    x?: string;
+    youtube?: string;
+    web?: string;
+  };
 }
 
 export interface Alianza {
-  id: number;
+  id: number | string;
   name: string;
   logo: string;
+  buttonText?: string;
+  buttonLink?: string;
 }
 
 export interface Empresa {
   name: string;
   image: string;
+  icon?: string;
+  buttonText?: string;
+  buttonLink?: string;
+}
+
+export interface SectionContent {
+  title: string;
+  description?: string;
+}
+
+export interface LandingContent {
+  career: string;
+  sede: string;
+  social: {
+    facebook?: string;
+    instagram?: string;
+    tiktok?: string;
+    x?: string;
+    youtube?: string;
+  };
+  links: {
+    portal?: string;
+    avac?: string;
+  };
+  contact: {
+    email?: string;
+    phone?: string;
+    address?: string;
+  };
+  hero: SectionContent;
+  viveCarrera: SectionContent;
+  gruposInvestigacion: SectionContent;
+  gruposAsu: SectionContent;
+  alianzas: SectionContent;
+  empresas: SectionContent;
+}
+
+export interface LandingState {
+  data: {
+    heroSlides: HeroSlide[];
+    researchGroups: GrupoInvestigacion[];
+    asuGroups: Agrupacion[];
+    alliances: Alianza[];
+    companies: Empresa[];
+    publications: Publication[];
+    content: LandingContent;
+  };
+  isLoading: boolean;
 }

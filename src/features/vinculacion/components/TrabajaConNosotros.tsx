@@ -1,4 +1,4 @@
-/** Renderiza el formulario de vinculación para empresas. */
+ /** Renderiza el formulario de vinculación para empresas. */
 
 import React, { useEffect } from 'react';
 import { Send, Building, Lock } from 'lucide-react';
@@ -15,7 +15,7 @@ const TrabajaConNosotros: React.FC = () => {
   const { state, submitForm, reset } = useVinculacion();
   const notify = useNotify();
 
-    const form = useFormState(
+  const form = useFormState(
     { empresa: '', contacto: '', correo: '', telefono: '', mensaje: '' },
     vinculacionSchema
   );
@@ -23,7 +23,7 @@ const TrabajaConNosotros: React.FC = () => {
   const isSubmitting = state.status === 'loading';
   const submitted = state.status === 'success';
 
-    useEffect(() => {
+  useEffect(() => {
     if (state.status === 'success') {
       notify.success('¡Solicitud de vinculación enviada exitosamente!');
     } else if (state.status === 'error' && state.error) {
