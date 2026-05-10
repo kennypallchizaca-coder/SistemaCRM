@@ -89,38 +89,38 @@ const Navbar: React.FC<NavbarProps> = ({ simplified = false }) => {
       }`} 
       style={{ WebkitTransform: 'translateZ(0)' }}
     >
-      <div className="bg-ups-blue h-10 w-full flex items-center justify-between px-4 sm:px-6 lg:px-8 text-white">
+      <div className="bg-ups-blue min-h-10 w-full flex items-center justify-between gap-2 px-3 py-2 sm:px-6 lg:px-8 text-white">
         {!simplified && (
           <button
             type="button"
             onClick={toggleDarkMode}
-            className="flex items-center gap-2 hover:text-ups-yellow transition-colors text-[11px] font-semibold uppercase tracking-wider group"
+            className="flex shrink-0 items-center justify-center gap-1.5 rounded-full bg-white/10 px-2.5 py-2 text-[10px] font-semibold uppercase tracking-wider leading-none transition-colors hover:bg-white/15 hover:text-ups-yellow sm:px-3 sm:gap-2 sm:text-[11px] group"
             title={isDark ? 'Activar modo claro' : 'Activar modo oscuro'}
           >
             {isDark ? <Sun size={14} className="group-hover:rotate-90 transition-transform duration-300" /> : <Moon size={14} className="group-hover:-rotate-12 transition-transform duration-300" />}
-            <span>{isDark ? 'Light Mode' : 'Dark mode'}</span>
+            <span className="hidden whitespace-nowrap sm:inline">{isDark ? 'Light Mode' : 'Dark mode'}</span>
           </button>
         )}
         {!simplified && (
-          <div className="flex items-center gap-8">
+          <div className="flex min-w-0 items-center justify-end gap-1.5 sm:gap-4 lg:gap-8">
             <a
               href={content.links.portal}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 hover:text-ups-yellow transition-colors text-[11px] font-semibold uppercase tracking-wider"
+              className="flex min-h-8 items-center gap-1.5 rounded-full px-2 text-[10px] font-semibold uppercase tracking-wider transition-colors hover:bg-white/10 hover:text-ups-yellow sm:gap-2 sm:px-3 sm:text-[11px]"
             >
               <Globe size={14} />
-              <span>Portal UPS</span>
+              <span className="hidden whitespace-nowrap sm:inline">Portal UPS</span>
             </a>
 
             <a
               href={content.links.avac}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 hover:text-ups-yellow transition-colors text-[11px] font-semibold uppercase tracking-wider"
+              className="flex min-h-8 items-center gap-1.5 rounded-full px-2 text-[10px] font-semibold uppercase tracking-wider transition-colors hover:bg-white/10 hover:text-ups-yellow sm:gap-2 sm:px-3 sm:text-[11px]"
             >
               <BookOpen size={14} />
-              <span>AVAC</span>
+              <span className="hidden whitespace-nowrap sm:inline">AVAC</span>
             </a>
 
             {isAuthenticated && user ? (
@@ -128,19 +128,19 @@ const Navbar: React.FC<NavbarProps> = ({ simplified = false }) => {
                 <button
                   onClick={handleLogout}
                   title="Cerrar sesión"
-                  className="flex items-center gap-1.5 bg-white/10 hover:bg-red-500/80 px-3 py-1.5 rounded-md transition-all group"
+                  className="flex min-h-8 items-center gap-1.5 rounded-full bg-white/10 px-2.5 py-1.5 transition-all hover:bg-red-500/80 sm:px-3 group"
                 >
                   <LogOut size={15} className="group-hover:text-white transition-colors" />
-                  <span className="text-[11px] font-semibold uppercase tracking-widest">Log Out</span>
+                  <span className="text-[10px] font-semibold uppercase tracking-widest sm:text-[11px]">Log Out</span>
                 </button>
               </div>
             ) : (
               <Link
                 to="/login"
-                className="flex items-center gap-2 bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-md transition-all group"
+                className="flex min-h-8 items-center gap-1.5 rounded-full bg-white/10 px-2.5 py-1.5 transition-all hover:bg-white/20 sm:gap-2 sm:px-3 group"
               >
-                <User size={18} className="group-hover:text-ups-yellow transition-colors" />
-                <span className="text-[11px] font-semibold uppercase tracking-widest">Login</span>
+                <User size={16} className="group-hover:text-ups-yellow transition-colors sm:size-[18px]" />
+                <span className="text-[10px] font-semibold uppercase tracking-widest sm:text-[11px]">Login</span>
               </Link>
             )}
           </div>
