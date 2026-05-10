@@ -2,9 +2,6 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import {
-  ShieldCheck,
-  Microscope,
-  Cpu,
   ChevronRight,
   MapPin,
   ExternalLink
@@ -32,7 +29,7 @@ const Hero: React.FC = () => {
   }, [heroSlides.length, nextSlide]);
 
   return (
-    <section id="inicio" className="relative w-full min-h-[500px] sm:min-h-[600px] h-[80vh] sm:h-[85vh] flex items-center overflow-hidden bg-ups-blue">
+    <section id="inicio" className="relative w-full min-h-[560px] sm:min-h-[640px] h-[78vh] sm:h-[82vh] flex items-center overflow-hidden bg-ups-blue">
       {/* Carrusel de Imágenes con Efecto Zoom */}
       {heroSlides.map((slide, index) => (
         <div
@@ -51,10 +48,11 @@ const Hero: React.FC = () => {
       ))}
 
       {/* Overlay con Gradiente */}
-      <div className="absolute inset-0 z-[1] bg-gradient-to-r from-ups-blue/90 via-ups-blue/50 to-transparent" />
+      <div className="absolute inset-0 z-[1] bg-black/55" />
+      <div className="absolute inset-x-0 bottom-0 z-[2] h-[30%] bg-gradient-to-t from-ups-blue/95 via-ups-blue/70 to-transparent" />
 
       {/* Indicadores de Slide */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex gap-2">
+      <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-30 flex gap-2">
         {heroSlides.map((slide, index) => (
           <button
             key={slide.src + index}
@@ -66,8 +64,8 @@ const Hero: React.FC = () => {
         ))}
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-        <div className="max-w-2xl">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-10 pb-12">
+        <div className="max-w-4xl mx-auto text-center">
           {/* Badge Sede */}
           <div className="inline-flex items-center gap-2 bg-ups-yellow text-ups-blue font-bold px-3 py-1 mb-3 uppercase text-[10px] tracking-wider shadow-sm animate-fade-in-right">
             <MapPin size={12} />
@@ -75,60 +73,39 @@ const Hero: React.FC = () => {
           </div>
 
           {/* Título con Efecto de Escritura (Typing) */}
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-white mb-4 leading-[1.1] uppercase drop-shadow-lg select-none">
-            <span className="typing-caret block mb-1 overflow-hidden whitespace-nowrap animate-typing-1">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold text-white mb-5 leading-[1.05] uppercase drop-shadow-lg select-none">
+            <span className="typing-caret block mb-1 overflow-hidden whitespace-nowrap animate-typing-1 mx-auto w-fit">
               Carrera de
             </span>
-            <span className="typing-caret text-ups-yellow block overflow-hidden whitespace-nowrap animate-typing-2">
+            <span className="typing-caret text-ups-yellow block overflow-hidden whitespace-nowrap animate-typing-2 mx-auto w-fit">
               Computación
             </span>
           </h1>
 
-          {/* Caja de Información Glassmorphism */}
-          <div className="bg-ups-blue/70 backdrop-blur-sm p-4 sm:p-6 mb-6 sm:mb-8 animate-fade-up shadow-[inset_4px_0_0_var(--color-ups-yellow)]">
-            <p className="text-base sm:text-lg text-white/95 leading-relaxed">
-              Formamos líderes tecnológicos capaces de <span className="text-ups-yellow font-semibold">innovar</span> y gestionar soluciones digitales para los retos del futuro.
-            </p>
-          </div>
+          <p className="max-w-3xl mx-auto text-base sm:text-lg md:text-xl text-white/90 leading-relaxed mb-7 animate-fade-up">
+            Formamos líderes tecnológicos capaces de <span className="text-ups-yellow font-semibold">innovar</span> y gestionar soluciones digitales para los retos del futuro.
+          </p>
 
           {/* Botones de Acción */}
-          <div className="flex flex-col xs:flex-row gap-3 mb-8 sm:mb-12 animate-fade-up">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 animate-fade-up">
             <a
               href="/interesados"
-              className="group px-6 py-3 bg-ups-yellow text-ups-blue font-bold uppercase hover:bg-white transition-all shadow-md flex items-center justify-center gap-2 text-sm sm:text-base relative overflow-hidden min-h-[44px]"
+              className="group w-[210px] min-h-[50px] px-6 py-3.5 bg-ups-yellow text-ups-blue font-bold uppercase hover:bg-white transition-all shadow-lg flex items-center justify-center gap-2 text-sm sm:text-base relative overflow-hidden"
             >
               ¡Inicia hoy! <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
             </a>
             <a
               href="#noticias"
-              className="px-6 py-3 bg-white/10 text-white font-bold uppercase border border-white/20 hover:border-ups-yellow hover:text-ups-yellow transition-all flex items-center justify-center gap-2 text-sm sm:text-base backdrop-blur-sm min-h-[44px]"
+              className="w-[210px] min-h-[50px] px-6 py-3.5 bg-white/10 text-white font-bold uppercase border border-white/30 hover:border-ups-yellow hover:text-ups-yellow hover:bg-white/15 transition-all flex items-center justify-center gap-2 text-sm sm:text-base backdrop-blur-sm"
             >
               Experiencias <ExternalLink size={16} />
             </a>
           </div>
 
-          {/* Grid de Beneficios Compacto */}
-          <div className="grid grid-cols-3 gap-2 max-w-sm animate-fade-up">
-            <div className="bg-white/10 backdrop-blur border border-white/5 p-2 flex flex-col items-center text-center hover:bg-white/20 transition-all shadow-sm group">
-              <ShieldCheck size={20} className="text-ups-yellow mb-1 group-hover:scale-110 transition-transform" />
-              <h3 className="font-semibold text-white text-[9px] uppercase tracking-tighter">ABET</h3>
-              <p className="text-[8px] text-zinc-300 font-semibold uppercase">Calidad</p>
-            </div>
-
-            <div className="bg-white/10 backdrop-blur border border-white/5 p-2 flex flex-col items-center text-center hover:bg-white/20 transition-all shadow-sm group">
-              <Microscope size={20} className="text-ups-yellow mb-1 group-hover:scale-110 transition-transform" />
-              <h3 className="font-semibold text-white text-[9px] uppercase tracking-tighter">Labs</h3>
-              <p className="text-[8px] text-zinc-300 font-semibold uppercase">Práctica</p>
-            </div>
-
-            <div className="bg-white/10 backdrop-blur border border-white/5 p-2 flex flex-col items-center text-center hover:bg-white/20 transition-all shadow-sm group">
-              <Cpu size={20} className="text-ups-yellow mb-1 group-hover:scale-110 transition-transform" />
-              <h3 className="font-semibold text-white text-[9px] uppercase tracking-tighter">TIC</h3>
-              <p className="text-[8px] text-zinc-300 font-semibold uppercase">Innovación</p>
-            </div>
-          </div>
         </div>
       </div>
+
+
 
       <style>{`
         @keyframes typing {

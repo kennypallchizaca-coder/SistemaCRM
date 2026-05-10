@@ -43,6 +43,7 @@ const Empresas: React.FC = () => {
   const { data } = useLandingData();
   const companies = data.companies;
   const sectionContent = data.content.empresas;
+  const shouldCenterCards = companies.length <= 4;
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
@@ -82,7 +83,12 @@ const Empresas: React.FC = () => {
         </div>
 
         <div className="relative">
-          <div ref={scrollRef} className="flex overflow-x-auto snap-x snap-mandatory gap-4 sm:gap-6 pb-4 pt-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+          <div
+            ref={scrollRef}
+            className={`flex overflow-x-auto snap-x snap-mandatory gap-4 sm:gap-6 pb-4 pt-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ${
+              shouldCenterCards ? 'xl:justify-center' : 'justify-start'
+            }`}
+          >
             {companies.map((empresa) => {
               const CardContent = (
                 <div className="relative w-full h-full rounded-none overflow-hidden group/card shadow-md">
@@ -122,36 +128,40 @@ const Empresas: React.FC = () => {
             })}
           </div>
 
-          <div className="flex justify-center gap-4 mt-4 sm:hidden">
-            <button
-              onClick={() => scroll('left')}
-              className="p-3 bg-white text-ups-blue hover:bg-ups-yellow hover:text-ups-dark transition-all shadow-md rounded-full min-w-[44px] min-h-[44px] flex items-center justify-center"
-              title="Anterior"
-            >
-              <ChevronLeft size={20} />
-            </button>
-            <button
-              onClick={() => scroll('right')}
-              className="p-3 bg-white text-ups-blue hover:bg-ups-yellow hover:text-ups-dark transition-all shadow-md rounded-full min-w-[44px] min-h-[44px] flex items-center justify-center"
-              title="Siguiente"
-            >
-              <ChevronRight size={20} />
-            </button>
-          </div>
-          <button
-            onClick={() => scroll('left')}
-            className="hidden sm:flex absolute -left-4 lg:-left-12 top-1/2 -translate-y-1/2 z-20 p-2 sm:p-3 bg-white text-ups-blue hover:bg-ups-yellow hover:text-ups-dark transition-all shadow-xl rounded-full border border-zinc-200 items-center justify-center"
-            title="Desplazar a la izquierda"
-          >
-            <ChevronLeft size={24} />
-          </button>
-          <button
-            onClick={() => scroll('right')}
-            className="hidden sm:flex absolute -right-4 lg:-right-12 top-1/2 -translate-y-1/2 z-20 p-2 sm:p-3 bg-white text-ups-blue hover:bg-ups-yellow hover:text-ups-dark transition-all shadow-xl rounded-full border border-zinc-200 items-center justify-center"
-            title="Desplazar a la derecha"
-          >
-            <ChevronRight size={24} />
-          </button>
+          {!shouldCenterCards && (
+            <>
+              <div className="flex justify-center gap-4 mt-4 sm:hidden">
+                <button
+                  onClick={() => scroll('left')}
+                  className="p-3 bg-white text-ups-blue hover:bg-ups-yellow hover:text-ups-dark transition-all shadow-md rounded-full min-w-[44px] min-h-[44px] flex items-center justify-center"
+                  title="Anterior"
+                >
+                  <ChevronLeft size={20} />
+                </button>
+                <button
+                  onClick={() => scroll('right')}
+                  className="p-3 bg-white text-ups-blue hover:bg-ups-yellow hover:text-ups-dark transition-all shadow-md rounded-full min-w-[44px] min-h-[44px] flex items-center justify-center"
+                  title="Siguiente"
+                >
+                  <ChevronRight size={20} />
+                </button>
+              </div>
+              <button
+                onClick={() => scroll('left')}
+                className="hidden sm:flex absolute -left-4 lg:-left-12 top-1/2 -translate-y-1/2 z-20 p-2 sm:p-3 bg-white text-ups-blue hover:bg-ups-yellow hover:text-ups-dark transition-all shadow-xl rounded-full border border-zinc-200 items-center justify-center"
+                title="Desplazar a la izquierda"
+              >
+                <ChevronLeft size={24} />
+              </button>
+              <button
+                onClick={() => scroll('right')}
+                className="hidden sm:flex absolute -right-4 lg:-right-12 top-1/2 -translate-y-1/2 z-20 p-2 sm:p-3 bg-white text-ups-blue hover:bg-ups-yellow hover:text-ups-dark transition-all shadow-xl rounded-full border border-zinc-200 items-center justify-center"
+                title="Desplazar a la derecha"
+              >
+                <ChevronRight size={24} />
+              </button>
+            </>
+          )}
         </div>
 
       </div>

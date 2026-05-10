@@ -1,7 +1,7 @@
 /** Renderiza la navegación principal y el menú móvil. */
 
 import React, { useState } from 'react';
-import { Menu, X, User, ArrowLeft, Globe, BookOpen, LogOut } from 'lucide-react';
+import { Menu, X, User, ArrowLeft, Globe, BookOpen, LogOut, Moon, Sun } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import { INSTITUTION, NAV_ITEMS } from '@/lib/config/constants';
@@ -12,6 +12,17 @@ interface NavbarProps {
   simplified?: boolean;
 }
 
+const getInitialIsDark = () => {
+  const savedTheme = localStorage.getItem('theme');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+  return savedTheme === 'dark' || (!savedTheme && prefersDark);
+};
+
+const applyDarkClass = (isDark: boolean) => {
+  document.documentElement.classList.toggle('dark', isDark);
+};
+
 const Navbar: React.FC<NavbarProps> = ({ simplified = false }) => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
@@ -19,6 +30,30 @@ const Navbar: React.FC<NavbarProps> = ({ simplified = false }) => {
   const { isAuthenticated, user, logout } = useAuth();
   const { data } = useLandingData();
   const content = data.content;
+
+  const [isDark, setIsDark] = useState(() => {
+    const initialIsDark = getInitialIsDark();
+    applyDarkClass(initialIsDark);
+    return initialIsDark;
+  });
+  const titleTextClass = isDark ? 'text-white' : 'text-[#00315f]';
+  const subtitleTextClass = isDark ? 'text-zinc-300' : 'text-zinc-700';
+  const navTextClass = isDark
+    ? 'text-zinc-100 hover:text-ups-yellow'
+    : 'text-[#00315f] hover:text-ups-blue-light';
+  const mobileMenuClass = isDark
+    ? 'bg-[#1a1a1a] border-zinc-700'
+    : 'bg-white border-zinc-200';
+  const mobileMenuItemClass = isDark
+    ? 'border-zinc-700 text-zinc-100 hover:text-ups-yellow hover:bg-zinc-800'
+    : 'border-zinc-100 text-[#00315f] hover:text-ups-blue-light hover:bg-zinc-50';
+
+  const toggleDarkMode = () => {
+    const newDark = !isDark;
+    applyDarkClass(newDark);
+    setIsDark(newDark);
+    localStorage.setItem('theme', newDark ? 'dark' : 'light');
+  };
 
   const handleLogout = () => {
     logout();
@@ -30,7 +65,7 @@ const Navbar: React.FC<NavbarProps> = ({ simplified = false }) => {
     // Los hashes dentro del home usan scroll suave; desde otras rutas navegan primero.
     if (href.includes('#')) {
       const [path, hash] = href.split('#');
-      
+
       if (location.pathname === path || (location.pathname === '/' && path === '')) {
         e.preventDefault();
         const element = document.getElementById(hash);
@@ -48,8 +83,24 @@ const Navbar: React.FC<NavbarProps> = ({ simplified = false }) => {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-white shadow-md border-b-4 border-ups-yellow" style={{ WebkitTransform: 'translateZ(0)' }}>
-      <div className="bg-ups-blue h-10 w-full flex items-center justify-start px-4 sm:px-6 lg:px-8 text-white">
+    <header 
+      className={`font-sans sticky top-0 z-50 w-full shadow-md border-b-4 border-ups-yellow transition-colors duration-300 ${
+        isDark ? 'bg-[#1a1a1a]' : 'bg-white'
+      }`} 
+      style={{ WebkitTransform: 'translateZ(0)' }}
+    >
+      <div className="bg-ups-blue h-10 w-full flex items-center justify-between px-4 sm:px-6 lg:px-8 text-white">
+        {!simplified && (
+          <button
+            type="button"
+            onClick={toggleDarkMode}
+            className="flex items-center gap-2 hover:text-ups-yellow transition-colors text-[11px] font-semibold uppercase tracking-wider group"
+            title={isDark ? 'Activar modo claro' : 'Activar modo oscuro'}
+          >
+            {isDark ? <Sun size={14} className="group-hover:rotate-90 transition-transform duration-300" /> : <Moon size={14} className="group-hover:-rotate-12 transition-transform duration-300" />}
+            <span>{isDark ? 'Light Mode' : 'Dark mode'}</span>
+          </button>
+        )}
         {!simplified && (
           <div className="flex items-center gap-8">
             <a
@@ -74,19 +125,13 @@ const Navbar: React.FC<NavbarProps> = ({ simplified = false }) => {
 
             {isAuthenticated && user ? (
               <div className="flex items-center gap-2">
-                <div className="flex items-center gap-2 bg-white/10 px-3 py-1.5 rounded-md">
-                  <User size={16} className="text-ups-yellow" />
-                  <span className="text-[11px] font-semibold uppercase tracking-widest max-w-[120px] truncate">
-                    {user.username}
-                  </span>
-                </div>
                 <button
                   onClick={handleLogout}
                   title="Cerrar sesión"
                   className="flex items-center gap-1.5 bg-white/10 hover:bg-red-500/80 px-3 py-1.5 rounded-md transition-all group"
                 >
                   <LogOut size={15} className="group-hover:text-white transition-colors" />
-                  <span className="text-[11px] font-semibold uppercase tracking-widest">Salir</span>
+                  <span className="text-[11px] font-semibold uppercase tracking-widest">Log Out</span>
                 </button>
               </div>
             ) : (
@@ -123,11 +168,11 @@ const Navbar: React.FC<NavbarProps> = ({ simplified = false }) => {
               }}
             />
           </Link>
-          <div className="ml-2 pl-2 sm:ml-3 sm:pl-3 border-l-2 border-zinc-200 flex flex-col justify-center">
-            <h1 className="text-ups-blue font-semibold uppercase tracking-wide leading-tight text-[9px] sm:text-xs lg:text-sm whitespace-nowrap">
+          <div className={`ml-2 pl-2 sm:ml-3 sm:pl-3 border-l-2 flex flex-col justify-center ${isDark ? 'border-zinc-700' : 'border-zinc-300'}`}>
+            <h1 className={`${titleTextClass} font-bold uppercase tracking-wide leading-tight text-[9px] sm:text-xs lg:text-sm whitespace-nowrap`}>
               {content.career}
             </h1>
-            <span className="text-zinc-500 font-normal text-[8px] sm:text-[10px] lg:text-xs mt-0.5 whitespace-nowrap">{content.sede}</span>
+            <span className={`${subtitleTextClass} font-semibold text-[8px] sm:text-[10px] lg:text-xs mt-0.5 whitespace-nowrap`}>{content.sede}</span>
           </div>
         </div>
 
@@ -138,7 +183,7 @@ const Navbar: React.FC<NavbarProps> = ({ simplified = false }) => {
                 key={item.label}
                 to={item.href}
                 onClick={(e) => handleNavClick(e, item.href)}
-                className="text-sm font-semibold text-ups-blue uppercase hover:text-ups-yellow transition-colors relative group"
+                className={`text-sm font-extrabold uppercase transition-colors relative group ${navTextClass}`}
               >
                 {item.label}
                 <span className="absolute -bottom-1 left-0 w-0 h-[3px] bg-ups-yellow transition-all group-hover:w-full"></span>
@@ -152,7 +197,7 @@ const Navbar: React.FC<NavbarProps> = ({ simplified = false }) => {
             onClick={() => setIsOpen(!isOpen)}
             aria-label={isOpen ? 'Cerrar menú' : 'Abrir menú'}
             aria-expanded={isOpen}
-            className="xl:hidden text-ups-blue hover:text-ups-yellow focus:outline-none p-2 min-w-[44px] min-h-[44px] flex items-center justify-center"
+            className={`xl:hidden focus:outline-none p-2 min-w-[44px] min-h-[44px] flex items-center justify-center ${navTextClass}`}
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -161,7 +206,7 @@ const Navbar: React.FC<NavbarProps> = ({ simplified = false }) => {
         {simplified && (
           <Link
             to="/"
-            className="flex items-center gap-2 sm:gap-3 text-ups-blue hover:text-ups-yellow transition-colors font-extrabold text-xs sm:text-sm uppercase tracking-tighter group"
+            className={`flex items-center gap-2 sm:gap-3 transition-colors font-extrabold text-xs sm:text-sm uppercase tracking-tighter group ${navTextClass}`}
             title="Volver al Inicio"
           >
             <div className="size-9 sm:size-10 bg-ups-blue text-white flex items-center justify-center rounded-full shadow-md group-hover:bg-ups-yellow group-hover:text-ups-blue group-hover:rotate-[-360deg] transition-all duration-500">
@@ -173,14 +218,14 @@ const Navbar: React.FC<NavbarProps> = ({ simplified = false }) => {
       </div>
 
       {isOpen && (
-        <div className="xl:hidden bg-white border-t border-zinc-200 absolute w-full shadow-lg z-40">
+        <div className={`xl:hidden border-t absolute w-full shadow-lg z-40 ${mobileMenuClass}`}>
           <div className="px-4 pt-2 pb-4 space-y-1">
             {NAV_ITEMS.map((item) => (
               <Link
                 key={item.label}
                 to={item.href}
                 onClick={(e) => handleNavClick(e, item.href)}
-                className="block px-3 py-3.5 border-b border-zinc-100 text-base font-semibold text-ups-blue uppercase hover:text-ups-yellow hover:bg-zinc-50 transition-colors min-h-[44px] flex items-center"
+                className={`block px-3 py-3.5 border-b text-base font-bold uppercase transition-colors min-h-[44px] flex items-center ${mobileMenuItemClass}`}
               >
                 {item.label}
               </Link>
@@ -189,7 +234,7 @@ const Navbar: React.FC<NavbarProps> = ({ simplified = false }) => {
             {isAuthenticated && user ? (
               <button
                 onClick={handleLogout}
-                className="w-full flex items-center gap-3 px-3 py-3.5 border-b border-zinc-100 text-base font-semibold text-red-600 uppercase hover:bg-red-50 transition-colors min-h-[44px]"
+                className="w-full flex items-center gap-3 px-3 py-3.5 border-b border-zinc-100 dark:border-zinc-700 text-base font-bold text-red-600 dark:text-red-400 uppercase hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors min-h-[44px]"
               >
                 <LogOut size={18} />
                 Cerrar sesión ({user.username})
@@ -198,7 +243,7 @@ const Navbar: React.FC<NavbarProps> = ({ simplified = false }) => {
               <Link
                 to="/login"
                 onClick={() => setIsOpen(false)}
-                className="flex items-center gap-3 px-3 py-3.5 border-b border-zinc-100 text-base font-semibold text-ups-blue uppercase hover:text-ups-yellow hover:bg-zinc-50 transition-colors min-h-[44px]"
+                className={`flex items-center gap-3 px-3 py-3.5 border-b text-base font-bold uppercase transition-colors min-h-[44px] ${mobileMenuItemClass}`}
               >
                 <User size={18} />
                 Iniciar sesión

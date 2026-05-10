@@ -63,6 +63,7 @@ const Agrupaciones: React.FC = () => {
   const { data } = useLandingData();
   const asuGroups = data.asuGroups;
   const sectionContent = data.content.gruposAsu;
+  const shouldCenterCards = asuGroups.length <= 3;
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
@@ -91,7 +92,12 @@ const Agrupaciones: React.FC = () => {
         </div>
 
         <div className="relative px-2">
-          <div ref={scrollRef} className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 pt-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+          <div
+            ref={scrollRef}
+            className={`flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 pt-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ${
+              shouldCenterCards ? 'xl:justify-center' : 'justify-start'
+            }`}
+          >
             {asuGroups.map((grupo) => (
               <div key={grupo.title} className="snap-start shrink-0 w-[78vw] sm:w-[310px] lg:w-[350px] bg-white rounded-none border border-black shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col">
                 <div className="relative h-60 sm:h-72 overflow-hidden bg-ups-blue/5 flex items-center justify-center">
@@ -141,20 +147,24 @@ const Agrupaciones: React.FC = () => {
             ))}
           </div>
 
-          <button
-            onClick={() => scroll('left')}
-            className="hidden xl:flex absolute -left-6 top-[40%] -translate-y-1/2 z-20 p-3 bg-white border border-zinc-200 text-ups-blue hover:bg-ups-yellow hover:text-ups-dark transition-all shadow-xl rounded-full items-center justify-center"
-            title="Anterior"
-          >
-            <ChevronLeft size={24} />
-          </button>
-          <button
-            onClick={() => scroll('right')}
-            className="hidden xl:flex absolute -right-6 top-[40%] -translate-y-1/2 z-20 p-3 bg-white border border-zinc-200 text-ups-blue hover:bg-ups-yellow hover:text-ups-dark transition-all shadow-xl rounded-full items-center justify-center"
-            title="Siguiente"
-          >
-            <ChevronRight size={24} />
-          </button>
+          {!shouldCenterCards && (
+            <>
+              <button
+                onClick={() => scroll('left')}
+                className="hidden xl:flex absolute -left-6 top-[40%] -translate-y-1/2 z-20 p-3 bg-white border border-zinc-200 text-ups-blue hover:bg-ups-yellow hover:text-ups-dark transition-all shadow-xl rounded-full items-center justify-center"
+                title="Anterior"
+              >
+                <ChevronLeft size={24} />
+              </button>
+              <button
+                onClick={() => scroll('right')}
+                className="hidden xl:flex absolute -right-6 top-[40%] -translate-y-1/2 z-20 p-3 bg-white border border-zinc-200 text-ups-blue hover:bg-ups-yellow hover:text-ups-dark transition-all shadow-xl rounded-full items-center justify-center"
+                title="Siguiente"
+              >
+                <ChevronRight size={24} />
+              </button>
+            </>
+          )}
         </div>
       </div>
     </section>

@@ -14,6 +14,7 @@ const ViveLaCarrera: React.FC = () => {
   const { data } = useLandingData();
   const publications = data.publications as Publication[];
   const sectionContent = data.content.viveCarrera;
+  const shouldCenterCards = publications.length <= 3;
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
@@ -42,7 +43,12 @@ const ViveLaCarrera: React.FC = () => {
         </div>
 
         <div className="relative px-2">
-          <div ref={scrollRef} className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 pt-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+          <div
+            ref={scrollRef}
+            className={`flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 pt-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ${
+              shouldCenterCards ? 'xl:justify-center' : 'justify-start'
+            }`}
+          >
             {publications.map((pub: Publication) => (
               <div key={pub.id} className="snap-start shrink-0 w-[78vw] sm:w-[310px] lg:w-[350px] bg-white rounded-none border border-black shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col">
                 <div className="relative h-60 sm:h-72 overflow-hidden bg-zinc-100">
@@ -82,20 +88,35 @@ const ViveLaCarrera: React.FC = () => {
             ))}
           </div>
 
-          <button
-            onClick={() => scroll('left')}
-            className="hidden xl:flex absolute -left-6 top-[40%] -translate-y-1/2 z-20 p-3 bg-white border border-zinc-200 text-ups-blue hover:bg-ups-yellow hover:text-ups-dark transition-all shadow-xl rounded-full items-center justify-center"
-            title="Anterior"
+          {!shouldCenterCards && (
+            <>
+              <button
+                onClick={() => scroll('left')}
+                className="hidden xl:flex absolute -left-6 top-[40%] -translate-y-1/2 z-20 p-3 bg-white border border-zinc-200 text-ups-blue hover:bg-ups-yellow hover:text-ups-dark transition-all shadow-xl rounded-full items-center justify-center"
+                title="Anterior"
+              >
+                <ChevronLeft size={24} />
+              </button>
+              <button
+                onClick={() => scroll('right')}
+                className="hidden xl:flex absolute -right-6 top-[40%] -translate-y-1/2 z-20 p-3 bg-white border border-zinc-200 text-ups-blue hover:bg-ups-yellow hover:text-ups-dark transition-all shadow-xl rounded-full items-center justify-center"
+                title="Siguiente"
+              >
+                <ChevronRight size={24} />
+              </button>
+            </>
+          )}
+        </div>
+
+        <div className="mt-8 flex justify-center">
+          <a
+            href="https://www.ups.edu.ec/noticias"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-ups-blue text-white font-bold text-xs sm:text-sm uppercase tracking-wider hover:bg-ups-yellow hover:text-ups-blue transition-all shadow-md"
           >
-            <ChevronLeft size={24} />
-          </button>
-          <button
-            onClick={() => scroll('right')}
-            className="hidden xl:flex absolute -right-6 top-[40%] -translate-y-1/2 z-20 p-3 bg-white border border-zinc-200 text-ups-blue hover:bg-ups-yellow hover:text-ups-dark transition-all shadow-xl rounded-full items-center justify-center"
-            title="Siguiente"
-          >
-            <ChevronRight size={24} />
-          </button>
+            Ver noticias en el portal <ChevronRight size={16} />
+          </a>
         </div>
       </div>
     </section>
