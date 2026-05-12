@@ -1,27 +1,21 @@
 /** Normaliza variables de entorno usadas por la aplicación. */
 
-const LOCAL_API_BASE_URL = 'http://localhost:1337/api';
+const DEFAULT_API_BASE_URL = import.meta.env.DEV ? 'http://localhost:1337/api' : '/api';
 
-function requiredApiBaseUrl(value?: string): string {
-  const rawValue = value?.trim();
-
-  if (import.meta.env.PROD) {
-    if (/^https?:\/\/(localhost|127\.0\.0\.1|\[::1\])(?::\d+)?(?:\/|$)/i.test(rawValue ?? '')) {
-      throw new Error('VITE_API_BASE_URL debe usar un dominio publico en producción.');
-    }
-
-    if (rawValue) return rawValue;
-    throw new Error('VITE_API_BASE_URL es requerida para producción.');
-  }
-
-  if (rawValue) return rawValue;
-
-  return LOCAL_API_BASE_URL;
+function isLocalUrl(value: string): boolean {
+  return /^https?:\/\/(localhost|127\.0\.0\.1|\[::1\])(?::\d+)?(?:\/|$)/i.test(value);
 }
 
 function normalizeApiBaseUrl(value?: string): string {
-  const rawValue = requiredApiBaseUrl(value);
-  const withoutTrailingSlash = rawValue.replace(/\/+$/, '');
+  const rawValue = value?.trim();
+  const apiBaseUrl = rawValue && !(import.meta.env.PROD && isLocalUrl(rawValue))
+    ? rawValue
+    : DEFAULT_API_BASE_URL;
+  const withoutTrailingSlash = apiBaseUrl.replace(/\/+$/, '');
+
+  if (withoutTrailingSlash === '') {
+    return DEFAULT_API_BASE_URL;
+  }
 
   if (/\/api$/i.test(withoutTrailingSlash)) {
     return withoutTrailingSlash;
