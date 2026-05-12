@@ -27,7 +27,7 @@ export const NAV_ITEMS = [
   { label: 'Inicio', href: '/' },
   { label: 'Admisiones', href: '/interesados' },
   { label: 'Investigación', href: '/#investigacion' },
-  { label: 'Agrupaciones', href: '/#agrupaciones' },
+  { label: 'Grupos ASU', href: '/#grupos-asu' },
   { label: 'Alianzas', href: '/#alianzas' },
   { label: 'Empresas', href: '/#empresas' },
 ] as const;
