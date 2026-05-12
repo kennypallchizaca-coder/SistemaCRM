@@ -1,10 +1,10 @@
 /** Renderiza el carrusel de empresas vinculadas. */
 
-import React, { useRef } from 'react';
+import React from 'react';
 import { 
   Building2, 
   Briefcase, 
-  ChevronLeft, 
+  ChevronLeft,
   ChevronRight,
   Factory,
   Globe,
@@ -16,7 +16,7 @@ import {
   GraduationCap
 } from 'lucide-react';
 import { useLandingData } from '@/features/landing';
-import { CAROUSEL_CONFIG } from '@/lib/config/constants';
+import { getLoopedItems, useCarouselControls } from '../hooks/useCarouselControls';
 
 const IconMap: Record<string, React.ReactNode> = {
   building: <Building2 size={36} />,
@@ -39,21 +39,12 @@ const getIconForCompany = (iconName?: string) => {
 };
 
 const Empresas: React.FC = () => {
-  const scrollRef = useRef<HTMLDivElement>(null);
   const { data } = useLandingData();
   const companies = data.companies;
+  const { scrollRef, scroll, loopOffset } = useCarouselControls<HTMLDivElement>(companies.length);
+  const loopedCompanies = getLoopedItems(companies, loopOffset);
   const sectionContent = data.content.empresas;
   const shouldCenterCards = companies.length <= 4;
-
-  const scroll = (direction: 'left' | 'right') => {
-    if (scrollRef.current) {
-      const { current } = scrollRef;
-      const scrollAmount = direction === 'left' 
-        ? -CAROUSEL_CONFIG.EMPRESAS_SCROLL_AMOUNT_PX 
-        : CAROUSEL_CONFIG.EMPRESAS_SCROLL_AMOUNT_PX;
-      current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-    }
-  };
 
   return (
     <section id="empresas" className="relative py-24 bg-ups-blue text-white overflow-hidden">
@@ -82,14 +73,14 @@ const Empresas: React.FC = () => {
           </div>
         </div>
 
-        <div className="relative">
+        <div className="relative mx-auto w-fit max-w-full px-12 sm:px-14">
           <div
             ref={scrollRef}
             className={`flex overflow-x-auto snap-x snap-mandatory gap-4 sm:gap-6 pb-4 pt-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ${
               shouldCenterCards ? 'xl:justify-center' : 'justify-start'
             }`}
           >
-            {companies.map((empresa) => {
+            {loopedCompanies.map((empresa) => {
               const CardContent = (
                 <div className="relative w-full h-full rounded-none overflow-hidden group/card shadow-md">
                   {empresa.image ? (
@@ -115,53 +106,38 @@ const Empresas: React.FC = () => {
                   href={empresa.buttonLink} 
                   target="_blank" 
                   rel="noopener noreferrer" 
+                  data-carousel-id={empresa.name}
                   className="relative snap-start shrink-0 w-[72vw] sm:w-[240px] lg:w-[260px] h-[220px] sm:h-[240px] lg:h-[260px] block border border-black"
                   title={empresa.buttonText || empresa.name}
                 >
                   {CardContent}
                 </a>
               ) : (
-                <div key={empresa.name} className="relative snap-start shrink-0 w-[72vw] sm:w-[240px] lg:w-[260px] h-[220px] sm:h-[240px] lg:h-[260px] border border-black">
+                <div data-carousel-id={empresa.name} key={empresa.name} className="relative snap-start shrink-0 w-[72vw] sm:w-[240px] lg:w-[260px] h-[220px] sm:h-[240px] lg:h-[260px] border border-black">
                   {CardContent}
                 </div>
               );
             })}
           </div>
 
-          {!shouldCenterCards && (
-            <>
-              <div className="flex justify-center gap-4 mt-4 sm:hidden">
-                <button
-                  onClick={() => scroll('left')}
-                  className="p-3 bg-white text-ups-blue hover:bg-ups-yellow hover:text-ups-dark transition-all shadow-md rounded-full min-w-[44px] min-h-[44px] flex items-center justify-center"
-                  title="Anterior"
-                >
-                  <ChevronLeft size={20} />
-                </button>
-                <button
-                  onClick={() => scroll('right')}
-                  className="p-3 bg-white text-ups-blue hover:bg-ups-yellow hover:text-ups-dark transition-all shadow-md rounded-full min-w-[44px] min-h-[44px] flex items-center justify-center"
-                  title="Siguiente"
-                >
-                  <ChevronRight size={20} />
-                </button>
-              </div>
-              <button
-                onClick={() => scroll('left')}
-                className="hidden sm:flex absolute -left-4 lg:-left-12 top-1/2 -translate-y-1/2 z-20 p-2 sm:p-3 bg-white text-ups-blue hover:bg-ups-yellow hover:text-ups-dark transition-all shadow-xl rounded-full border border-zinc-200 items-center justify-center"
-                title="Desplazar a la izquierda"
-              >
-                <ChevronLeft size={24} />
-              </button>
-              <button
-                onClick={() => scroll('right')}
-                className="hidden sm:flex absolute -right-4 lg:-right-12 top-1/2 -translate-y-1/2 z-20 p-2 sm:p-3 bg-white text-ups-blue hover:bg-ups-yellow hover:text-ups-dark transition-all shadow-xl rounded-full border border-zinc-200 items-center justify-center"
-                title="Desplazar a la derecha"
-              >
-                <ChevronRight size={24} />
-              </button>
-            </>
-          )}
+          <button
+            type="button"
+            onClick={() => scroll('left')}
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-20 flex size-11 items-center justify-center rounded-full border border-zinc-200 bg-white text-ups-blue shadow-xl transition-all hover:bg-ups-yellow hover:text-ups-dark"
+            title="Anterior"
+            aria-label="Anterior"
+          >
+            <ChevronLeft size={24} />
+          </button>
+          <button
+            type="button"
+            onClick={() => scroll('right')}
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-20 flex size-11 items-center justify-center rounded-full border border-zinc-200 bg-white text-ups-blue shadow-xl transition-all hover:bg-ups-yellow hover:text-ups-dark"
+            title="Siguiente"
+            aria-label="Siguiente"
+          >
+            <ChevronRight size={24} />
+          </button>
         </div>
 
       </div>

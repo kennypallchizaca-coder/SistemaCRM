@@ -46,12 +46,21 @@ const SocialIcons = {
 const PLATFORMS = ['facebook', 'instagram', 'tiktok', 'x', 'youtube', 'web'] as const;
 
 const PLATFORM_HOVER_COLORS: Record<(typeof PLATFORMS)[number], string> = {
-  facebook: 'hover:bg-[#1877F2] hover:text-white',
-  instagram: 'hover:bg-[#E4405F] hover:text-white',
-  tiktok: 'hover:bg-black hover:text-white',
-  x: 'hover:bg-black hover:text-white',
-  youtube: 'hover:bg-[#FF0000] hover:text-white',
-  web: 'hover:bg-ups-blue hover:text-white',
+  facebook: 'hover:border-[#1877F2] hover:bg-[#1877F2] hover:text-white hover:shadow-[#1877F2]/35',
+  instagram: 'hover:border-[#E4405F] hover:bg-[#E4405F] hover:text-white hover:shadow-[#E4405F]/35',
+  tiktok: 'hover:border-black hover:bg-black hover:text-white hover:shadow-cyan-400/35',
+  x: 'hover:border-black hover:bg-black hover:text-white hover:shadow-black/30',
+  youtube: 'hover:border-[#FF0000] hover:bg-[#FF0000] hover:text-white hover:shadow-[#FF0000]/35',
+  web: 'hover:border-ups-blue hover:bg-ups-blue hover:text-white hover:shadow-ups-blue/30',
+};
+
+const PLATFORM_LABELS: Record<(typeof PLATFORMS)[number], string> = {
+  facebook: 'Facebook',
+  instagram: 'Instagram',
+  tiktok: 'TikTok',
+  x: 'X',
+  youtube: 'YouTube',
+  web: 'Sitio web',
 };
 
 function hasSocialLinks(links?: SocialLinksProps['links']) {
@@ -75,9 +84,9 @@ export function SocialLinks({ links, className = '' }: SocialLinksProps) {
             href={url}
             target="_blank"
             rel="noopener noreferrer"
-            className={`inline-flex size-8 items-center justify-center rounded-full bg-zinc-100 text-ups-blue transition-colors ${PLATFORM_HOVER_COLORS[platform]}`}
-            title={platform}
-            aria-label={platform}
+            className={`inline-flex size-8 items-center justify-center rounded-full border border-zinc-200 bg-zinc-100 text-ups-blue shadow-sm transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-110 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ups-yellow focus-visible:ring-offset-2 ${PLATFORM_HOVER_COLORS[platform]}`}
+            title={PLATFORM_LABELS[platform]}
+            aria-label={PLATFORM_LABELS[platform]}
           >
             <Icon size={16} />
           </a>

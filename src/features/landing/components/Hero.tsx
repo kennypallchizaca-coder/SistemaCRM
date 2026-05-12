@@ -92,7 +92,7 @@ const Hero: React.FC = () => {
               href="/interesados"
               className="group w-[210px] min-h-[50px] px-6 py-3.5 bg-ups-yellow text-ups-blue font-bold uppercase hover:bg-white transition-all shadow-lg flex items-center justify-center gap-2 text-sm sm:text-base relative overflow-hidden"
             >
-              ¡Inicia hoy! <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
+              ¡Conocer Más! <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
             </a>
             <a
               href="#noticias"

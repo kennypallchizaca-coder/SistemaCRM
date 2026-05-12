@@ -5,7 +5,6 @@ import { ENDPOINTS } from '@/lib/api/endpoints';
 import type { StrapiCollectionResponse, StrapiMedia, StrapiSingleResponse } from '@/lib/api';
 
 const PUBLIC_CONTENT_OPTIONS = {
-  auth: false,
   timeoutMs: 5_000,
 };
 
@@ -19,6 +18,7 @@ export interface LandingRemoteItem {
   imagen?: StrapiMedia;
   logo?: StrapiMedia;
   icono?: string;
+  activo?: boolean;
   facebook_url?: string;
   instagram_url?: string;
   tiktok_url?: string;

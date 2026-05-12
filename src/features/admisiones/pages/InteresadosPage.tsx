@@ -1,11 +1,9 @@
 /** Renderiza la página de solicitud de información para interesados. */
 
 import { useEffect } from 'react';
-import { Send, Lock } from 'lucide-react';
+import { Send } from 'lucide-react';
 import { Navbar, Footer } from '@/components/layout';
 import { useAdmisiones } from '@/features/admisiones';
-import { useAuth } from '@/features/auth';
-import { Link } from 'react-router-dom';
 import type { InteresadoFormData } from '@/features/admisiones';
 import { SeoHead } from '@/components/common';
 import { useFormState } from '@/lib/hooks';
@@ -13,7 +11,6 @@ import { admisionesSchema } from '@/lib/validation';
 import { useNotify } from '@/lib/notifications';
 
 const InteresadosPage = () => {
-  const { isAuthenticated } = useAuth();
   const { state, submitForm, reset } = useAdmisiones();
   const notify = useNotify();
 
@@ -121,7 +118,7 @@ const InteresadosPage = () => {
                 ) : (
                   <div className="relative">
                     <form onSubmit={handleSubmit} className="flex flex-col gap-y-6">
-                      <fieldset disabled={!isAuthenticated} className={`flex flex-col gap-y-6 transition-all duration-300 ${!isAuthenticated ? 'opacity-30 blur-[2px] pointer-events-none select-none' : ''}`}>
+                      <fieldset className="flex flex-col gap-y-6 transition-all duration-300">
                         <div className="mb-4">
                           <h3 className="text-xl font-semibold text-ups-blue uppercase tracking-tight">Formulario de Admisión</h3>
                           <p className="text-sm text-zinc-500">Por favor, completa todos los campos marcados con *</p>
@@ -187,7 +184,7 @@ const InteresadosPage = () => {
 
                       <button
                         type="submit"
-                        disabled={isSubmitting || !isAuthenticated}
+                        disabled={isSubmitting}
                         className="w-full py-4 bg-ups-blue text-white font-semibold uppercase tracking-widest hover:bg-ups-blue-light transition-all flex justify-center items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
                       >
                         {isSubmitting ? 'Enviando…' : (
@@ -199,29 +196,6 @@ const InteresadosPage = () => {
                       </button>
                     </fieldset>
                   </form>
-
-                  {!isAuthenticated && (
-                    <div className="absolute inset-0 z-10 flex flex-col items-center justify-center p-4">
-                      <div className="absolute inset-0 bg-white/30 backdrop-blur-[2px]"></div>
-                      <div className="relative bg-white p-8 shadow-2xl border border-zinc-100 flex flex-col items-center text-center max-w-sm w-full animate-fade-up">
-                        <div className="size-16 bg-ups-blue/5 text-ups-blue rounded-full flex items-center justify-center mb-5">
-                          <Lock size={32} />
-                        </div>
-                        <h3 className="text-xl font-semibold text-ups-blue mb-2">Acceso protegido</h3>
-                        <p className="text-zinc-600 mb-8 text-sm leading-relaxed">
-                          Debes tener una sesión activa para poder completar tu solicitud de admisión.
-                        </p>
-                        <div className="w-full flex flex-col gap-3">
-                          <Link to="/login" className="w-full py-3 bg-ups-blue text-white font-semibold uppercase tracking-widest text-xs hover:bg-[#004a88] transition-colors rounded-none shadow-md">
-                            Iniciar Sesión
-                          </Link>
-                          <Link to="/register" className="w-full py-3 bg-white text-ups-blue border border-zinc-200 font-semibold uppercase tracking-widest text-xs hover:bg-zinc-50 transition-colors rounded-none shadow-sm">
-                            Crear una cuenta
-                          </Link>
-                        </div>
-                      </div>
-                    </div>
-                  )}
                 </div>
                 )}
               </div>

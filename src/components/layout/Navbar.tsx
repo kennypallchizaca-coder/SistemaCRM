@@ -1,11 +1,10 @@
 /** Renderiza la navegación principal y el menú móvil. */
 
 import React, { useState } from 'react';
-import { Menu, X, User, ArrowLeft, Globe, BookOpen, LogOut, Moon, Sun } from 'lucide-react';
+import { Menu, X, ArrowLeft, Globe, BookOpen, Moon, Sun } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import { INSTITUTION, NAV_ITEMS } from '@/lib/config/constants';
-import { useAuth } from '@/features/auth';
 import { useLandingData } from '@/features/landing';
 
 interface NavbarProps {
@@ -27,7 +26,6 @@ const Navbar: React.FC<NavbarProps> = ({ simplified = false }) => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const { isAuthenticated, user, logout } = useAuth();
   const { data } = useLandingData();
   const content = data.content;
 
@@ -53,12 +51,6 @@ const Navbar: React.FC<NavbarProps> = ({ simplified = false }) => {
     applyDarkClass(newDark);
     setIsDark(newDark);
     localStorage.setItem('theme', newDark ? 'dark' : 'light');
-  };
-
-  const handleLogout = () => {
-    logout();
-    navigate('/');
-    setIsOpen(false);
   };
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -123,26 +115,6 @@ const Navbar: React.FC<NavbarProps> = ({ simplified = false }) => {
               <span className="hidden whitespace-nowrap sm:inline">AVAC</span>
             </a>
 
-            {isAuthenticated && user ? (
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={handleLogout}
-                  title="Cerrar sesión"
-                  className="flex min-h-8 items-center gap-1.5 rounded-full bg-white/10 px-2.5 py-1.5 transition-all hover:bg-red-500/80 sm:px-3 group"
-                >
-                  <LogOut size={15} className="group-hover:text-white transition-colors" />
-                  <span className="text-[10px] font-semibold uppercase tracking-widest sm:text-[11px]">Log Out</span>
-                </button>
-              </div>
-            ) : (
-              <Link
-                to="/login"
-                className="flex min-h-8 items-center gap-1.5 rounded-full bg-white/10 px-2.5 py-1.5 transition-all hover:bg-white/20 sm:gap-2 sm:px-3 group"
-              >
-                <User size={16} className="group-hover:text-ups-yellow transition-colors sm:size-[18px]" />
-                <span className="text-[10px] font-semibold uppercase tracking-widest sm:text-[11px]">Login</span>
-              </Link>
-            )}
           </div>
         )}
       </div>
@@ -230,25 +202,6 @@ const Navbar: React.FC<NavbarProps> = ({ simplified = false }) => {
                 {item.label}
               </Link>
             ))}
-
-            {isAuthenticated && user ? (
-              <button
-                onClick={handleLogout}
-                className="w-full flex items-center gap-3 px-3 py-3.5 border-b border-zinc-100 dark:border-zinc-700 text-base font-bold text-red-600 dark:text-red-400 uppercase hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors min-h-[44px]"
-              >
-                <LogOut size={18} />
-                Cerrar sesión ({user.username})
-              </button>
-            ) : (
-              <Link
-                to="/login"
-                onClick={() => setIsOpen(false)}
-                className={`flex items-center gap-3 px-3 py-3.5 border-b text-base font-bold uppercase transition-colors min-h-[44px] ${mobileMenuItemClass}`}
-              >
-                <User size={18} />
-                Iniciar sesión
-              </Link>
-            )}
 
           </div>
         </div>

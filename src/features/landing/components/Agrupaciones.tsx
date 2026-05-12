@@ -1,10 +1,10 @@
 /** Renderiza la sección de Agrupaciones ASU sincronizada 100% con el Backend. */
 
-import React, { useRef } from 'react';
+import React from 'react';
 import {
   Users,
-  ChevronRight,
   ChevronLeft,
+  ChevronRight,
   Music,
   Heart,
   Palette,
@@ -19,8 +19,8 @@ import {
   Briefcase
 } from 'lucide-react';
 import { useLandingData } from '@/features/landing';
-import { CAROUSEL_CONFIG } from '@/lib/config/constants';
 import { SocialLinks } from './SocialLinks';
+import { getLoopedItems, useCarouselControls } from '../hooks/useCarouselControls';
 
 // Mapeo exacto basado en el Enum del Backend (asu-group schema)
 const IconMap: Record<string, React.ElementType<{ size?: number }>> = {
@@ -59,21 +59,12 @@ const HighlightedTitle = ({ title }: { title: string }) => {
 };
 
 const Agrupaciones: React.FC = () => {
-  const scrollRef = useRef<HTMLDivElement>(null);
   const { data } = useLandingData();
   const asuGroups = data.asuGroups;
+  const { scrollRef, scroll, loopOffset } = useCarouselControls<HTMLDivElement>(asuGroups.length);
+  const loopedAsuGroups = getLoopedItems(asuGroups, loopOffset);
   const sectionContent = data.content.gruposAsu;
   const shouldCenterCards = asuGroups.length <= 3;
-
-  const scroll = (direction: 'left' | 'right') => {
-    if (scrollRef.current) {
-      const { current } = scrollRef;
-      const scrollAmount = direction === 'left'
-        ? -CAROUSEL_CONFIG.SCROLL_AMOUNT_PX
-        : CAROUSEL_CONFIG.SCROLL_AMOUNT_PX;
-      current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-    }
-  };
 
   return (
     <section id="grupos-asu" className="py-20 bg-white">
@@ -91,15 +82,15 @@ const Agrupaciones: React.FC = () => {
           )}
         </div>
 
-        <div className="relative px-2">
+        <div className="relative mx-auto w-fit max-w-full px-12 sm:px-14">
           <div
             ref={scrollRef}
             className={`flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 pt-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ${
               shouldCenterCards ? 'xl:justify-center' : 'justify-start'
             }`}
           >
-            {asuGroups.map((grupo) => (
-              <div key={grupo.title} className="snap-start shrink-0 w-[78vw] sm:w-[310px] lg:w-[350px] bg-white rounded-none border border-black shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col">
+            {loopedAsuGroups.map((grupo) => (
+              <div data-carousel-id={String(grupo.id)} key={grupo.id} className="snap-start shrink-0 w-[78vw] sm:w-[310px] lg:w-[350px] bg-white rounded-none border border-black shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col">
                 <div className="relative h-60 sm:h-72 overflow-hidden bg-ups-blue/5 flex items-center justify-center">
                   {/* Imagen real de Strapi o Icono si no hay imagen */}
                   {grupo.image && !grupo.image.includes('undefined') ? (
@@ -147,24 +138,24 @@ const Agrupaciones: React.FC = () => {
             ))}
           </div>
 
-          {!shouldCenterCards && (
-            <>
-              <button
-                onClick={() => scroll('left')}
-                className="hidden xl:flex absolute -left-6 top-[40%] -translate-y-1/2 z-20 p-3 bg-white border border-zinc-200 text-ups-blue hover:bg-ups-yellow hover:text-ups-dark transition-all shadow-xl rounded-full items-center justify-center"
-                title="Anterior"
-              >
-                <ChevronLeft size={24} />
-              </button>
-              <button
-                onClick={() => scroll('right')}
-                className="hidden xl:flex absolute -right-6 top-[40%] -translate-y-1/2 z-20 p-3 bg-white border border-zinc-200 text-ups-blue hover:bg-ups-yellow hover:text-ups-dark transition-all shadow-xl rounded-full items-center justify-center"
-                title="Siguiente"
-              >
-                <ChevronRight size={24} />
-              </button>
-            </>
-          )}
+          <button
+            type="button"
+            onClick={() => scroll('left')}
+            className="absolute left-0 top-[40%] -translate-y-1/2 z-20 flex size-11 items-center justify-center rounded-full border border-zinc-200 bg-white text-ups-blue shadow-xl transition-all hover:bg-ups-yellow hover:text-ups-dark"
+            title="Anterior"
+            aria-label="Anterior"
+          >
+            <ChevronLeft size={24} />
+          </button>
+          <button
+            type="button"
+            onClick={() => scroll('right')}
+            className="absolute right-0 top-[40%] -translate-y-1/2 z-20 flex size-11 items-center justify-center rounded-full border border-zinc-200 bg-white text-ups-blue shadow-xl transition-all hover:bg-ups-yellow hover:text-ups-dark"
+            title="Siguiente"
+            aria-label="Siguiente"
+          >
+            <ChevronRight size={24} />
+          </button>
         </div>
       </div>
     </section>

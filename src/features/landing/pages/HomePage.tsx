@@ -2,11 +2,14 @@
 
 import { useEffect } from 'react';
 import { Navbar, Footer } from '@/components/layout';
-import { Hero, ViveLaCarrera, Agrupaciones, GruposInvestigacion, Alianzas, Empresas } from '@/features/landing';
+import { Hero, ViveLaCarrera, Agrupaciones, GruposInvestigacion, Alianzas, Empresas, useLandingData } from '@/features/landing';
 import { TrabajaConNosotros } from '@/features/vinculacion';
 import { SeoHead } from '@/components/common';
 
 const HomePage = () => {
+  const { data } = useLandingData();
+  const content = data.content;
+
   useEffect(() => {
     const handleScrollToHash = () => {
       const { hash } = window.location;
@@ -35,12 +38,12 @@ const HomePage = () => {
       <Navbar />
 
       <main className="flex-grow">
-        <Hero />
-        <ViveLaCarrera />
-        <GruposInvestigacion />
-        <Agrupaciones />
-        <Alianzas />
-        <Empresas />
+        {content.hero.active !== false && <Hero />}
+        {content.viveCarrera.active !== false && <ViveLaCarrera />}
+        {content.gruposInvestigacion.active !== false && <GruposInvestigacion />}
+        {content.gruposAsu.active !== false && <Agrupaciones />}
+        {content.alianzas.active !== false && <Alianzas />}
+        {content.empresas.active !== false && <Empresas />}
         <TrabajaConNosotros />
       </main>
 

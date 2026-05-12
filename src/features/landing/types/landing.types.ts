@@ -72,6 +72,7 @@ interface Empresa {
 interface SectionContent {
   title: string;
   description?: string;
+  active?: boolean;
 }
 
 interface LandingContent {

@@ -1,8 +1,26 @@
 /** Normaliza variables de entorno usadas por la aplicación. */
 
+const LOCAL_API_BASE_URL = 'http://localhost:1337/api';
+
+function requiredApiBaseUrl(value?: string): string {
+  const rawValue = value?.trim();
+
+  if (import.meta.env.PROD) {
+    if (/^https?:\/\/(localhost|127\.0\.0\.1|\[::1\])(?::\d+)?(?:\/|$)/i.test(rawValue ?? '')) {
+      throw new Error('VITE_API_BASE_URL debe usar un dominio publico en producción.');
+    }
+
+    if (rawValue) return rawValue;
+    throw new Error('VITE_API_BASE_URL es requerida para producción.');
+  }
+
+  if (rawValue) return rawValue;
+
+  return LOCAL_API_BASE_URL;
+}
+
 function normalizeApiBaseUrl(value?: string): string {
-  const fallback = 'http://localhost:1337/api';
-  const rawValue = value?.trim() || fallback;
+  const rawValue = requiredApiBaseUrl(value);
   const withoutTrailingSlash = rawValue.replace(/\/+$/, '');
 
   if (/\/api$/i.test(withoutTrailingSlash)) {

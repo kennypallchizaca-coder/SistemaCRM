@@ -1,17 +1,14 @@
  /** Renderiza el formulario de vinculación para empresas. */
 
 import React, { useEffect } from 'react';
-import { Send, Building, Lock } from 'lucide-react';
+import { Send, Building } from 'lucide-react';
 import { useVinculacion } from '@/features/vinculacion';
 import type { EmpresaFormData } from '@/features/vinculacion';
-import { useAuth } from '@/features/auth';
-import { Link } from 'react-router-dom';
 import { useFormState } from '@/lib/hooks';
 import { vinculacionSchema } from '@/lib/validation';
 import { useNotify } from '@/lib/notifications';
 
 const TrabajaConNosotros: React.FC = () => {
-  const { isAuthenticated } = useAuth();
   const { state, submitForm, reset } = useVinculacion();
   const notify = useNotify();
 
@@ -73,7 +70,7 @@ const TrabajaConNosotros: React.FC = () => {
           ) : (
             <div className="relative">
               <form onSubmit={handleSubmit} className="flex flex-col gap-y-6">
-                <fieldset disabled={!isAuthenticated} className={`flex flex-col gap-y-6 transition-all duration-300 ${!isAuthenticated ? 'opacity-30 blur-[2px] pointer-events-none select-none' : ''}`}>
+                <fieldset className="flex flex-col gap-y-6 transition-all duration-300">
                   <p className="text-xs text-zinc-500 text-right mb-2">* Campos obligatorios</p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div>
@@ -105,7 +102,7 @@ const TrabajaConNosotros: React.FC = () => {
                   <div className="text-center pt-4">
                     <button
                       type="submit"
-                      disabled={isSubmitting || !isAuthenticated}
+                      disabled={isSubmitting}
                       className="inline-flex justify-center items-center gap-2 px-8 py-4 bg-ups-yellow text-ups-dark font-semibold rounded-none hover:bg-yellow-400 transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px] w-full sm:w-auto"
                     >
                       {isSubmitting ? 'Enviando…' : (
@@ -118,29 +115,6 @@ const TrabajaConNosotros: React.FC = () => {
                   </div>
                 </fieldset>
               </form>
-
-              {!isAuthenticated && (
-                <div className="absolute inset-0 z-10 flex flex-col items-center justify-center p-4">
-                  <div className="absolute inset-0 bg-white/30 backdrop-blur-[2px]"></div>
-                  <div className="relative bg-white p-8 md:p-10 shadow-2xl border border-zinc-100 flex flex-col items-center text-center max-w-md w-full animate-fade-up">
-                    <div className="size-16 bg-ups-blue/5 text-ups-blue rounded-full flex items-center justify-center mb-5">
-                      <Lock size={32} />
-                    </div>
-                    <h3 className="text-2xl font-semibold text-ups-blue mb-3">Inicio de sesión requerido</h3>
-                    <p className="text-zinc-600 mb-8 text-sm leading-relaxed">
-                      Para brindarte una mejor atención y seguridad, te pedimos que ingreses con tu cuenta institucional para habilitar este formulario.
-                    </p>
-                    <div className="w-full flex flex-col gap-3">
-                      <Link to="/login" className="w-full py-3.5 bg-ups-blue text-white font-semibold uppercase tracking-widest text-sm hover:bg-[#004a88] transition-colors rounded-none shadow-md">
-                        Iniciar Sesión
-                      </Link>
-                      <Link to="/register" className="w-full py-3.5 bg-white text-ups-blue border border-zinc-200 font-semibold uppercase tracking-widest text-sm hover:bg-zinc-50 transition-colors rounded-none shadow-sm">
-                        Crear una cuenta
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              )}
             </div>
           )}
         </div>

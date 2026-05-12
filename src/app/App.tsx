@@ -3,15 +3,11 @@
 import { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ScrollToTopButton, ScrollToTop } from '@/components/layout';
-import { GuestRoute } from '@/app/routes/guards';
-import { AuthProvider } from '@/features/auth/context/AuthContext';
 import { NotificationProvider } from '@/lib/notifications/NotificationContext';
 import { ToastContainer } from '@/components/common';
 
 const HomePage = lazy(() => import('@/features/landing/pages/HomePage'));
 const InteresadosPage = lazy(() => import('@/features/admisiones/pages/InteresadosPage'));
-const LoginPage = lazy(() => import('@/features/auth/pages/LoginPage'));
-const RegisterPage = lazy(() => import('@/features/auth/pages/RegisterPage'));
 const NotFoundPage = lazy(() => import('@/app/pages/NotFoundPage'));
 
 const PageLoader = () => (
@@ -28,27 +24,20 @@ const PageLoader = () => (
 
 function App() {
   return (
-    <AuthProvider>
-      <NotificationProvider>
-        <Router>
-          <ScrollToTop />
-          <ScrollToTopButton />
-          <ToastContainer />
-          <Suspense fallback={<PageLoader />}>
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/interesados" element={<InteresadosPage />} />
-
-              <Route path="/login" element={<GuestRoute><LoginPage /></GuestRoute>} />
-              <Route path="/register" element={<GuestRoute><RegisterPage /></GuestRoute>} />
-
-
-              <Route path="*" element={<NotFoundPage />} />
-            </Routes>
-          </Suspense>
-        </Router>
-      </NotificationProvider>
-    </AuthProvider>
+    <NotificationProvider>
+      <Router>
+        <ScrollToTop />
+        <ScrollToTopButton />
+        <ToastContainer />
+        <Suspense fallback={<PageLoader />}>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/interesados" element={<InteresadosPage />} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </Suspense>
+      </Router>
+    </NotificationProvider>
   );
 }
 

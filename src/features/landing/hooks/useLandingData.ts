@@ -25,12 +25,12 @@ const INITIAL_DATA: LandingState['data'] = {
       phone: '(+593) 7 413 5250',
       address: 'Calle Vieja 12-30 y Elia Liut.<br />Cuenca - Ecuador',
     },
-    hero: { title: 'Carrera de Computación' },
-    viveCarrera: { title: 'Vive la carrera' },
-    gruposInvestigacion: { title: 'Grupos de Investigación' },
-    gruposAsu: { title: 'Agrupaciones ASU' },
-    alianzas: { title: 'Alianzas Estratégicas' },
-    empresas: { title: 'Empresas que confían en nosotros' },
+    hero: { title: 'Carrera de Computación', active: true },
+    viveCarrera: { title: 'Vive la carrera', active: true },
+    gruposInvestigacion: { title: 'Grupos de Investigación', active: true },
+    gruposAsu: { title: 'Agrupaciones ASU', active: true },
+    alianzas: { title: 'Alianzas Estratégicas', active: true },
+    empresas: { title: 'Empresas que confían en nosotros', active: true },
   },
 };
 
@@ -45,6 +45,7 @@ type RawLandingItem = LandingRemoteItem & {
   [key: string]: unknown;
   attributes?: RawLandingItem;
   createdAt?: string;
+  activo?: boolean;
   categoria?: string;
   facebook?: string;
   instagram?: string;
@@ -58,6 +59,7 @@ type RawLandingItem = LandingRemoteItem & {
 type RawSection = {
   titulo?: string;
   descripcion?: string;
+  activo?: boolean;
 };
 
 type RawLandingContent = RawLandingItem & {
@@ -82,6 +84,26 @@ function collectionData(response: RemoteResponse | null | undefined): RawLanding
   if (Array.isArray(response)) return response as RawLandingItem[];
   if (Array.isArray(response?.data)) return response.data as RawLandingItem[];
   return [];
+}
+
+function isActive(item?: { activo?: boolean } | null): boolean {
+  return item?.activo !== false;
+}
+
+function activeCollectionData(response: RemoteResponse | null | undefined): RawLandingItem[] {
+  return collectionData(response).filter((item) => isActive(strapiData<RawLandingItem>(item)));
+}
+
+function inactiveLandingContent(): LandingState['data']['content'] {
+  return {
+    ...INITIAL_DATA.content,
+    hero: { ...INITIAL_DATA.content.hero, active: false },
+    viveCarrera: { ...INITIAL_DATA.content.viveCarrera, active: false },
+    gruposInvestigacion: { ...INITIAL_DATA.content.gruposInvestigacion, active: false },
+    gruposAsu: { ...INITIAL_DATA.content.gruposAsu, active: false },
+    alianzas: { ...INITIAL_DATA.content.alianzas, active: false },
+    empresas: { ...INITIAL_DATA.content.empresas, active: false },
+  };
 }
 
 function absoluteMediaUrl(apiBaseUrl: string, media: unknown): string {
@@ -169,10 +191,8 @@ export const useLandingData = () => {
       try {
         const response = await request();
         patchSection(key, map(response));
-      } catch (error: unknown) {
-        if (env.IS_DEVELOPMENT) {
-          console.warn(`[UPS-CRM] No se pudo cargar ${String(key)} desde la API.`, error);
-        }
+      } catch {
+        // Conserva la última versión en caché si una sección remota falla.
       }
     };
 
@@ -180,7 +200,7 @@ export const useLandingData = () => {
       hasStartedRemoteLoad = true;
 
       const sectionLoads = [
-        loadSection('heroSlides', landingService.getHeroSlides, (heroSlidesResponse) => collectionData(heroSlidesResponse).map((item) => {
+        loadSection('heroSlides', landingService.getHeroSlides, (heroSlidesResponse) => activeCollectionData(heroSlidesResponse).map((item) => {
           const attr = strapiData<RawLandingItem>(item);
           return {
             src: absoluteMediaUrl(apiBaseUrl, attr.imagen),
@@ -188,7 +208,7 @@ export const useLandingData = () => {
           };
         })),
 
-        loadSection('researchGroups', landingService.getResearchGroups, (researchGroupsResponse) => collectionData(researchGroupsResponse).map((item) => {
+        loadSection('researchGroups', landingService.getResearchGroups, (researchGroupsResponse) => activeCollectionData(researchGroupsResponse).map((item) => {
           const attr = strapiData<RawLandingItem>(item);
           return {
             id: item.documentId || item.id || 0,
@@ -210,7 +230,7 @@ export const useLandingData = () => {
           };
         })),
 
-        loadSection('asuGroups', landingService.getAsuGroups, (asuGroupsResponse) => collectionData(asuGroupsResponse).map((item) => {
+        loadSection('asuGroups', landingService.getAsuGroups, (asuGroupsResponse) => activeCollectionData(asuGroupsResponse).map((item) => {
           const attr = strapiData<RawLandingItem>(item);
           return {
             id: item.documentId || item.id || 0,
@@ -232,7 +252,7 @@ export const useLandingData = () => {
           };
         })),
 
-        loadSection('alliances', landingService.getAlliances, (alliancesResponse) => collectionData(alliancesResponse).map((item) => {
+        loadSection('alliances', landingService.getAlliances, (alliancesResponse) => activeCollectionData(alliancesResponse).map((item) => {
           const attr = strapiData<RawLandingItem>(item);
           return {
             id: item.id || 0,
@@ -243,7 +263,7 @@ export const useLandingData = () => {
           };
         })),
 
-        loadSection('companies', landingService.getCompanies, (companiesResponse) => collectionData(companiesResponse).map((item) => {
+        loadSection('companies', landingService.getCompanies, (companiesResponse) => activeCollectionData(companiesResponse).map((item) => {
           const attr = strapiData<RawLandingItem>(item);
           return {
             name: attr.nombre || '',
@@ -254,7 +274,7 @@ export const useLandingData = () => {
           };
         })),
 
-        loadSection('publications', landingService.getPublications, (publicationsResponse) => collectionData(publicationsResponse).map((item) => {
+        loadSection('publications', landingService.getPublications, (publicationsResponse) => activeCollectionData(publicationsResponse).map((item) => {
           const attr = strapiData<RawLandingItem>(item);
           return {
             id: item.documentId || item.id || 0,
@@ -271,10 +291,13 @@ export const useLandingData = () => {
         loadSection('content', landingService.getLandingContent, (contentResponse) => {
           const item = (contentResponse as { data?: LandingRemoteItem }).data;
           const attr = strapiData<RawLandingContent>(item as RawLandingContent);
+
+          if (!isActive(attr)) return inactiveLandingContent();
           
           const mapSection = (section: RawSection | undefined, defaultTitle: string) => ({
             title: section?.titulo || defaultTitle,
             description: plainText(section?.descripcion),
+            active: isActive(section),
           });
 
           return {

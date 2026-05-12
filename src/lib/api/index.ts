@@ -1,6 +1,6 @@
 /** Agrupa las exportaciones públicas de la capa API. */
 
-export { apiClient, registerUnauthorizedHandler, clearUnauthorizedHandler, setAuthToken } from './client';
+export { apiClient } from './client';
 export { ENDPOINTS } from './endpoints';
 export {
   strapiMediaUrl,
