@@ -29,7 +29,7 @@ const Hero: React.FC = () => {
   }, [heroSlides.length, nextSlide]);
 
   return (
-    <section id="inicio" className="relative w-full min-h-[520px] sm:min-h-[640px] h-[calc(100svh-7rem)] sm:h-[82vh] flex items-center overflow-hidden bg-ups-blue">
+    <section id="inicio" className="relative w-full min-h-[520px] sm:min-h-[640px] h-[calc(100svh-7rem)] sm:h-[82vh] flex items-center overflow-hidden bg-ups-blue" style={{ colorScheme: 'light' }}>
       {/* Carrusel de Imágenes con Efecto Zoom */}
       {heroSlides.map((slide, index) => (
         <div
@@ -102,6 +102,84 @@ const Hero: React.FC = () => {
             </a>
           </div>
 
+          {/* SECCIÓN DE ACREDITACIONES - REDISEÑO "MINIMALIST CIRCLES" */}
+          <div className="mt-14 flex flex-wrap justify-center items-center gap-x-8 sm:gap-x-14 gap-y-8 animate-fade-up-delayed">
+            
+            {/* ABET - Circular Focus */}
+            <div className="flex flex-col items-center group cursor-default">
+              <div className="relative">
+                <div className="absolute -inset-4 bg-white/10 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                <div 
+                  className="relative w-14 h-14 rounded-full flex items-center justify-center overflow-hidden shadow-[0_10px_25px_rgba(0,0,0,0.4)] transition-all duration-500 group-hover:scale-110"
+                  style={{ backgroundColor: '#ffffff' }}
+                >
+                  <img src="/logoabet.jpg" alt="ABET" className="w-full h-full object-contain p-2.5" />
+                </div>
+              </div>
+              <div className="mt-4 text-center">
+                <span 
+                  className="text-[7px] font-black tracking-[0.2em] uppercase leading-tight block"
+                  style={{ color: 'rgba(255, 255, 255, 0.9)' }}
+                >
+                  Acreditación<br/>Internacional
+                </span>
+              </div>
+            </div>
+
+            <div className="hidden md:block w-px h-10 bg-gradient-to-b from-transparent via-white/20 to-transparent" />
+
+            {/* INNOVACIÓN - Neon Circle */}
+            <div className="flex flex-col items-center group cursor-default">
+              <div className="relative">
+                <div className="absolute -inset-4 bg-ups-yellow/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                <div 
+                  className="relative w-14 h-14 rounded-full flex items-center justify-center shadow-[0_10px_25px_rgba(255,192,0,0.3)] transition-all duration-500 group-hover:scale-110"
+                  style={{ backgroundColor: '#ffc000' }}
+                >
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#003976" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="16 18 22 12 16 6"></polyline>
+                    <polyline points="8 6 2 12 8 18"></polyline>
+                  </svg>
+                </div>
+              </div>
+              <div className="mt-4 text-center">
+                <span 
+                  className="text-[7px] font-black tracking-[0.2em] uppercase leading-tight block"
+                  style={{ color: 'rgba(255, 255, 255, 0.9)' }}
+                >
+                  Innovación<br/>Tecnológica
+                </span>
+              </div>
+            </div>
+
+            <div className="hidden md:block w-px h-10 bg-gradient-to-b from-transparent via-white/20 to-transparent" />
+
+            {/* CALIDAD - Clean Shield */}
+            <div className="flex flex-col items-center group cursor-default">
+              <div className="relative">
+                <div className="absolute -inset-4 bg-white/5 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                <div 
+                  className="relative w-14 h-14 backdrop-blur-md border border-white/20 rounded-full flex items-center justify-center shadow-[0_10px_25px_rgba(0,0,0,0.4)] transition-all duration-500 group-hover:scale-110"
+                  style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
+                >
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-90">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                    <path d="m9 12 2 2 4-4" />
+                  </svg>
+                </div>
+              </div>
+              <div className="mt-4 text-center">
+                <span 
+                  className="text-[7px] font-black tracking-[0.2em] uppercase leading-tight block"
+                  style={{ color: 'rgba(255, 255, 255, 0.9)' }}
+                >
+                  Calidad<br/>Académica
+                </span>
+              </div>
+            </div>
+
+          </div>
+
         </div>
       </div>
 
@@ -144,6 +222,22 @@ const Hero: React.FC = () => {
           100% { opacity: 1; transform: translateY(0); }
         }
         .animate-fade-up { animation: fadeUp 0.8s ease-out 2.2s forwards; opacity: 0; }
+        .animate-fade-up-delayed { animation: fadeUp 0.8s ease-out 2.6s forwards; opacity: 0; }
+        @keyframes scan {
+          0%, 100% { transform: translateY(-100%); opacity: 0; }
+          50% { transform: translateY(100%); opacity: 1; }
+        }
+        .animate-scan { animation: scan 3s linear infinite; }
+        @keyframes scan-reverse {
+          0%, 100% { transform: translateY(100%); opacity: 0; }
+          50% { transform: translateY(-100%); opacity: 1; }
+        }
+        .animate-scan-reverse { animation: scan-reverse 3s linear infinite; }
+        @keyframes pulse-slow {
+          0%, 100% { transform: scale(1); opacity: 0.8; }
+          50% { transform: scale(1.1); opacity: 1; }
+        }
+        .animate-pulse-slow { animation: pulse-slow 4s ease-in-out infinite; }
       `}</style>
     </section>
   );
