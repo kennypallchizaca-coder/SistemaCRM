@@ -48,9 +48,13 @@ async function request<T>(
   const { timeoutMs = DEFAULT_TIMEOUT_MS, ...fetchOptions } = options;
 
   const headers: Record<string, string> = {
-    'Content-Type': 'application/json',
+    Accept: 'application/json',
     ...(fetchOptions.headers as Record<string, string>),
   };
+
+  if (fetchOptions.body && !headers['Content-Type']) {
+    headers['Content-Type'] = 'application/json';
+  }
 
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs);
