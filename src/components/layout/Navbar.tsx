@@ -140,16 +140,16 @@ const Navbar: React.FC<NavbarProps> = ({ simplified = false }) => {
               }}
             />
           </Link>
-          <div className={`ml-2 min-w-0 pl-2 sm:ml-3 sm:pl-3 border-l-2 flex flex-col justify-center ${isDark ? 'border-zinc-700' : 'border-zinc-300'}`}>
-            <h1 className={`${titleTextClass} max-w-[8.5rem] sm:max-w-none font-bold uppercase tracking-wide leading-tight text-[9px] sm:text-xs lg:text-sm`}>
+          <div className={`ml-2 pl-2 sm:ml-3 sm:pl-3 border-l-2 flex flex-col justify-center ${isDark ? 'border-zinc-700' : 'border-zinc-300'}`}>
+            <h1 className={`${titleTextClass} font-bold uppercase tracking-wide leading-tight text-[9px] sm:text-xs lg:text-sm whitespace-nowrap`}>
               {content.career}
             </h1>
-            <span className={`${subtitleTextClass} max-w-[8.5rem] sm:max-w-none font-semibold text-[8px] sm:text-[10px] lg:text-xs mt-0.5`}>{content.sede}</span>
+            <span className={`${subtitleTextClass} font-semibold text-[8px] sm:text-[10px] lg:text-xs mt-0.5 whitespace-nowrap`}>{content.sede}</span>
           </div>
         </div>
 
         {!simplified && (
-          <nav className="ml-auto hidden xl:flex flex-wrap items-center justify-end gap-x-5 gap-y-2 2xl:gap-x-7">
+          <nav className="hidden xl:flex items-center justify-center flex-1 ml-20 gap-9">
             {NAV_ITEMS.map((item) => (
               <Link
                 key={item.label}
