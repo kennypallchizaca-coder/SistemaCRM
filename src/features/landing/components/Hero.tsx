@@ -29,7 +29,7 @@ const Hero: React.FC = () => {
   }, [heroSlides.length, nextSlide]);
 
   return (
-    <section id="inicio" className="relative w-full min-h-[560px] sm:min-h-[640px] h-[78vh] sm:h-[82vh] flex items-center overflow-hidden bg-ups-blue">
+    <section id="inicio" className="relative w-full min-h-[520px] sm:min-h-[640px] h-[calc(100svh-7rem)] sm:h-[82vh] flex items-center overflow-hidden bg-ups-blue">
       {/* Carrusel de Imágenes con Efecto Zoom */}
       {heroSlides.map((slide, index) => (
         <div
@@ -64,7 +64,7 @@ const Hero: React.FC = () => {
         ))}
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-10 pb-12">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-8 sm:pt-10 pb-14">
         <div className="max-w-4xl mx-auto text-center">
           {/* Badge Sede */}
           <div className="inline-flex items-center gap-2 bg-ups-yellow text-ups-blue font-bold px-3 py-1 mb-3 uppercase text-[10px] tracking-wider shadow-sm animate-fade-in-right">
@@ -90,13 +90,13 @@ const Hero: React.FC = () => {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 animate-fade-up">
             <a
               href="/interesados"
-              className="group w-[210px] min-h-[50px] px-6 py-3.5 bg-ups-yellow text-ups-blue font-bold uppercase hover:bg-white transition-all shadow-lg flex items-center justify-center gap-2 text-sm sm:text-base relative overflow-hidden"
+              className="group w-full max-w-[230px] sm:w-[210px] min-h-[50px] px-6 py-3.5 bg-ups-yellow text-ups-blue font-bold uppercase hover:bg-white transition-all shadow-lg flex items-center justify-center gap-2 text-sm sm:text-base relative overflow-hidden"
             >
               ¡Conocer Más! <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
             </a>
             <a
               href="#noticias"
-              className="w-[210px] min-h-[50px] px-6 py-3.5 bg-white/10 text-white font-bold uppercase border border-white/30 hover:border-ups-yellow hover:text-ups-yellow hover:bg-white/15 transition-all flex items-center justify-center gap-2 text-sm sm:text-base backdrop-blur-sm"
+              className="w-full max-w-[230px] sm:w-[210px] min-h-[50px] px-6 py-3.5 bg-white/10 text-white font-bold uppercase border border-white/30 hover:border-ups-yellow hover:text-ups-yellow hover:bg-white/15 transition-all flex items-center justify-center gap-2 text-sm sm:text-base backdrop-blur-sm"
             >
               Experiencias <ExternalLink size={16} />
             </a>

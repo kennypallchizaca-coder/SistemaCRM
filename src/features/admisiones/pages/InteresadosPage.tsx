@@ -57,18 +57,18 @@ const InteresadosPage = () => {
       <SeoHead title="Solicita Información" description="Regístrate y recibe información sobre admisión, malla curricular, becas y laboratorios de la Carrera de Computación UPS." />
       <Navbar />
 
-      <main className="flex-grow pt-24 pb-20">
+      <main className="flex-grow pt-10 sm:pt-16 lg:pt-24 pb-14 sm:pb-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <div className="flex flex-col lg:flex-row gap-12 items-start">
+          <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-start">
             
             <div className="w-full lg:w-1/2 lg:sticky lg:top-32">
-              <h2 className="text-3xl md:text-4xl font-semibold text-ups-blue mb-6 uppercase tracking-wide">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-ups-blue mb-6 uppercase tracking-wide">
                 Solicita Información
               </h2>
               <div className="w-20 h-1 bg-ups-yellow mb-8"></div>
               
-              <div className="space-y-6 text-lg text-zinc-700">
+              <div className="space-y-5 sm:space-y-6 text-base sm:text-lg text-zinc-700">
                 <p>
                   Bienvenido al proceso de admisión de la <strong>Carrera de Computación</strong>. 
                   Estamos listos para guiarte en tu camino hacia convertirte en un profesional de la tecnología.
@@ -93,7 +93,7 @@ const InteresadosPage = () => {
             </div>
 
             <div className="w-full lg:w-1/2">
-              <div className="bg-white rounded-none shadow-xl p-6 sm:p-10 relative overflow-hidden border border-zinc-100">
+              <div className="bg-white rounded-none shadow-xl p-5 sm:p-8 lg:p-10 relative overflow-hidden border border-zinc-100">
                 <div className="absolute top-0 left-0 w-full h-2 bg-ups-yellow"></div>
                 
                 {submitted ? (
@@ -124,7 +124,7 @@ const InteresadosPage = () => {
                           <p className="text-sm text-zinc-500">Por favor, completa todos los campos marcados con *</p>
                         </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6">
                       <div>
                         <label htmlFor="nombre" className="block text-sm font-semibold text-zinc-700 mb-1.5 text-xs uppercase tracking-wider">Nombre completo *</label>
                         <input id="nombre" name="nombre" required type="text" placeholder="Ej. Juan Pérez" value={form.values.nombre} onChange={form.handleChange} onBlur={form.handleBlur} className="w-full px-4 py-3 bg-zinc-50 border border-zinc-200 focus:ring-2 focus:ring-ups-blue focus:bg-white outline-none transition-all" />
@@ -135,7 +135,7 @@ const InteresadosPage = () => {
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6">
                       <div>
                         <label htmlFor="correo" className="block text-sm font-semibold text-zinc-700 mb-1.5 text-xs uppercase tracking-wider">Correo electrónico *</label>
                         <input id="correo" name="correo" required type="email" placeholder="correo@ejemplo.com" value={form.values.correo} onChange={form.handleChange} onBlur={form.handleBlur} className="w-full px-4 py-3 bg-zinc-50 border border-zinc-200 focus:ring-2 focus:ring-ups-blue focus:bg-white outline-none transition-all" />
@@ -146,7 +146,7 @@ const InteresadosPage = () => {
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6">
                       <div>
                         <label htmlFor="evento" className="block text-sm font-semibold text-zinc-700 mb-1.5 text-xs uppercase tracking-wider">¿Dónde nos conociste? *</label>
                         <select id="evento" name="evento" required value={form.values.evento} onChange={form.handleChange} onBlur={form.handleBlur} className="w-full px-4 py-3 bg-zinc-50 border border-zinc-200 focus:ring-2 focus:ring-ups-blue focus:bg-white outline-none transition-all appearance-none cursor-pointer">

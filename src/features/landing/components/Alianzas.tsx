@@ -9,7 +9,7 @@ const Alianzas: React.FC = () => {
   const sectionContent = data.content.alianzas;
 
   return (
-    <section id="alianzas" className="py-16 md:py-20 bg-white border-t border-zinc-100">
+    <section id="alianzas" className="py-14 sm:py-16 md:py-20 bg-white border-t border-zinc-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center mb-16">
           <h2 className="text-2xl md:text-3xl font-semibold text-ups-blue uppercase tracking-wide text-center">
@@ -23,7 +23,7 @@ const Alianzas: React.FC = () => {
           )}
         </div>
 
-        <div className="flex flex-wrap justify-center items-center gap-12 md:gap-20">
+        <div className="flex flex-wrap justify-center items-center gap-8 sm:gap-12 md:gap-20">
           {alliances.map((alianza) => {
             const Content = (
               <div

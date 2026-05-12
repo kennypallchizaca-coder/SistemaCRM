@@ -47,7 +47,7 @@ const Empresas: React.FC = () => {
   const shouldCenterCards = companies.length <= 4;
 
   return (
-    <section id="empresas" className="relative py-24 bg-ups-blue text-white overflow-hidden">
+    <section id="empresas" className="relative py-16 sm:py-20 lg:py-24 bg-ups-blue text-white overflow-hidden">
       <div className="absolute inset-0 z-0">
         <img 
           src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&q=80&w=2000" 
@@ -73,10 +73,10 @@ const Empresas: React.FC = () => {
           </div>
         </div>
 
-        <div className="relative mx-auto w-fit max-w-full px-12 sm:px-14">
+        <div className="relative mx-auto w-full max-w-full">
           <div
             ref={scrollRef}
-            className={`flex overflow-x-auto snap-x snap-mandatory gap-4 sm:gap-6 pb-4 pt-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ${
+            className={`flex overflow-x-auto snap-x snap-mandatory gap-4 sm:gap-6 px-10 sm:px-14 pb-4 pt-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ${
               shouldCenterCards ? 'xl:justify-center' : 'justify-start'
             }`}
           >
@@ -107,13 +107,13 @@ const Empresas: React.FC = () => {
                   target="_blank" 
                   rel="noopener noreferrer" 
                   data-carousel-id={empresa.name}
-                  className="relative snap-start shrink-0 w-[72vw] sm:w-[240px] lg:w-[260px] h-[220px] sm:h-[240px] lg:h-[260px] block border border-black"
+                  className="relative snap-start shrink-0 w-[calc(100vw-6rem)] max-w-[260px] sm:w-[240px] lg:w-[260px] h-[220px] sm:h-[240px] lg:h-[260px] block border border-black"
                   title={empresa.buttonText || empresa.name}
                 >
                   {CardContent}
                 </a>
               ) : (
-                <div data-carousel-id={empresa.name} key={empresa.name} className="relative snap-start shrink-0 w-[72vw] sm:w-[240px] lg:w-[260px] h-[220px] sm:h-[240px] lg:h-[260px] border border-black">
+                <div data-carousel-id={empresa.name} key={empresa.name} className="relative snap-start shrink-0 w-[calc(100vw-6rem)] max-w-[260px] sm:w-[240px] lg:w-[260px] h-[220px] sm:h-[240px] lg:h-[260px] border border-black">
                   {CardContent}
                 </div>
               );
@@ -123,7 +123,7 @@ const Empresas: React.FC = () => {
           <button
             type="button"
             onClick={() => scroll('left')}
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-20 flex size-11 items-center justify-center rounded-full border border-zinc-200 bg-white text-ups-blue shadow-xl transition-all hover:bg-ups-yellow hover:text-ups-dark"
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-20 flex size-10 sm:size-11 items-center justify-center rounded-full border border-zinc-200 bg-white text-ups-blue shadow-xl transition-all hover:bg-ups-yellow hover:text-ups-dark"
             title="Anterior"
             aria-label="Anterior"
           >
@@ -132,7 +132,7 @@ const Empresas: React.FC = () => {
           <button
             type="button"
             onClick={() => scroll('right')}
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-20 flex size-11 items-center justify-center rounded-full border border-zinc-200 bg-white text-ups-blue shadow-xl transition-all hover:bg-ups-yellow hover:text-ups-dark"
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-20 flex size-10 sm:size-11 items-center justify-center rounded-full border border-zinc-200 bg-white text-ups-blue shadow-xl transition-all hover:bg-ups-yellow hover:text-ups-dark"
             title="Siguiente"
             aria-label="Siguiente"
           >

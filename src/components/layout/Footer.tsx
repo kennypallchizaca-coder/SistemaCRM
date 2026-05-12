@@ -21,7 +21,7 @@ const Footer: React.FC = () => {
             <ul className="space-y-2 text-sm">
               <li><a href="/" className="hover:text-ups-yellow transition-colors">Inicio</a></li>
               <li><a href="/#noticias" className="hover:text-ups-yellow transition-colors">Publicaciones</a></li>
-              <li><a href="/#agrupaciones" className="hover:text-ups-yellow transition-colors">Agrupaciones</a></li>
+              <li><a href="/#grupos-asu" className="hover:text-ups-yellow transition-colors">Grupos ASU</a></li>
               <li><a href="/#vinculacion" className="hover:text-ups-yellow transition-colors">Trabaja con nosotros</a></li>
             </ul>
           </div>
@@ -39,7 +39,7 @@ const Footer: React.FC = () => {
               </li>
               <li className="flex items-center gap-2">
                 <Mail size={18} className="text-ups-yellow shrink-0" />
-                <a href="mailto:computacion@ups.edu.ec" className="hover:text-ups-yellow transition-colors">computacion@ups.edu.ec</a>
+                <a href="mailto:computacion@ups.edu.ec" className="break-all hover:text-ups-yellow transition-colors">computacion@ups.edu.ec</a>
               </li>
             </ul>
           </div>

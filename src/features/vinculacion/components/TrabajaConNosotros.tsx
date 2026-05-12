@@ -45,20 +45,20 @@ const TrabajaConNosotros: React.FC = () => {
   };
 
   return (
-    <section id="vinculacion" className="py-20 bg-zinc-50">
+    <section id="vinculacion" className="py-14 sm:py-20 bg-zinc-50">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div className="text-center mb-10">
           <div className="size-16 bg-ups-blue text-white rounded-full flex items-center justify-center mx-auto mb-4">
             <Building size={32} />
           </div>
-          <h2 className="text-3xl md:text-4xl font-semibold text-ups-blue mb-4">Trabaja con nosotros</h2>
-          <p className="text-lg text-zinc-600">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-ups-blue mb-4">Trabaja con nosotros</h2>
+          <p className="text-base sm:text-lg text-zinc-600">
             Formulario dirigido a empresas o instituciones interesadas en pasantías, prácticas, charlas técnicas, vinculación o proyectos conjuntos con la carrera.
           </p>
         </div>
 
-        <div className="bg-white rounded-none shadow-md p-5 sm:p-8 md:p-10">
+        <div className="bg-white rounded-none shadow-md p-5 sm:p-8 md:p-10 overflow-hidden">
           {submitted ? (
              <div className="text-center py-10">
                <h3 className="text-2xl font-semibold text-ups-blue mb-2">¡Solicitud enviada exitosamente!</h3>
@@ -72,7 +72,7 @@ const TrabajaConNosotros: React.FC = () => {
               <form onSubmit={handleSubmit} className="flex flex-col gap-y-6">
                 <fieldset className="flex flex-col gap-y-6 transition-all duration-300">
                   <p className="text-xs text-zinc-500 text-right mb-2">* Campos obligatorios</p>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6">
                     <div>
                       <label htmlFor="empresa" className="block text-sm font-medium text-zinc-700 mb-1">Empresa *</label>
                       <input id="empresa" name="empresa" required type="text" autoComplete="organization" placeholder="Nombre de la empresa" aria-required="true" value={form.values.empresa} onChange={form.handleChange} onBlur={form.handleBlur} className="w-full px-4 py-3 bg-zinc-50 border border-zinc-200 rounded-none focus:ring-2 focus:ring-ups-blue focus:bg-white outline-none transition-all disabled:bg-zinc-100" />
@@ -83,7 +83,7 @@ const TrabajaConNosotros: React.FC = () => {
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6">
                     <div>
                       <label htmlFor="correo-empresa" className="block text-sm font-medium text-zinc-700 mb-1">Correo electrónico *</label>
                       <input id="correo-empresa" name="correo" required type="email" autoComplete="email" placeholder="empresa@dominio.com" aria-required="true" value={form.values.correo} onChange={form.handleChange} onBlur={form.handleBlur} className="w-full px-4 py-3 bg-zinc-50 border border-zinc-200 rounded-none focus:ring-2 focus:ring-ups-blue focus:bg-white outline-none transition-all disabled:bg-zinc-100" />

@@ -67,7 +67,7 @@ const Agrupaciones: React.FC = () => {
   const shouldCenterCards = asuGroups.length <= 3;
 
   return (
-    <section id="grupos-asu" className="py-20 bg-white">
+    <section id="grupos-asu" className="py-14 sm:py-20 bg-white">
       <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-12">
 
         <div className="flex flex-col items-center mb-12">
@@ -82,15 +82,15 @@ const Agrupaciones: React.FC = () => {
           )}
         </div>
 
-        <div className="relative mx-auto w-fit max-w-full px-12 sm:px-14">
+        <div className="relative mx-auto w-full max-w-full">
           <div
             ref={scrollRef}
-            className={`flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 pt-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ${
+            className={`flex overflow-x-auto snap-x snap-mandatory gap-6 px-10 sm:px-14 pb-8 pt-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ${
               shouldCenterCards ? 'xl:justify-center' : 'justify-start'
             }`}
           >
             {loopedAsuGroups.map((grupo) => (
-              <div data-carousel-id={String(grupo.id)} key={grupo.id} className="snap-start shrink-0 w-[78vw] sm:w-[310px] lg:w-[350px] bg-white rounded-none border border-black shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col">
+              <div data-carousel-id={String(grupo.id)} key={grupo.id} className="snap-start shrink-0 w-[calc(100vw-6rem)] max-w-[350px] sm:w-[310px] lg:w-[350px] bg-white rounded-none border border-black shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col">
                 <div className="relative h-60 sm:h-72 overflow-hidden bg-ups-blue/5 flex items-center justify-center">
                   {/* Imagen real de Strapi o Icono si no hay imagen */}
                   {grupo.image && !grupo.image.includes('undefined') ? (
@@ -120,7 +120,7 @@ const Agrupaciones: React.FC = () => {
                     </p>
                   )}
 
-                  <div className="mt-auto pt-4 border-t border-zinc-100 flex items-center justify-between gap-4">
+                  <div className="mt-auto pt-4 border-t border-zinc-100 flex flex-wrap items-center justify-between gap-4">
                     <SocialLinks links={grupo.socialLinks} />
                     {grupo.buttonLink && (
                       <a
@@ -141,7 +141,7 @@ const Agrupaciones: React.FC = () => {
           <button
             type="button"
             onClick={() => scroll('left')}
-            className="absolute left-0 top-[40%] -translate-y-1/2 z-20 flex size-11 items-center justify-center rounded-full border border-zinc-200 bg-white text-ups-blue shadow-xl transition-all hover:bg-ups-yellow hover:text-ups-dark"
+            className="absolute left-0 top-[40%] -translate-y-1/2 z-20 flex size-10 sm:size-11 items-center justify-center rounded-full border border-zinc-200 bg-white text-ups-blue shadow-xl transition-all hover:bg-ups-yellow hover:text-ups-dark"
             title="Anterior"
             aria-label="Anterior"
           >
@@ -150,7 +150,7 @@ const Agrupaciones: React.FC = () => {
           <button
             type="button"
             onClick={() => scroll('right')}
-            className="absolute right-0 top-[40%] -translate-y-1/2 z-20 flex size-11 items-center justify-center rounded-full border border-zinc-200 bg-white text-ups-blue shadow-xl transition-all hover:bg-ups-yellow hover:text-ups-dark"
+            className="absolute right-0 top-[40%] -translate-y-1/2 z-20 flex size-10 sm:size-11 items-center justify-center rounded-full border border-zinc-200 bg-white text-ups-blue shadow-xl transition-all hover:bg-ups-yellow hover:text-ups-dark"
             title="Siguiente"
             aria-label="Siguiente"
           >

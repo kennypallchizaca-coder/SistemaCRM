@@ -149,6 +149,24 @@
     font-family: inherit;
   }
 
+  input,
+  select,
+  textarea {
+    min-width: 0;
+  }
+
+  section[id],
+  main[id] {
+    scroll-margin-top: 7rem;
+  }
+
+  @media (max-width: 640px) {
+    section[id],
+    main[id] {
+      scroll-margin-top: 6rem;
+    }
+  }
+
   button,
   a {
     touch-action: manipulation;
