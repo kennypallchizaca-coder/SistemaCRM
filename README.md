@@ -20,8 +20,6 @@ Copia `.env.example` como `.env.local`.
 | Variable | Descripcion | Ejemplo |
 | --- | --- | --- |
 | `VITE_API_BASE_URL` | URL base del backend Strapi. Puede incluir o no `/api`. | `http://localhost:1337/api` |
-| `VITE_APP_ENV` | Entorno de ejecucion. | `development` |
-| `VITE_APP_NAME` | Nombre visible de la aplicacion. | `Carrera de Computacion UPS` |
 
 En produccion `VITE_API_BASE_URL` debe apuntar al dominio publico HTTPS del backend.
 

@@ -110,7 +110,7 @@ const Hero: React.FC = () => {
               <div className="relative">
                 <div className="absolute -inset-4 bg-white/10 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
                 <div 
-                  className="relative w-14 h-14 rounded-full flex items-center justify-center overflow-hidden shadow-[0_10px_25px_rgba(0,0,0,0.4)] transition-all duration-500 group-hover:scale-110"
+                  className="relative size-14 rounded-full flex items-center justify-center overflow-hidden shadow-[0_10px_25px_rgba(0,0,0,0.4)] transition-all duration-500 group-hover:scale-110"
                   style={{ backgroundColor: '#ffffff' }}
                 >
                   <img src="/logoabet.jpg" alt="ABET" className="w-full h-full object-contain p-2.5" />
@@ -133,7 +133,7 @@ const Hero: React.FC = () => {
               <div className="relative">
                 <div className="absolute -inset-4 bg-ups-yellow/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
                 <div 
-                  className="relative w-14 h-14 rounded-full flex items-center justify-center shadow-[0_10px_25px_rgba(255,192,0,0.3)] transition-all duration-500 group-hover:scale-110"
+                  className="relative size-14 rounded-full flex items-center justify-center shadow-[0_10px_25px_rgba(255,192,0,0.3)] transition-all duration-500 group-hover:scale-110"
                   style={{ backgroundColor: '#ffc000' }}
                 >
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#003976" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -159,7 +159,7 @@ const Hero: React.FC = () => {
               <div className="relative">
                 <div className="absolute -inset-4 bg-white/5 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
                 <div 
-                  className="relative w-14 h-14 backdrop-blur-md border border-white/20 rounded-full flex items-center justify-center shadow-[0_10px_25px_rgba(0,0,0,0.4)] transition-all duration-500 group-hover:scale-110"
+                  className="relative size-14 backdrop-blur-md border border-white/20 rounded-full flex items-center justify-center shadow-[0_10px_25px_rgba(0,0,0,0.4)] transition-all duration-500 group-hover:scale-110"
                   style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
                 >
                   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-90">

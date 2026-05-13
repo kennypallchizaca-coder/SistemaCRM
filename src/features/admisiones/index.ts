@@ -1,4 +1,4 @@
 /** Agrupa las exportaciones públicas de admisiones. */
 
-export { useAdmisiones } from './hooks/useAdmisiones';
+export { default as SolicitudInformacion } from './components/SolicitudInformacion';
 export type * from './types/admisiones.types';

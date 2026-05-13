@@ -17,12 +17,6 @@ export const HERO_CONFIG = {
   SLIDE_DURATION_MS: 5000,
 } as const;
 
-export const CAROUSEL_CONFIG = {
-  SCROLL_AMOUNT_PX: 380,
-  EMPRESAS_SCROLL_AMOUNT_PX: 300,
-  NOTICIAS_SCROLL_AMOUNT_PX: 350,
-} as const;
-
 export const NAV_ITEMS = [
   { label: 'Inicio', href: '/' },
   { label: 'Admisiones', href: '/interesados' },

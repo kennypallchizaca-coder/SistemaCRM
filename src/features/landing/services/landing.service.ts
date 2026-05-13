@@ -1,7 +1,6 @@
 /** Consulta el contenido dinámico de la landing en la API. */
 
-import { apiClient, withPopulate, withSort } from '@/lib/api';
-import { ENDPOINTS } from '@/lib/api/endpoints';
+import { apiClient, ENDPOINTS, withPopulate, withSort } from '@/lib/api';
 import type { StrapiCollectionResponse, StrapiMedia, StrapiSingleResponse } from '@/lib/api';
 
 const PUBLIC_CONTENT_OPTIONS = {

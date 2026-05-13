@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { Navbar, Footer } from '@/components/layout';
 import { Hero, ViveLaCarrera, Agrupaciones, GruposInvestigacion, Alianzas, Empresas, useLandingData } from '@/features/landing';
 import { TrabajaConNosotros } from '@/features/vinculacion';
+import { SolicitudInformacion } from '@/features/admisiones';
 import { SeoHead } from '@/components/common';
 
 const HomePage = () => {
@@ -44,6 +45,7 @@ const HomePage = () => {
         {content.gruposAsu.active !== false && <Agrupaciones />}
         {content.alianzas.active !== false && <Alianzas />}
         {content.empresas.active !== false && <Empresas />}
+        <SolicitudInformacion />
         <TrabajaConNosotros />
       </main>
 

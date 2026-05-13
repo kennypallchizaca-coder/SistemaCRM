@@ -31,18 +31,12 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
     }
   }, []);
 
-  const dismissAll = useCallback(() => {
-    setNotifications([]);
-    timersRef.current.forEach((timer) => clearTimeout(timer));
-    timersRef.current.clear();
-  }, []);
-
   const addNotification = useCallback(
     (type: NotificationType, message: string, options?: NotifyOptions) => {
       const id = `${type}-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
       const duration = options?.duration ?? DEFAULT_DURATION[type];
 
-      const notification: Notification = { id, type, message, duration };
+      const notification: Notification = { id, type, message };
       setNotifications((prev) => [...prev, notification]);
 
       if (duration > 0) {
@@ -60,9 +54,8 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
       info: (msg, opts) => addNotification('info', msg, opts),
       warning: (msg, opts) => addNotification('warning', msg, opts),
       dismiss,
-      dismissAll,
     }),
-    [addNotification, dismiss, dismissAll]
+    [addNotification, dismiss]
   );
 
   return (

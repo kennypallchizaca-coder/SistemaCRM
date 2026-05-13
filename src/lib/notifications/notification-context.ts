@@ -8,7 +8,6 @@ export interface Notification {
   id: string;
   type: NotificationType;
   message: string;
-  duration: number;
 }
 
 export interface NotifyOptions {
@@ -21,7 +20,6 @@ export interface NotifyAPI {
   info: (message: string, options?: NotifyOptions) => void;
   warning: (message: string, options?: NotifyOptions) => void;
   dismiss: (id: string) => void;
-  dismissAll: () => void;
 }
 
 interface NotificationContextValue {

@@ -3,7 +3,7 @@
 import { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ScrollToTopButton, ScrollToTop } from '@/components/layout';
-import { NotificationProvider } from '@/lib/notifications/NotificationContext';
+import { NotificationProvider } from '@/lib/notifications';
 import { ToastContainer } from '@/components/common';
 
 const HomePage = lazy(() => import('@/features/landing/pages/HomePage'));
