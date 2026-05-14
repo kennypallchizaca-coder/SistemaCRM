@@ -62,8 +62,6 @@ const CasosExito: React.FC = () => {
   const sectionContent = data.content.casosExito;
   const shouldCenterCards = successCases.length <= 3;
 
-  if (successCases.length === 0) return null;
-
   return (
     <section id="casos-exito" className="py-14 sm:py-20 bg-zinc-50 border-t border-zinc-100">
       <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-12">
@@ -82,7 +80,7 @@ const CasosExito: React.FC = () => {
         <div className="relative mx-auto w-full max-w-full">
           <div
             ref={scrollRef}
-            className={`flex overflow-x-auto snap-x snap-mandatory gap-6 px-10 sm:px-14 pb-8 pt-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ${
+            className={`flex min-h-14 overflow-x-auto snap-x snap-mandatory gap-6 px-10 sm:px-14 pb-8 pt-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ${
               shouldCenterCards ? 'xl:justify-center' : 'justify-start'
             }`}
           >
