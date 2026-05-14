@@ -69,6 +69,28 @@ interface Empresa {
   buttonLink?: string;
 }
 
+interface SuccessCase {
+  id: number | string;
+  title: string;
+  category?: string;
+  name?: string;
+  role?: string;
+  company?: string;
+  description: string;
+  image?: string;
+  icon?: string;
+  buttonText?: string;
+  buttonLink?: string;
+  socialLinks?: {
+    facebook?: string;
+    instagram?: string;
+    tiktok?: string;
+    x?: string;
+    youtube?: string;
+    web?: string;
+  };
+}
+
 interface SectionContent {
   title: string;
   description?: string;
@@ -100,6 +122,7 @@ interface LandingContent {
   gruposAsu: SectionContent;
   alianzas: SectionContent;
   empresas: SectionContent;
+  casosExito: SectionContent;
 }
 
 export interface LandingState {
@@ -109,6 +132,7 @@ export interface LandingState {
     asuGroups: Agrupacion[];
     alliances: Alianza[];
     companies: Empresa[];
+    successCases: SuccessCase[];
     publications: Publication[];
     content: LandingContent;
   };

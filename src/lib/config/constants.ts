@@ -20,6 +20,7 @@ export const HERO_CONFIG = {
 export const NAV_ITEMS = [
   { label: 'Inicio', href: '/' },
   { label: 'Admisiones', href: '/interesados' },
+  { label: 'Casos de éxito', href: '/#casos-exito' },
   { label: 'Investigación', href: '/#investigacion' },
   { label: 'Grupos ASU', href: '/#grupos-asu' },
   { label: 'Alianzas', href: '/#alianzas' },

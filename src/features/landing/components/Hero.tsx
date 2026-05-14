@@ -80,7 +80,18 @@ const Hero: React.FC = () => {
             <span className="typing-caret text-ups-yellow block overflow-hidden whitespace-nowrap animate-typing-2 mx-auto w-fit">
               Computación
             </span>
+
           </h1>
+          <div className="mb-6 flex justify-center animate-fade-up">
+            <div className="abet-accreditation flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-center drop-shadow-lg">
+              <span className="text-[11px] font-black uppercase tracking-[0.22em] text-white/90 sm:text-sm">
+                Acreditada por
+              </span>
+              <span className="abet-word text-sm font-black uppercase tracking-[0.24em] text-[#ff6c2c] sm:text-base">
+                ABET
+              </span>
+            </div>
+          </div>
 
           <p className="max-w-3xl mx-auto text-base sm:text-lg md:text-xl text-white/90 leading-relaxed mb-7 animate-fade-up">
             Formamos líderes tecnológicos capaces de <span className="text-ups-yellow font-semibold">innovar</span> y gestionar soluciones digitales para los retos del futuro.
@@ -100,84 +111,6 @@ const Hero: React.FC = () => {
             >
               Experiencias <ExternalLink size={16} />
             </a>
-          </div>
-
-          {/* SECCIÓN DE ACREDITACIONES - REDISEÑO "MINIMALIST CIRCLES" */}
-          <div className="mt-14 flex flex-wrap justify-center items-center gap-x-8 sm:gap-x-14 gap-y-8 animate-fade-up-delayed">
-            
-            {/* ABET - Circular Focus */}
-            <div className="flex flex-col items-center group cursor-default">
-              <div className="relative">
-                <div className="absolute -inset-4 bg-white/10 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-                <div 
-                  className="relative size-14 rounded-full flex items-center justify-center overflow-hidden shadow-[0_10px_25px_rgba(0,0,0,0.4)] transition-all duration-500 group-hover:scale-110"
-                  style={{ backgroundColor: '#ffffff' }}
-                >
-                  <img src="/logoabet.jpg" alt="ABET" className="w-full h-full object-contain p-2.5" />
-                </div>
-              </div>
-              <div className="mt-4 text-center">
-                <span 
-                  className="text-[7px] font-black tracking-[0.2em] uppercase leading-tight block"
-                  style={{ color: 'rgba(255, 255, 255, 0.9)' }}
-                >
-                  Acreditación<br/>Internacional
-                </span>
-              </div>
-            </div>
-
-            <div className="hidden md:block w-px h-10 bg-gradient-to-b from-transparent via-white/20 to-transparent" />
-
-            {/* INNOVACIÓN - Neon Circle */}
-            <div className="flex flex-col items-center group cursor-default">
-              <div className="relative">
-                <div className="absolute -inset-4 bg-ups-yellow/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-                <div 
-                  className="relative size-14 rounded-full flex items-center justify-center shadow-[0_10px_25px_rgba(255,192,0,0.3)] transition-all duration-500 group-hover:scale-110"
-                  style={{ backgroundColor: '#ffc000' }}
-                >
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#003976" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <polyline points="16 18 22 12 16 6"></polyline>
-                    <polyline points="8 6 2 12 8 18"></polyline>
-                  </svg>
-                </div>
-              </div>
-              <div className="mt-4 text-center">
-                <span 
-                  className="text-[7px] font-black tracking-[0.2em] uppercase leading-tight block"
-                  style={{ color: 'rgba(255, 255, 255, 0.9)' }}
-                >
-                  Innovación<br/>Tecnológica
-                </span>
-              </div>
-            </div>
-
-            <div className="hidden md:block w-px h-10 bg-gradient-to-b from-transparent via-white/20 to-transparent" />
-
-            {/* CALIDAD - Clean Shield */}
-            <div className="flex flex-col items-center group cursor-default">
-              <div className="relative">
-                <div className="absolute -inset-4 bg-white/5 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-                <div 
-                  className="relative size-14 backdrop-blur-md border border-white/20 rounded-full flex items-center justify-center shadow-[0_10px_25px_rgba(0,0,0,0.4)] transition-all duration-500 group-hover:scale-110"
-                  style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
-                >
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-90">
-                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                    <path d="m9 12 2 2 4-4" />
-                  </svg>
-                </div>
-              </div>
-              <div className="mt-4 text-center">
-                <span 
-                  className="text-[7px] font-black tracking-[0.2em] uppercase leading-tight block"
-                  style={{ color: 'rgba(255, 255, 255, 0.9)' }}
-                >
-                  Calidad<br/>Académica
-                </span>
-              </div>
-            </div>
-
           </div>
 
         </div>
@@ -223,6 +156,41 @@ const Hero: React.FC = () => {
         }
         .animate-fade-up { animation: fadeUp 0.8s ease-out 2.2s forwards; opacity: 0; }
         .animate-fade-up-delayed { animation: fadeUp 0.8s ease-out 2.6s forwards; opacity: 0; }
+        @keyframes abetReveal {
+          0% { opacity: 0; transform: translateY(12px); filter: blur(6px); letter-spacing: 0.34em; }
+          70% { opacity: 1; transform: translateY(0); filter: blur(0); letter-spacing: 0.22em; }
+          100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+        }
+        @keyframes abetUnderline {
+          0% { opacity: 0; transform: translateX(-50%) scaleX(0); }
+          40% { opacity: 1; transform: translateX(-50%) scaleX(1); }
+          100% { opacity: 0.85; transform: translateX(-50%) scaleX(1); }
+        }
+        @keyframes abetGlow {
+          0%, 100% { text-shadow: 0 0 0 rgba(255, 108, 44, 0); transform: translateY(0); }
+          45% { text-shadow: 0 0 18px rgba(255, 108, 44, 0.85), 0 0 34px rgba(255, 108, 44, 0.35); transform: translateY(-1px); }
+        }
+        .abet-accreditation {
+          position: relative;
+          padding-bottom: 0.4rem;
+          animation: abetReveal 0.95s cubic-bezier(0.16, 1, 0.3, 1) 2.45s both;
+        }
+        .abet-accreditation::after {
+          content: '';
+          position: absolute;
+          left: 50%;
+          bottom: 0;
+          width: min(100%, 18rem);
+          height: 2px;
+          background: linear-gradient(90deg, transparent, rgba(255, 108, 44, 0.25), #ff6c2c, rgba(255, 255, 255, 0.78), rgba(255, 108, 44, 0.25), transparent);
+          transform: translateX(-50%) scaleX(0);
+          transform-origin: center;
+          animation: abetUnderline 1.35s cubic-bezier(0.16, 1, 0.3, 1) 2.85s both;
+        }
+        .abet-word {
+          display: inline-block;
+          animation: abetGlow 3s ease-in-out 3.2s infinite;
+        }
         @keyframes scan {
           0%, 100% { transform: translateY(-100%); opacity: 0; }
           50% { transform: translateY(100%); opacity: 1; }
@@ -238,6 +206,13 @@ const Hero: React.FC = () => {
           50% { transform: scale(1.1); opacity: 1; }
         }
         .animate-pulse-slow { animation: pulse-slow 4s ease-in-out infinite; }
+        @media (prefers-reduced-motion: reduce) {
+          .abet-accreditation,
+          .abet-accreditation::after,
+          .abet-word {
+            animation: none;
+          }
+        }
       `}</style>
     </section>
   );

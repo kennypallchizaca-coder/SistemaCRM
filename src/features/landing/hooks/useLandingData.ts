@@ -1,3 +1,4 @@
+/** Carga, normaliza y cachea el contenido dinámico de la landing. */
 import { useState, useEffect } from 'react';
 import { env } from '@/lib/config/env';
 import { landingService } from '../services/landing.service';
@@ -11,6 +12,7 @@ const INITIAL_DATA: LandingState['data'] = {
   asuGroups: [],
   alliances: [],
   companies: [],
+  successCases: [],
   publications: [],
   content: {
     career: 'Computación',
@@ -31,10 +33,11 @@ const INITIAL_DATA: LandingState['data'] = {
     gruposAsu: { title: 'Agrupaciones ASU', active: true },
     alianzas: { title: 'Alianzas Estratégicas', active: true },
     empresas: { title: 'Empresas que confían en nosotros', active: true },
+    casosExito: { title: 'Casos de éxito', description: 'Historias reales de estudiantes, graduados y proyectos que demuestran el impacto de la carrera.', active: true },
   },
 };
 
-const CACHE_KEY = 'ups_landing_cache_v7';
+const CACHE_KEY = 'ups_landing_cache_v9';
 
 // Caché en memoria
 let globalCache: LandingState['data'] | null = null;
@@ -76,6 +79,7 @@ type RawLandingContent = RawLandingItem & {
   seccion_grupos_asu?: RawSection;
   seccion_alianzas?: RawSection;
   seccion_empresas?: RawSection;
+  seccion_casos_exito?: RawSection;
 };
 
 type RemoteResponse = { data?: LandingRemoteItem[] | LandingRemoteItem } | LandingRemoteItem[];
@@ -103,6 +107,7 @@ function inactiveLandingContent(): LandingState['data']['content'] {
     gruposAsu: { ...INITIAL_DATA.content.gruposAsu, active: false },
     alianzas: { ...INITIAL_DATA.content.alianzas, active: false },
     empresas: { ...INITIAL_DATA.content.empresas, active: false },
+    casosExito: { ...INITIAL_DATA.content.casosExito, active: false },
   };
 }
 
@@ -274,6 +279,31 @@ export const useLandingData = () => {
           };
         })),
 
+        loadSection('successCases', landingService.getSuccessCases, (successCasesResponse) => activeCollectionData(successCasesResponse).map((item) => {
+          const attr = strapiData<RawLandingItem>(item);
+          return {
+            id: item.documentId || item.id || 0,
+            title: attr.titulo || '',
+            category: attr.categoria,
+            name: attr.nombre || '',
+            role: attr.cargo || '',
+            company: attr.empresa || '',
+            description: plainText(attr.descripcion),
+            image: absoluteMediaUrl(apiBaseUrl, attr.imagen),
+            icon: attr.icono,
+            buttonText: attr.texto_boton || '',
+            buttonLink: attr.enlace_boton || '',
+            socialLinks: {
+              facebook: attr.facebook_url,
+              instagram: attr.instagram_url,
+              tiktok: attr.tiktok_url,
+              x: attr.x_url,
+              youtube: attr.youtube_url,
+              web: attr.web_url,
+            }
+          };
+        })),
+
         loadSection('publications', landingService.getPublications, (publicationsResponse) => activeCollectionData(publicationsResponse).map((item) => {
           const attr = strapiData<RawLandingItem>(item);
           return {
@@ -325,6 +355,7 @@ export const useLandingData = () => {
             gruposAsu: mapSection(attr?.seccion_grupos_asu, 'Agrupaciones ASU'),
             alianzas: mapSection(attr?.seccion_alianzas, 'Alianzas Estratégicas'),
             empresas: mapSection(attr?.seccion_empresas, 'Empresas que confían en nosotros'),
+            casosExito: mapSection(attr?.seccion_casos_exito, 'Casos de éxito'),
           };
         }),
       ];

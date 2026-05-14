@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { Navbar, Footer } from '@/components/layout';
-import { Hero, ViveLaCarrera, Agrupaciones, GruposInvestigacion, Alianzas, Empresas, useLandingData } from '@/features/landing';
+import { Hero, ViveLaCarrera, Agrupaciones, GruposInvestigacion, Alianzas, Empresas, CasosExito, useLandingData } from '@/features/landing';
 import { TrabajaConNosotros } from '@/features/vinculacion';
 import { SolicitudInformacion } from '@/features/admisiones';
 import { SeoHead } from '@/components/common';
@@ -41,6 +41,7 @@ const HomePage = () => {
       <main className="flex-grow">
         {content.hero.active !== false && <Hero />}
         {content.viveCarrera.active !== false && <ViveLaCarrera />}
+        {content.casosExito.active !== false && <CasosExito />}
         {content.gruposInvestigacion.active !== false && <GruposInvestigacion />}
         {content.gruposAsu.active !== false && <Agrupaciones />}
         {content.alianzas.active !== false && <Alianzas />}

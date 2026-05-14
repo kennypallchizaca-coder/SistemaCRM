@@ -23,6 +23,6 @@ export const ENDPOINTS = {
     ASU_GROUPS: '/asu-groups',
     ALLIANCES: '/alliances',
     COMPANIES: '/companies',
+    SUCCESS_CASES: '/success-cases',
   },
 } as const;
-

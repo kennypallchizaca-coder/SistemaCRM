@@ -1,3 +1,4 @@
+/** Controla el scroll circular de los carruseles de la landing. */
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 type ScrollDirection = 'left' | 'right';

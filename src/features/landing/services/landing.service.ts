@@ -17,6 +17,7 @@ export interface LandingRemoteItem {
   imagen?: StrapiMedia;
   logo?: StrapiMedia;
   icono?: string;
+  categoria?: string;
   activo?: boolean;
   facebook_url?: string;
   instagram_url?: string;
@@ -26,6 +27,8 @@ export interface LandingRemoteItem {
   web_url?: string;
   texto_boton?: string;
   enlace_boton?: string;
+  cargo?: string;
+  empresa?: string;
 }
 
 export const landingService = {
@@ -71,10 +74,18 @@ export const landingService = {
       'populate[seccion_grupos_asu]': '*',
       'populate[seccion_alianzas]': '*',
       'populate[seccion_empresas]': '*',
+      'populate[seccion_casos_exito]': '*',
     });
 
     return apiClient.get<StrapiSingleResponse<LandingRemoteItem>>(
       `${ENDPOINTS.LANDING.CONTENT}?${params.toString()}`,
+      PUBLIC_CONTENT_OPTIONS
+    );
+  },
+
+  getSuccessCases: async () => {
+    return apiClient.get<StrapiCollectionResponse<LandingRemoteItem>>(
+      withSort(ENDPOINTS.LANDING.SUCCESS_CASES, 'orden:asc', { populate: '*' }),
       PUBLIC_CONTENT_OPTIONS
     );
   },
