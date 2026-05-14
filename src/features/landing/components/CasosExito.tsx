@@ -80,9 +80,8 @@ const CasosExito: React.FC = () => {
         <div className="relative mx-auto w-full max-w-full">
           <div
             ref={scrollRef}
-            className={`flex min-h-14 overflow-x-auto snap-x snap-mandatory gap-6 px-10 sm:px-14 pb-8 pt-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ${
-              shouldCenterCards ? 'xl:justify-center' : 'justify-start'
-            }`}
+            className={`flex min-h-14 overflow-x-auto snap-x snap-mandatory gap-6 px-10 sm:px-14 pb-8 pt-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ${shouldCenterCards ? 'xl:justify-center' : 'justify-start'
+              }`}
           >
             {loopedSuccessCases.map((caso) => (
               <article
